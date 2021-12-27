@@ -17,7 +17,7 @@ class Log:
         self.type = ty
 
     def save_log(self):
-        with open('data/logs/{}_{}.txt'.format(self.type, id), 'r') as f:
+        with open('data/logs/{}_{}.txt'.format(self.type, self.id), 'w') as f:
             f.write(self.raw_log)
 
     def __str__(self):
@@ -34,12 +34,50 @@ class TTTLog(Log):
         output = ""
         for action in self.actions:
             if kills and isinstance(action, TTTDeath):
-                output += '[{}:{}] {} killed {}\n'.format(*action.timestamp, repr(action.attacker), repr(action.victim))
+                output += '[{:02}:{:02}] {} killed {}\n'.format(*action.timestamp, repr(action.attacker), repr(action.victim))
             elif damage and isinstance(action, TTTDamage):
-                output += '[{}:{}] {} damaged {} for {:,}\n'.format(*action.timestamp, repr(action.attacker),
+                output += '[{:02}:{:02}] {} damaged {} for {:,}\n'.format(*action.timestamp, repr(action.attacker),
                                                                     repr(action.victim), action.damage)
 
         return output.rstrip()
+
+    def find_rdm(self, detect_reason: bool):
+        rdms = []
+        for i, action in enumerate(self.actions):
+            if action.bad and isinstance(action, TTTDeath):
+                if detect_reason:
+                    for a in self.actions[:i]:
+                        if (isinstance(action, TTTDamage) or isinstance(action, TTTDeath)) and a.is_victim(
+                                action.attacker) and a.is_attacker(action.victim) and a.bad:
+                            break
+                    else:
+                        rdms.append(action)
+                else:
+                    rdms.append(action)
+
+        return rdms
+
+    def find_mass_rdm(self, limit: int, detect_reason: bool):
+        rdm_count = {}
+        for i, action in enumerate(self.actions):
+            if action.bad and isinstance(action, TTTDeath):
+                if detect_reason:
+                    for a in self.actions[:i]:
+                        if (isinstance(action, TTTDamage) or isinstance(action, TTTDeath)) and a.is_victim(
+                                action.attacker) and a.is_attacker(action.victim) and a.bad:
+                            break
+                    else:
+                        if action.attacker in rdm_count:
+                            rdm_count[action.attacker] += 1
+                        else:
+                            rdm_count[action.attacker] = 1
+                else:
+                    if action.attacker in rdm_count:
+                        rdm_count[action.attacker] += 1
+                    else:
+                        rdm_count[action.attacker] = 1
+
+        return {player:amount for player, amount in rdm_count.items() if amount >= limit}
 
 class JBLog(Log):
     def __init__(self, raw_log:str, actions:list, id:int):

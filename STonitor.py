@@ -12,11 +12,23 @@ from helpers.file import assert_data, load_config, load_session, save_session
 
 def handle_ttt_log(logs):
     log = parse_ttt_logs(logs)
-    print(config["logs"]["header"] + '\n' + log.summary_output(**config["logs"]["ttt"]["summary_output"]), end='\n\n')
+    print(config["logs"]["header"] + '\nTTT Logs (#{})\n'.format(log.id) +
+          log.summary_output(**config["logs"]["ttt"]["summary_output"]), end='\n\n')
     if config["logs"]["ttt"]["subfeatures"]["rdm"]:
-        pass
+        rdms = log.find_rdm(config["logs"]["ttt"]["limits"]["rdm_detect_reason"])
+        if len(rdms) > 0:
+            print("Potential RDM(s):")
+            for action in rdms:
+                print("{} may have RDMed {}".format(action.attacker, action.victim))
+            print('\n')
     if config["logs"]["ttt"]["subfeatures"]["mass_rdm"]:
-        pass
+        mass_rdms = log.find_mass_rdm(config["logs"]["ttt"]["limits"]["mass_rdm"],
+                                      config["logs"]["ttt"]["limits"]["mass_rdm_detect_reason"])
+        if len(mass_rdms) > 0:
+            print("Potential Mass RDM(s):")
+            for player, count in mass_rdms.items():
+                print("{} may have RDMed {:,} people".format(player.name, count))
+            print('\n')
     if config["logs"]["save_logs"]:
         log.save_log()
 

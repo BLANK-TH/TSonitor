@@ -45,6 +45,7 @@ default_settings = {
                 "mass_rdm": True,
             },
             "limits": {
+                "rdm_detect_reason": True,
                 "mass_rdm": 2,
                 "mass_rdm_detect_reason": False
             },
@@ -129,12 +130,12 @@ def assert_data() -> bool:
             dump({}, f, indent=2)
     if not isfile('data/constants.yaml'):
         with open('data/constants.yaml', 'w') as f:
-            f.write(yaml.dump(constants, sort_keys=False))
+            f.write(yaml.dump(constants, sort_keys=False, width=float('inf')))
     else:
         r = check_dict(load_constants(), constants)
         if isinstance(r, dict):
             with open('data/constants.yaml', 'w') as f:
-                f.write(yaml.dump(r, sort_keys=False))
+                f.write(yaml.dump(r, sort_keys=False, width=float('inf')))
 
     return success
 

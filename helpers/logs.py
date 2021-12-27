@@ -23,6 +23,7 @@ def parse_ttt_logs(lines:list) -> TTTLog:
         rr = TTT_ROUND_REGEX.findall(line)
         if len(rr) == 1:
             round_number = int(rr[0])
+            continue
 
         rd = handle_named_regex(TTT_DAMAGE_REGEX, line)
         if rd is not None:
