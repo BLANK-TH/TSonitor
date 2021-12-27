@@ -45,6 +45,8 @@ def handle_ttt_log(logs):
     if config["logs"]["save_logs"]:
         log.save_log()
 
+def handle_jb_log(logs, round_number):
+    print("\n".join(logs))
 
 def handle_status(logs):
     print(config["header"])
@@ -87,11 +89,12 @@ if __name__ == '__main__':
         sys.exit()
 
     current_ttt_round = session.get('last_ttt_round', float('-inf'))
-    current_jb_round = session.get('last_jb_round', float('-inf'))
+    current_jb_round = session.get('last_jb_round', 0)
     parsing_ttt = False
     parsing_jb = False
     parsing_status = False
     last_time = time()
+    parsed_jb = []
     parsed_statuses = []
     logs = []
     while True:
@@ -110,10 +113,10 @@ if __name__ == '__main__':
                     elif parsing_ttt is None:
                         if line == constants["ttt"]["log_separator"]:
                             parsing_ttt = False
-                            handle_ttt_log(logs)
-                            logs = []
                             current_ttt_round = round_number
                             session["last_ttt_round"] = round_number
+                            handle_ttt_log(logs)
+                            logs = []
                         else:
                             parsing_ttt = True
                     elif parsing_ttt and line == constants["ttt"]["log_separator"]:
@@ -126,7 +129,38 @@ if __name__ == '__main__':
 
                 # JB Log Parsing
                 if config["logs"]["jb"]["enable"]:
-                    pass
+                    if parsing_jb is True and line == constants["jb"]["log_separator"][0]:
+                        parsing_jb = -1
+                        continue
+                    elif not isinstance(parsing_jb, bool) and 3 > parsing_jb > 0:
+                        if line == constants["jb"]["log_header"][parsing_jb]:
+                            if parsing_jb == 2:
+                                parsing_jb = True
+                            else:
+                                parsing_jb += 1
+                            continue
+                        else:
+                            parsing_jb = False
+                    elif not isinstance(parsing_jb, bool) and 0 > parsing_jb > -3:
+                        if line == constants["jb"]["log_separator"][abs(parsing_jb)]:
+                            if parsing_jb == -2:
+                                if logs not in parsed_jb:
+                                    current_jb_round += 1
+                                    session["last_jb_round"] = current_jb_round
+                                    handle_jb_log(logs, current_jb_round)
+                                    parsed_jb.append(logs)
+                                parsing_jb = False
+                                logs = []
+                            else:
+                                parsing_jb -= 1
+                        else:
+                            parsing_jb = True
+                            logs.append(line)
+                    elif parsing_jb is False and line == constants["jb"]["log_header"][0]:
+                        parsing_jb = 1
+                        continue
+                    elif parsing_jb is True:
+                        logs.append(line)
 
                 # Status Log Parsing
                 if config["age"]["enable"]:

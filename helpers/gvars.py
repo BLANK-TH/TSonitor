@@ -10,9 +10,9 @@ from .file import load_constants
 
 constants = load_constants()
 
-TTT_ROUND_REGEX = re.compile(constants["ttt"]["round_regex"])
-TTT_TIME_REGEX = re.compile(constants["ttt"]["time_regex"])
-TTT_DAMAGE_REGEX = re.compile(constants["ttt"]["damage_regex"])
-TTT_KILL_REGEX = re.compile(constants["ttt"]["kill_regex"])
+TTT_ROUND_REGEX = re.compile(constants["ttt"]["regex"]["round"])
+TTT_TIME_REGEX = re.compile(constants["ttt"]["regex"]["time"])
+TTT_DAMAGE_REGEX = re.compile(constants["ttt"]["regex"]["damage"])
+TTT_KILL_REGEX = re.compile(constants["ttt"]["regex"]["kill"])
 
 STATUS_REGEX = re.compile(constants["age"]["regex"])

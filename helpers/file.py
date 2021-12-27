@@ -73,13 +73,30 @@ default_settings = {
 
 constants = {
     "ttt": {
-        "round_regex": r"^\[\d{1,2}:\d{1,2}] TTT Round #(\d*) has been started!$",
-        "time_regex": r"^\[(?P<time>\d{1,2}:\d{1,2})].*$",
-        "damage_regex": r"^\[(?P<time>\d{1,2}:\d{1,2})] -> \[(?P<attacker>.*) \((?P<attacker_role>Traitor|Detective|Innocent)\) damaged (?P<victim>.*) \((?P<victim_role>Traitor|Detective|Innocent)\) for (?P<damage>\d*) damage with (?P<weapon>.*)](?: - BAD ACTION)?$",
-        "kill_regex": r"^\[(?P<time>\d{1,2}:\d{1,2})] -> \[(?P<attacker>.*) \((?P<attacker_role>Traitor|Detective|Innocent)\) killed (?P<victim>.*) \((?P<victim_role>Traitor|Detective|Innocent)\) with (?P<weapon>.*)](?: - BAD ACTION)?$",
+        "regex": {
+            "round": r"^\[\d{1,2}:\d{1,2}] TTT Round #(\d*) has been started!$",
+            "time": r"^\[(?P<time>\d{1,2}:\d{1,2})].*$",
+            "damage": r"^\[(?P<time>\d{1,2}:\d{1,2})] -> \[(?P<attacker>.*) \((?P<attacker_role>Traitor|Detective|Innocent)\) damaged (?P<victim>.*) \((?P<victim_role>Traitor|Detective|Innocent)\) for (?P<damage>\d*) damage with (?P<weapon>.*)](?: - BAD ACTION)?$",
+            "kill": r"^\[(?P<time>\d{1,2}:\d{1,2})] -> \[(?P<attacker>.*) \((?P<attacker_role>Traitor|Detective|Innocent)\) killed (?P<victim>.*) \((?P<victim_role>Traitor|Detective|Innocent)\) with (?P<weapon>.*)](?: - BAD ACTION)?$"
+        },
         "log_header": "---------------TTT LOGS---------------",
         "log_separator": "--------------------------------------",
         'utility_weapon_names': ['inferno', 'hegrenade_projectile']
+    },
+    "jb": {
+        "regex": {
+
+        },
+        "log_header": [
+            "--------------------------------------------------",
+            "----------------[ JAILBREAK LOGS ]----------------",
+            "--------------------------------------------------"
+        ],
+        "log_separator": [
+            "--------------------------------------------------",
+            "--------------[ JAILBREAK LOGS END ]--------------",
+            "--------------------------------------------------"
+        ]
     },
     "age": {
         "regex": r"^# (?P<user_id>\d*) \d* \"(?P<name>.*)\" (?P<steam_id>STEAM_\d:\d:\d*) .+$",
