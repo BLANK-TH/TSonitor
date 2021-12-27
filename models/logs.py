@@ -34,9 +34,10 @@ class TTTLog(Log):
         output = ""
         for action in self.actions:
             if kills and isinstance(action, TTTDeath):
-                output += '{} killed {}\n'.format(repr(action.attacker), repr(action.victim))
+                output += '[{}:{}] {} killed {}\n'.format(*action.timestamp, repr(action.attacker), repr(action.victim))
             elif damage and isinstance(action, TTTDamage):
-                output += '{} damaged {} for {:,}\n'.format(repr(action.attacker), repr(action.victim), action.damage)
+                output += '[{}:{}] {} damaged {} for {:,}\n'.format(*action.timestamp, repr(action.attacker),
+                                                                    repr(action.victim), action.damage)
 
         return output.rstrip()
 
