@@ -18,6 +18,7 @@ default_settings = {
     "min_session_save_interval": 10,
     "logs": {
         "enable": True,
+        "save_logs": True,
         "header": "\n\n\n=================================",
         "jb": {
             "enable": True,
