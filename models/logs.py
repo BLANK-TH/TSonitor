@@ -20,7 +20,10 @@ class Log:
 
     def save_log(self):
         with open('data/logs/{}_{}.txt'.format(self.type, self.id), 'w') as f:
-            f.write(self.raw_log)
+            try:
+                f.write(self.raw_log.encode('utf-8'))
+            except UnicodeEncodeError:
+                print("Failed to encode Log #" + str(self.id))
 
     def __str__(self):
         return self.raw_log
