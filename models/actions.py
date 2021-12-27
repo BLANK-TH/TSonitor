@@ -43,6 +43,15 @@ class TTTAction(Action):
         else:
             raise ValueError('Player needs to be either str or TTTPlayer')
 
+    def using_weapon(self, weapon):
+        return self.weapon.casefold() == weapon.casefold()
+
+    def __str__(self):
+        return self.raw_line
+
+    def __repr__(self):
+        return self.__str__()
+
 class JBAction(Action):
     def __init__(self, raw_line:str, timestamp:str):
         super().__init__(raw_line, timestamp)

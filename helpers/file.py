@@ -42,11 +42,13 @@ default_settings = {
             "subfeatures": {
                 "rdm": True,
                 "mass_rdm": True,
+                "inno_utility": True
             },
             "limits": {
                 "rdm_detect_reason": True,
                 "mass_rdm": 2,
-                "mass_rdm_detect_reason": False
+                "mass_rdm_detect_reason": False,
+                "utility_bad_only": False
             },
             "summary_output": {
                 "kills": True,
@@ -76,7 +78,8 @@ constants = {
         "damage_regex": r"^\[(?P<time>\d{1,2}:\d{1,2})] -> \[(?P<attacker>.*) \((?P<attacker_role>Traitor|Detective|Innocent)\) damaged (?P<victim>.*) \((?P<victim_role>Traitor|Detective|Innocent)\) for (?P<damage>\d*) damage with (?P<weapon>.*)](?: - BAD ACTION)?$",
         "kill_regex": r"^\[(?P<time>\d{1,2}:\d{1,2})] -> \[(?P<attacker>.*) \((?P<attacker_role>Traitor|Detective|Innocent)\) killed (?P<victim>.*) \((?P<victim_role>Traitor|Detective|Innocent)\) with (?P<weapon>.*)](?: - BAD ACTION)?$",
         "log_header": "---------------TTT LOGS---------------",
-        "log_separator": "--------------------------------------"
+        "log_separator": "--------------------------------------",
+        'utility_weapon_names': ['inferno', 'hegrenade_projectile']
     },
     "age": {
         "regex": r"^# (?P<user_id>\d*) \d* \"(?P<name>.*)\" (?P<steam_id>STEAM_\d:\d:\d*) .+$",

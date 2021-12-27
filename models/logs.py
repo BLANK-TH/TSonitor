@@ -75,6 +75,20 @@ class TTTLog(Log):
 
         return {player:amount for player, amount in rdm_count.items() if amount >= limit}
 
+    def find_innocent_utility(self, utility_weapon_names, bad_only):
+        damage_count = defaultdict(lambda: {'Innocent': [], 'Detective': [], 'Traitor': [], 'damage': 0})
+        for action in self.actions:
+            if isinstance(action, TTTDamage) and action.attacker.role in ['Innocent', 'Detective']:
+                if action.weapon not in utility_weapon_names:
+                    continue
+                if not action.bad and bad_only:
+                    continue
+                damage_count[action.attacker][action.victim.role].append(action.victim)
+                damage_count[action.attacker]['damage'] += action.damage
+
+        return {k:[len(set(v['Innocent'])), len(set(v['Detective'])), len(set(v['Traitor'])), v['damage']]
+                for k, v in damage_count.items()}
+
 class JBLog(Log):
     def __init__(self, raw_log:str, actions:list, id:int):
         super().__init__(raw_log, actions, id, 'JB')

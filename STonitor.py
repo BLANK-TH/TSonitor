@@ -23,7 +23,7 @@ def handle_ttt_log(logs):
             print("Potential RDM(s):")
             for action in rdms:
                 print("{} may have RDMed {}".format(action.attacker, action.victim))
-            print('\n')
+            print('')
     if config["logs"]["ttt"]["subfeatures"]["mass_rdm"]:
         mass_rdms = log.find_mass_rdm(config["logs"]["ttt"]["limits"]["mass_rdm"],
                                       config["logs"]["ttt"]["limits"]["mass_rdm_detect_reason"])
@@ -31,7 +31,17 @@ def handle_ttt_log(logs):
             print("Potential Mass RDM(s):")
             for player, count in mass_rdms.items():
                 print("{} may have RDMed {:,} people".format(player.name, count))
-            print('\n')
+            print('')
+    if config["logs"]["ttt"]["subfeatures"]["inno_utility"]:
+        inno_utility = log.find_innocent_utility(constants["ttt"]["utility_weapon_names"],
+                                                 config["logs"]["ttt"]["limits"]["utility_bad_only"])
+        if len(inno_utility) > 0:
+            print("Innocent Utility Damage:")
+            for player, counts in inno_utility.items():
+                print("{} damaged {} Innocent(s), {} Detective(s), and {} Traitor(s) for a total of {:,} {}damage "
+                      "using utility".format(repr(player), *counts, 'bad '
+                if config["logs"]["ttt"]["limits"]["utility_bad_only"] else '',))
+            print('')
     if config["logs"]["save_logs"]:
         log.save_log()
 
