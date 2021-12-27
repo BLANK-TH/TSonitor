@@ -85,7 +85,15 @@ constants = {
     },
     "jb": {
         "regex": {
-
+            "death": r"^\[(?P<time>\d{1,2}:\d{1,2})] (?P<attacker>.*) \((?P<attacker_role>Prisoner|Rebel|Guard|Warden)\) killed (?P<victim>.*) \((?P<victim_role>Prisoner|Rebel|Guard|Warden)\)$",
+            "damage": r"^\[(?P<time>\d{1,2}:\d{1,2})] (?P<attacker>.*) \((?P<attacker_role>Prisoner|Rebel|Guard|Warden)\) hurt (?P<victim>.*) \((?P<victim_role>Prisoner|Rebel|Guard|Warden)\) with (?P<damage>\d*) damage \((?P<weapon>.*)\)$",
+            "button": r"^\[(?P<time>\d{1,2}:\d{1,2})] (?P<player>.*) \((?P<player_role>Prisoner|Rebel|Guard|Warden)\) pressed button '(?P<button_name>.*)'(?: \(#(?P<button_number>\d*)\))?$",
+            "ventwall": r"^\[(?P<time>\d{1,2}:\d{1,2})] (?P<player>.*) \((?P<player_role>Prisoner|Rebel|Guard|Warden)\) broke a vent or wall$",
+            "utility": r"^\[(?P<time>\d{1,2}:\d{1,2})] (?P<player>.*) \((?P<player_role>Prisoner|Rebel|Guard|Warden)\) threw a (?P<type>smoke|grenade|flash|decoy|molotov)$",
+            "wardendeath": r"^\[(?P<time>\d{1,2}:\d{1,2})] (?P<player>.*) \(WARDEN\) has died and is no longer warden$",
+            "newwarden": r"^\[(?P<time>\d{1,2}:\d{1,2})] (?P<player>.*) \(WARDEN\) is now warden$",
+            "passfire": r"^\[(?P<time>\d{1,2}:\d{1,2})] (?P<player>.*) \(WARDEN\) (?:has passed warden|has disconnected, passing warden|has been fired by an admin)$",
+            "weapondrop": r"^\[(?P<time>\d{1,2}:\d{1,2})] (?P<player>.*) \((?P<player_role>Prisoner|Rebel|Guard|Warden)\) dropped the weapon (?P<weapon>.*)$"
         },
         "log_header": [
             "--------------------------------------------------",

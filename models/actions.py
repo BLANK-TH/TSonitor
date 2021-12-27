@@ -107,11 +107,10 @@ class JBDamage(JBAction):
 
 class JBDeath(JBAction):
     """Class representing someone dying in JB logs"""
-    def __init__(self, raw_line:str, timestamp:str, attacker:JBPlayer, victim:JBPlayer, weapon:str):
+    def __init__(self, raw_line:str, timestamp:str, attacker:JBPlayer, victim:JBPlayer):
         super().__init__(raw_line, timestamp)
         self.attacker = attacker
         self.victim = victim
-        self.weapon = weapon
 
 class JBWardenDeath(JBAction):
     """Class representing warden dying in JB logs"""

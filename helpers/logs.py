@@ -78,6 +78,14 @@ def parse_ttt_logs(lines:list) -> TTTLog:
 
     return TTTLog('\n'.join(lines), actions, round_number)
 
+def parse_jb_logs(lines:list, round_number:int) -> JBLog:
+    actions = []
+    players = {}
+    for line in lines:
+        pass
+
+    return JBLog('\n'.join(lines), actions, round_number)
+
 def parse_status(steamapi, line, regex, cache, check_private, max_guess_iterations, check_csgo_playtime):
     if steamapi is None:
         raise ValueError('Steam API key not provided')
