@@ -56,8 +56,11 @@ default_settings = {
     },
     "age": {
         "enable": True,
-        "check_csgo_playtime": True,
         "cache": True,
+        "subfeatures": {
+            "csgo_playtime": True,
+            "server_playtime": True
+        },
         "private": {
             "enabled": True,
             "tries": 10
@@ -76,11 +79,9 @@ constants = {
         "log_separator": "--------------------------------------"
     },
     "age": {
-        "status_regex": r"^# (?P<user_id>\d*) \d* \"(?P<name>.*)\" (?P<steam_id>STEAM_\d:\d:\d*) .+$",
-        "players_regex": r"^# (?P<user_id>\d*) \"(?P<name>.*)\" (?P<steam_id>STEAM_\d:\d:\d*)$",
-        "status_header": "# userid name uniqueid connected ping loss state rate",
-        "players_header": "# userid name uniqueid",
-        "log_footers": ['#end','# end']
+        "regex": r"^# (?P<user_id>\d*) \d* \"(?P<name>.*)\" (?P<steam_id>STEAM_\d:\d:\d*) .+$",
+        "header": "# userid name uniqueid connected ping loss state rate",
+        "log_footer": "#end"
     }
 }
 

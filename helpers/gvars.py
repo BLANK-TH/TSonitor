@@ -15,5 +15,4 @@ TTT_TIME_REGEX = re.compile(constants["ttt"]["time_regex"])
 TTT_DAMAGE_REGEX = re.compile(constants["ttt"]["damage_regex"])
 TTT_KILL_REGEX = re.compile(constants["ttt"]["kill_regex"])
 
-STATUS_REGEX = re.compile(constants["age"]["status_regex"])
-PLAYERS_REGEX = re.compile(constants["age"]["players_regex"])
+STATUS_REGEX = re.compile(constants["age"]["regex"])

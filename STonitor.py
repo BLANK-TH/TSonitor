@@ -7,9 +7,9 @@
 import os
 import sys
 from time import sleep, time
-from requests.exceptions import HTTPError
 
 from steam.webapi import WebAPI
+from requests.exceptions import HTTPError
 
 from helpers.file import assert_data, load_config, load_session, save_session, load_age_cache, save_age_cache
 
@@ -36,29 +36,24 @@ def handle_ttt_log(logs):
         log.save_log()
 
 
-def handle_status(invoked_by, logs):
-    if invoked_by == 'status':
-        regex = STATUS_REGEX
-    elif invoked_by == 'players':
-        regex = PLAYERS_REGEX
-    else:
-        raise ValueError('Invalid invocation for status')
-
+def handle_status(logs):
     print(config["header"])
     results = []
     cache = load_age_cache() if config["age"]["cache"] else {}
     for line in logs:
         try:
-            results.append(parse_status(steam_api, line, regex, cache, config["age"]["private"]["enabled"],
-                                        config["age"]["private"]["tries"]))
+            results.append(parse_status(steam_api, line, STATUS_REGEX, cache, config["age"]["private"]["enabled"],
+                                        config["age"]["private"]["tries"],
+                                        config["age"]["subfeatures"]["csgo_playtime"]))
         except (Exception,):
-            results.append((float('inf'), '-1', 'Error', 'Error parsing line: ' + line, False))
+            results.append((float('inf'), '-1', 'Error', 'Error parsing line: ' + line, False, 'None'))
     results.sort()
     pad_name = str(len(max(results, key=lambda x:len(x[2]))[2]) + 2)
     pad_num = str(len(max(results, key=lambda x:len(x[1]))))
     for result in results:
-        print(('# {:' + pad_num + 's} {:' + pad_name + 's} {}{}').format(
-            result[1], result[2], '~' if result[4] else '', result[3]))
+        print(('# {:' + pad_num + 's} {:' + pad_name + 's} {}{} {}').format(
+            result[1], result[2], '~' if result[4] else '', result[3], '(GPT: {})'.format(
+            result[5]) if result[5] != 'None' else ''))
     if config["age"]["cache"]:
         save_age_cache(cache)
 
@@ -70,7 +65,7 @@ if __name__ == '__main__':
               "for potential needed user input")
         sys.exit()
 
-    from helpers.gvars import constants, TTT_ROUND_REGEX, STATUS_REGEX, PLAYERS_REGEX
+    from helpers.gvars import constants, TTT_ROUND_REGEX, STATUS_REGEX
     from helpers.logs import parse_ttt_logs, parse_status
 
     config = load_config()
@@ -87,6 +82,7 @@ if __name__ == '__main__':
     parsing_jb = False
     parsing_status = False
     last_time = time()
+    parsed_statuses = []
     logs = []
     while True:
         with open(config['output_file'], 'r', errors='replace') as f:
@@ -124,17 +120,16 @@ if __name__ == '__main__':
 
                 # Status Log Parsing
                 if config["age"]["enable"]:
-                    if parsing_status is not False and line in constants["age"]["log_footers"]:
-                        handle_status(parsing_status, logs)
+                    if parsing_status and line == constants["age"]["log_footer"]:
+                        if logs not in parsed_statuses:
+                            handle_status(logs)
+                            parsed_statuses.append(logs)
                         parsing_status = False
                         logs = []
-                    elif parsing_status is not False:
+                    elif parsing_status:
                         logs.append(line)
-                    elif line == constants["age"]["status_header"]:
-                        parsing_status = "status"
-                        continue
-                    elif line == constants["age"]["players_header"]:
-                        parsing_status = "players"
+                    elif line == constants["age"]["header"]:
+                        parsing_status = True
                         continue
 
         parsing_ttt = False

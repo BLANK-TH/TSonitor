@@ -9,6 +9,7 @@ from time import time
 
 import human_readable
 from steam.steamid import SteamID
+from requests.exceptions import HTTPError
 
 from helpers.gvars import TTT_ROUND_REGEX, TTT_TIME_REGEX, TTT_DAMAGE_REGEX, TTT_KILL_REGEX
 from models.logs import TTTLog, JBLog
@@ -77,7 +78,7 @@ def parse_ttt_logs(lines:list) -> TTTLog:
 
     return TTTLog('\n'.join(lines), actions, round_number)
 
-def parse_status(steamapi, line, regex, cache, check_private, max_guess_iterations):
+def parse_status(steamapi, line, regex, cache, check_private, max_guess_iterations, check_csgo_playtime):
     if steamapi is None:
         raise ValueError('Steam API key not provided')
     r = handle_named_regex(regex, line)
@@ -86,8 +87,8 @@ def parse_status(steamapi, line, regex, cache, check_private, max_guess_iteratio
     approximate = False
     created = None
     steam_id = r.group('steam_id')
+    uuid = SteamID(steam_id).as_64
     if steam_id not in cache:
-        uuid = SteamID(steam_id).as_64
         try:
             p = steamapi.call('ISteamUser.GetPlayerSummaries',steamids=uuid)['response']['players']
             if len(p) == 0:
@@ -99,7 +100,8 @@ def parse_status(steamapi, line, regex, cache, check_private, max_guess_iteratio
                 iterations = 0
                 while created is None:
                     if iterations > max_guess_iterations:
-                        return float('inf'), r.group('user_id'), r.group('name'), 'Max guess iterations reached', False
+                        return float('inf'), r.group('user_id'), r.group('name'), 'Max guess iterations reached',\
+                               False, 'None'
                     uuid += 1
                     iterations += 1
                     p = steamapi.call('ISteamUser.GetPlayerSummaries', steamids=uuid)['response']['players']
@@ -110,11 +112,23 @@ def parse_status(steamapi, line, regex, cache, check_private, max_guess_iteratio
                     except KeyError:
                         continue
             else:
-                return float('inf'), r.group('user_id'), r.group('name'), 'Guessing disabled', False
+                return float('inf'), r.group('user_id'), r.group('name'), 'Guessing disabled', False, 'None'
         cache[steam_id] = created, approximate
     else:
         created, approximate = cache[steam_id]
 
     td = timedelta(seconds=time()-created)
+    td2 = None
+
+    if check_csgo_playtime and not approximate:
+        try:
+            p = steamapi.call('ISteamUserStats.GetUserStatsForGame', steamid=uuid, appid=730)
+        except HTTPError:
+            pass
+        else:
+            td2 = timedelta(seconds=next((i for i in p['playerstats']['stats'] if i['name'] == 'total_time_played'),
+                                         None)['value'])
+
     return created, r.group('user_id'), r.group('name'), human_readable.precise_delta(
-        td, suppress=find_human_suppress(td)), approximate
+        td, suppress=find_human_suppress(td)), approximate, human_readable.precise_delta(
+        td2, suppress=find_human_suppress(td2)) if td2 is not None else 'None'
