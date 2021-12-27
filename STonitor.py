@@ -48,11 +48,17 @@ def handle_status(invoked_by, logs):
     results = []
     cache = load_age_cache() if config["age"]["cache"] else {}
     for line in logs:
-        results.append(parse_status(steam_api, line, regex, cache))
+        try:
+            results.append(parse_status(steam_api, line, regex, cache, config["age"]["private"]["enabled"],
+                                        config["age"]["private"]["tries"]))
+        except (Exception,):
+            results.append((float('inf'), '-1', 'Error', 'Error parsing line: ' + line, False))
     results.sort()
     pad_name = str(len(max(results, key=lambda x:len(x[2]))[2]) + 2)
+    pad_num = str(len(max(results, key=lambda x:len(x[1]))))
     for result in results:
-        print(('# {} {:' + pad_name + 's} {}{}').format(result[1], result[2], '~' if result[4] else '', result[3]))
+        print(('# {:' + pad_num + 's} {:' + pad_name + 's} {}{}').format(
+            result[1], result[2], '~' if result[4] else '', result[3]))
     if config["age"]["cache"]:
         save_age_cache(cache)
 

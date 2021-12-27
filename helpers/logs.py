@@ -77,29 +77,43 @@ def parse_ttt_logs(lines:list) -> TTTLog:
 
     return TTTLog('\n'.join(lines), actions, round_number)
 
-def parse_status(steamapi, line, regex, cache):
+def parse_status(steamapi, line, regex, cache, check_private, max_guess_iterations):
     if steamapi is None:
         raise ValueError('Steam API key not provided')
     r = handle_named_regex(regex, line)
     if r is None:
-        return None
+        raise ValueError('Invalid line')
     approximate = False
+    created = None
     steam_id = r.group('steam_id')
     if steam_id not in cache:
         uuid = SteamID(steam_id).as_64
         try:
             p = steamapi.call('ISteamUser.GetPlayerSummaries',steamids=uuid)['response']['players']
             if len(p) == 0:
-                return None
+                raise ValueError('Invalid steam ID')
             created = p[0]['timecreated']
-            cache[steam_id] = created
         except KeyError:
-            # TODO: Create implementation for private guessing
-            approximate = True
-        except (Exception,):
-            return None
+            if check_private:
+                approximate = True
+                iterations = 0
+                while created is None:
+                    if iterations > max_guess_iterations:
+                        return float('inf'), r.group('user_id'), r.group('name'), 'Max guess iterations reached', False
+                    uuid += 1
+                    iterations += 1
+                    p = steamapi.call('ISteamUser.GetPlayerSummaries', steamids=uuid)['response']['players']
+                    if len(p) == 0:
+                        continue
+                    try:
+                        created = p[0]['timecreated']
+                    except KeyError:
+                        continue
+            else:
+                return float('inf'), r.group('user_id'), r.group('name'), 'Guessing disabled', False
+        cache[steam_id] = created, approximate
     else:
-        created = cache[steam_id]
+        created, approximate = cache[steam_id]
 
     td = timedelta(seconds=time()-created)
     return created, r.group('user_id'), r.group('name'), human_readable.precise_delta(

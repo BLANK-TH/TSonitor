@@ -60,7 +60,7 @@ default_settings = {
         "cache": True,
         "private": {
             "enabled": True,
-            "cache": True
+            "tries": 10
         },
         "timeout": 5
     }
