@@ -30,7 +30,7 @@ default_settings = {
                 "nades": True,
                 "gunplant": True
             },
-            "timeouts": {
+            "limits": {
                 "gunplant": 20,
                 "button": 10,
                 "nade": 10,
@@ -39,7 +39,19 @@ default_settings = {
             }
         },
         "ttt": {
-            "enable": True
+            "enable": True,
+            "subfeatures": {
+                "rdm": True,
+                "mass_rdm": True,
+            },
+            "limits": {
+                "mass_rdm": 2,
+                "mass_rdm_detect_reason": False
+            },
+            "summary_output": {
+                "kills": True,
+                "damage": False
+            }
         }
     },
     "age": {

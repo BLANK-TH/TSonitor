@@ -27,6 +27,22 @@ class TTTAction(Action):
         else:
             raise ValueError('Player needs to be either str or TTTPlayer')
 
+    def is_victim(self, player):
+        if isinstance(player, str):
+            return self.victim.name == player
+        elif isinstance(player, TTTPlayer):
+            return self.victim == player
+        else:
+            raise ValueError('Player needs to be either str or TTTPlayer')
+
+    def is_attacker(self, player):
+        if isinstance(player, str):
+            return self.attacker.name == player
+        elif isinstance(player, TTTPlayer):
+            return self.attacker == player
+        else:
+            raise ValueError('Player needs to be either str or TTTPlayer')
+
 class JBAction(Action):
     def __init__(self, raw_line:str, timestamp:str):
         super().__init__(raw_line, timestamp)

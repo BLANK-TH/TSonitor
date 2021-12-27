@@ -12,7 +12,13 @@ from helpers.file import assert_data, load_config, load_session, save_session
 
 def handle_ttt_log(logs):
     log = parse_ttt_logs(logs)
-    print(config["logs"]["header"] + "got log: " + str(log))
+    print(config["logs"]["header"] + '\n' + log.summary_output(**config["logs"]["ttt"]["summary_output"]), end='\n\n')
+    if config["logs"]["ttt"]["subfeatures"]["rdm"]:
+        pass
+    if config["logs"]["ttt"]["subfeatures"]["mass_rdm"]:
+        pass
+    if config["logs"]["save_logs"]:
+        log.save_log()
 
 
 if __name__ == '__main__':
