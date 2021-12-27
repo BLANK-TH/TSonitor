@@ -19,4 +19,30 @@ class TTTPlayer:
 class JBPlayer:
     def __init__(self, name, role):
         self.name = name
-        self.role = role
+        self.general_role = role
+        self.context = {}
+
+    def add_involved_action(self, action, role):
+        self.context[action] = role
+
+    def __str__(self):
+        return self.name
+
+    def __repr__(self):
+        return '{} ({})'.format(self.name, self.general_role)
+
+    def to_str(self, context=None):
+        if context is None:
+            return self.__str__()
+        else:
+            return '{} ({})'.format(self.name, self.context[context])
+
+class JBWorld(JBPlayer):
+    def __init__(self):
+        super().__init__("World", "World")
+
+    def __str__(self):
+        return self.name
+
+    def __repr__(self):
+        return self.__str__()
