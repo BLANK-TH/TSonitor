@@ -19,9 +19,9 @@ class Log:
         self.type = ty
 
     def save_log(self):
-        with open('data/logs/{}_{}.txt'.format(self.type, self.id), 'w') as f:
+        with open('data/logs/{}_{}.txt'.format(self.type, self.id), 'w', encoding='utf-8') as f:
             try:
-                f.write(self.raw_log.encode('utf-8'))
+                f.write(self.raw_log)
             except UnicodeEncodeError:
                 print("Failed to encode Log #" + str(self.id))
 
