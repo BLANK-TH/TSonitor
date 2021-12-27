@@ -63,5 +63,5 @@ if __name__ == '__main__':
         current_time = time()
         if current_time - last_time >= config["min_session_save_interval"]:
             save_session(session)
-        last_time = current_time
+            last_time = current_time
         sleep(config["check_delay"])
