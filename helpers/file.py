@@ -4,6 +4,7 @@
 #  file, You can obtain one at http://mozilla.org/MPL/2.0/.
 # ------------------------------------------------------------------------------
 
+from json import load, dump
 from typing import Union
 from os import mkdir
 from os.path import isfile, isdir
@@ -11,10 +12,12 @@ from os.path import isfile, isdir
 import yaml
 
 default_settings = {
-    "directory": "C:/Program Files (x86)/Steam/steamapps/common/Counter-Strike Global Offensive/csgo/output.log",
+    "output_file": "C:/Program Files (x86)/Steam/steamapps/common/Counter-Strike Global Offensive/csgo/output.log",
     "steamkey": "",
     "check_delay": 5,
+    "min_session_save_interval": 10,
     "logs": {
+        "enable": True,
         "header": "\n\n\n=================================",
         "jb": {
             "enable": True,
@@ -50,6 +53,17 @@ default_settings = {
     }
 }
 
+constants = {
+    "ttt": {
+        "round_regex": r"^\[\d{1,2}:\d{1,2}] TTT Round #(\d*) has been started!$",
+        "time_regex": r"^\[(?P<time>\d{1,2}:\d{1,2})].*$",
+        "damage_regex": r"^\[(?P<time>\d{1,2}:\d{1,2})] -> \[(?P<attacker>.*) \((?P<attacker_role>Traitor|Detective|Innocent)\) damaged (?P<victim>.*) \((?P<victim_role>Traitor|Detective|Innocent)\) for (?P<damage>\d*) damage with (?P<weapon>.*)](?: - BAD ACTION)?$",
+        "kill_regex": r"^\[(?P<time>\d{1,2}:\d{1,2})] -> \[(?P<attacker>.*) \((?P<attacker_role>Traitor|Detective|Innocent)\) killed (?P<victim>.*) \((?P<victim_role>Traitor|Detective|Innocent)\) with (?P<weapon>.*)](?: - BAD ACTION)?$",
+        "log_header": "---------------TTT LOGS---------------",
+        "log_separator": "--------------------------------------"
+    }
+}
+
 def check_dict(d: dict, expected: dict, fixed_dict=None) -> Union[bool, dict]:
     """Goes through each dict and subdict to check if the keys in expected are in d, if not, they're filled in with the
     value in expected
@@ -81,6 +95,8 @@ def assert_data() -> bool:
 
     :return: True if all data is correct, False if data was created/modified
     """
+    success = True
+
     if not isdir('data'):
         mkdir('data')
     if not isdir('data/logs'):
@@ -88,15 +104,26 @@ def assert_data() -> bool:
     if not isfile('data/settings.yaml'):
         with open('data/settings.yaml', 'w') as f:
             f.write(yaml.dump(default_settings, sort_keys=False))
-        return False
+        success = False
     else:
         r = check_dict(load_config(), default_settings)
         if isinstance(r, dict):
             with open('data/settings.yaml', 'w') as f:
                 f.write(yaml.dump(r, sort_keys=False))
-            return False
+            success = False
+    if not isfile('data/session.json'):
+        with open('data/session.json', 'w') as f:
+            dump({}, f, indent=2)
+    if not isfile('data/constants.yaml'):
+        with open('data/constants.yaml', 'w') as f:
+            f.write(yaml.dump(constants, sort_keys=False))
+    else:
+        r = check_dict(load_constants(), constants)
+        if isinstance(r, dict):
+            with open('data/constants.yaml', 'w') as f:
+                f.write(yaml.dump(r, sort_keys=False))
 
-    return True
+    return success
 
 def load_config() -> dict:
     """Loads and parses the YAML config file
@@ -105,3 +132,24 @@ def load_config() -> dict:
     """
     with open('data/settings.yaml', 'r') as f:
         return yaml.load(f.read(), Loader=yaml.FullLoader)
+
+def load_session() -> dict:
+    """Loads and parses the session JSON file
+
+    :return: Session dict loaded from file
+    """
+    with open('data/session.json', 'r') as f:
+        return load(f)
+
+def load_constants() -> dict:
+    """Loads and parses the YAML constants file
+
+    :return: Constants loaded from file
+    """
+    with open('data/constants.yaml', 'r') as f:
+        return yaml.load(f.read(), Loader=yaml.FullLoader)
+
+def save_session(session):
+    """Updates the session JSON file"""
+    with open('data/session.json', 'w') as f:
+        dump(session, f)

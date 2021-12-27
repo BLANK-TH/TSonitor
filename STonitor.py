@@ -6,8 +6,14 @@
 
 import os
 import sys
+from time import sleep, time
 
-from helpers.file import assert_data, load_config
+from helpers.file import assert_data, load_config, load_session, save_session
+
+def handle_ttt_log(logs):
+    log = parse_ttt_logs(logs)
+    print(config["logs"]["header"] + "got log: " + str(log))
+
 
 if __name__ == '__main__':
     os.chdir(sys.path[0])  # Set CWD to this file in case clueless users run wo/ a proper working directory
@@ -15,4 +21,47 @@ if __name__ == '__main__':
         print("Missing or invalid data files found, an automatic creation/fix was attempted, please check data files "
               "for potential needed user input")
         sys.exit()
+
+    from helpers.gvars import constants, TTT_ROUND_REGEX
+    from helpers.logs import parse_ttt_logs
+
     config = load_config()
+    session = load_session()
+
+    current_ttt_round = session.get('last_ttt_round', float('-inf'))
+    current_jb_round = session.get('last_jb_round', float('-inf'))
+    parsing_ttt = False
+    parsing_jb = False
+    last_time = time()
+    logs = []
+    while True:
+        with open(config['output_file'], 'r', errors='replace') as f:
+            for line in f.readlines():
+                line = line.strip()
+
+                if parsing_ttt and len(logs) == 0:
+                    round_number = int(TTT_ROUND_REGEX.findall(line)[0])
+                    if round_number <= current_ttt_round:
+                        parsing_ttt = False
+                        continue
+                    logs.append(line)
+                elif parsing_ttt and line == constants["ttt"]["log_separator"]:
+                    parsing_ttt = False
+                    handle_ttt_log(logs)
+                    logs = []
+                    current_ttt_round = round_number
+                    session["last_ttt_round"] = round_number
+                elif parsing_ttt:
+                    logs.append(line)
+                elif line == constants["ttt"]["log_header"]:
+                    parsing_ttt = True
+                    continue
+        parsing_ttt = False
+        parsing_jb = False
+        logs = []
+
+        current_time = time()
+        if current_time - last_time >= config["min_session_save_interval"]:
+            save_session(session)
+        last_time = current_time
+        sleep(config["check_delay"])
