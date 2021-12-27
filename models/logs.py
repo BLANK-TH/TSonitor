@@ -4,6 +4,8 @@
 #  file, You can obtain one at http://mozilla.org/MPL/2.0/.
 # ------------------------------------------------------------------------------
 
+from collections import defaultdict
+
 from .actions import TTTDeath, TTTDamage
 
 class Log:
@@ -58,7 +60,7 @@ class TTTLog(Log):
         return rdms
 
     def find_mass_rdm(self, limit: int, detect_reason: bool):
-        rdm_count = {}
+        rdm_count = defaultdict(lambda: 0)
         for i, action in enumerate(self.actions):
             if action.bad and isinstance(action, TTTDeath):
                 if detect_reason:
@@ -67,15 +69,9 @@ class TTTLog(Log):
                                 action.attacker) and a.is_attacker(action.victim) and a.bad:
                             break
                     else:
-                        if action.attacker in rdm_count:
-                            rdm_count[action.attacker] += 1
-                        else:
-                            rdm_count[action.attacker] = 1
-                else:
-                    if action.attacker in rdm_count:
                         rdm_count[action.attacker] += 1
-                    else:
-                        rdm_count[action.attacker] = 1
+                else:
+                    rdm_count[action.attacker] += 1
 
         return {player:amount for player, amount in rdm_count.items() if amount >= limit}
 

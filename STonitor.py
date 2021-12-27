@@ -57,23 +57,34 @@ if __name__ == '__main__':
             for line in f.readlines():
                 line = line.strip()
 
+                # TTT Log Parsing
                 if parsing_ttt and len(logs) == 0:
                     round_number = int(TTT_ROUND_REGEX.findall(line)[0])
                     if round_number <= current_ttt_round:
                         parsing_ttt = False
                         continue
                     logs.append(line)
+                elif parsing_ttt is None:
+                    if line == constants["ttt"]["log_separator"]:
+                        parsing_ttt = False
+                        handle_ttt_log(logs)
+                        logs = []
+                        current_ttt_round = round_number
+                        session["last_ttt_round"] = round_number
+                    else:
+                        parsing_ttt = True
                 elif parsing_ttt and line == constants["ttt"]["log_separator"]:
-                    parsing_ttt = False
-                    handle_ttt_log(logs)
-                    logs = []
-                    current_ttt_round = round_number
-                    session["last_ttt_round"] = round_number
+                    parsing_ttt = None
                 elif parsing_ttt:
                     logs.append(line)
                 elif line == constants["ttt"]["log_header"]:
                     parsing_ttt = True
                     continue
+
+                # JB Log Parsing
+
+                # Status Log Parsing
+
         parsing_ttt = False
         parsing_jb = False
         logs = []
