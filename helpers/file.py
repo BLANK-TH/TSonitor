@@ -42,7 +42,10 @@ default_settings = {
         "enable": True,
         "check_csgo_playtime": True,
         "cache": True,
-        "guess_private": True,
+        "private": {
+            "enabled": True,
+            "cache": True
+        },
         "timeout": 5
     }
 }
@@ -71,7 +74,7 @@ def check_dict(d: dict, expected: dict, fixed_dict=None) -> Union[bool, dict]:
             if isinstance(sr, dict):
                 fixed_dict[k] = sr
 
-    return True if fixed_dict == d else {k:fixed_dict[k] for k in expected}  # Hacky way to sort dict
+    return True if fixed_dict == d else {k:fixed_dict[k] for k in expected}  # Hacky way to sort & remove unused keys
 
 def assert_data() -> bool:
     """Checks if the data folder and required files exist, if not, create them
@@ -87,10 +90,18 @@ def assert_data() -> bool:
             f.write(yaml.dump(default_settings, sort_keys=False))
         return False
     else:
-        with open('data/settings.yaml', 'r') as f:
-            r = check_dict(yaml.load(f.read(), Loader=yaml.FullLoader), default_settings)
+        r = check_dict(load_config(), default_settings)
         if isinstance(r, dict):
             with open('data/settings.yaml', 'w') as f:
                 f.write(yaml.dump(r, sort_keys=False))
+            return False
 
     return True
+
+def load_config() -> dict:
+    """Loads and parses the YAML config file
+
+    :return: Config loaded from file
+    """
+    with open('data/settings.yaml', 'r') as f:
+        return yaml.load(f.read(), Loader=yaml.FullLoader)
