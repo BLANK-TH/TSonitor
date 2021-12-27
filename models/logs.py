@@ -9,6 +9,7 @@ from collections import defaultdict
 from .actions import TTTDeath, TTTDamage
 
 class Log:
+    """General class representing eGO logs"""
     def __init__(self, raw_log:str, actions:list, id:int, ty:str='Unknown'):
         self.raw_log = ""
         for line in raw_log.split('\n'):
@@ -32,6 +33,7 @@ class Log:
         return self.__str__()
 
 class TTTLog(Log):
+    """Class representing TTT logs"""
     def __init__(self, raw_log:str, actions:list, id:int):
         super().__init__(raw_log, actions, id, 'TTT')
 
@@ -93,5 +95,6 @@ class TTTLog(Log):
                 for k, v in damage_count.items()}
 
 class JBLog(Log):
+    """Class representing JB logs"""
     def __init__(self, raw_log:str, actions:list, id:int):
         super().__init__(raw_log, actions, id, 'JB')
