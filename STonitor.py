@@ -7,12 +7,15 @@
 import os
 import sys
 from time import sleep, time
+from requests.exceptions import HTTPError
 
-from helpers.file import assert_data, load_config, load_session, save_session
+from steam.webapi import WebAPI
+
+from helpers.file import assert_data, load_config, load_session, save_session, load_age_cache, save_age_cache
 
 def handle_ttt_log(logs):
     log = parse_ttt_logs(logs)
-    print(config["logs"]["header"] + '\nTTT Logs (#{})\n'.format(log.id) +
+    print(config["header"] + '\nTTT Logs (#{})\n'.format(log.id) +
           log.summary_output(**config["logs"]["ttt"]["summary_output"]), end='\n\n')
     if config["logs"]["ttt"]["subfeatures"]["rdm"]:
         rdms = log.find_rdm(config["logs"]["ttt"]["limits"]["rdm_detect_reason"])
@@ -33,6 +36,27 @@ def handle_ttt_log(logs):
         log.save_log()
 
 
+def handle_status(invoked_by, logs):
+    if invoked_by == 'status':
+        regex = STATUS_REGEX
+    elif invoked_by == 'players':
+        regex = PLAYERS_REGEX
+    else:
+        raise ValueError('Invalid invocation for status')
+
+    print(config["header"])
+    results = []
+    cache = load_age_cache() if config["age"]["cache"] else {}
+    for line in logs:
+        results.append(parse_status(steam_api, line, regex, cache))
+    results.sort()
+    pad_name = str(len(max(results, key=lambda x:len(x[2]))[2]) + 2)
+    for result in results:
+        print(('# {} {:' + pad_name + 's} {}{}').format(result[1], result[2], '~' if result[4] else '', result[3]))
+    if config["age"]["cache"]:
+        save_age_cache(cache)
+
+
 if __name__ == '__main__':
     os.chdir(sys.path[0])  # Set CWD to this file in case clueless users run wo/ a proper working directory
     if not assert_data():
@@ -40,16 +64,22 @@ if __name__ == '__main__':
               "for potential needed user input")
         sys.exit()
 
-    from helpers.gvars import constants, TTT_ROUND_REGEX
-    from helpers.logs import parse_ttt_logs
+    from helpers.gvars import constants, TTT_ROUND_REGEX, STATUS_REGEX, PLAYERS_REGEX
+    from helpers.logs import parse_ttt_logs, parse_status
 
     config = load_config()
     session = load_session()
+    try:
+        steam_api = WebAPI(key=config["steamkey"]) if config["steamkey"] != '' else None
+    except HTTPError:
+        print("Error connecting to Steam API, check steam key or remove it for now (disables features requiring key)")
+        sys.exit()
 
     current_ttt_round = session.get('last_ttt_round', float('-inf'))
     current_jb_round = session.get('last_jb_round', float('-inf'))
     parsing_ttt = False
     parsing_jb = False
+    parsing_status = False
     last_time = time()
     logs = []
     while True:
@@ -58,35 +88,52 @@ if __name__ == '__main__':
                 line = line.strip()
 
                 # TTT Log Parsing
-                if parsing_ttt and len(logs) == 0:
-                    round_number = int(TTT_ROUND_REGEX.findall(line)[0])
-                    if round_number <= current_ttt_round:
-                        parsing_ttt = False
-                        continue
-                    logs.append(line)
-                elif parsing_ttt is None:
-                    if line == constants["ttt"]["log_separator"]:
-                        parsing_ttt = False
-                        handle_ttt_log(logs)
-                        logs = []
-                        current_ttt_round = round_number
-                        session["last_ttt_round"] = round_number
-                    else:
+                if config["logs"]["ttt"]["enable"]:
+                    if parsing_ttt and len(logs) == 0:
+                        round_number = int(TTT_ROUND_REGEX.findall(line)[0])
+                        if round_number <= current_ttt_round:
+                            parsing_ttt = False
+                            continue
+                        logs.append(line)
+                    elif parsing_ttt is None:
+                        if line == constants["ttt"]["log_separator"]:
+                            parsing_ttt = False
+                            handle_ttt_log(logs)
+                            logs = []
+                            current_ttt_round = round_number
+                            session["last_ttt_round"] = round_number
+                        else:
+                            parsing_ttt = True
+                    elif parsing_ttt and line == constants["ttt"]["log_separator"]:
+                        parsing_ttt = None
+                    elif parsing_ttt:
+                        logs.append(line)
+                    elif line == constants["ttt"]["log_header"]:
                         parsing_ttt = True
-                elif parsing_ttt and line == constants["ttt"]["log_separator"]:
-                    parsing_ttt = None
-                elif parsing_ttt:
-                    logs.append(line)
-                elif line == constants["ttt"]["log_header"]:
-                    parsing_ttt = True
-                    continue
+                        continue
 
                 # JB Log Parsing
+                if config["logs"]["jb"]["enable"]:
+                    pass
 
                 # Status Log Parsing
+                if config["age"]["enable"]:
+                    if parsing_status is not False and line in constants["age"]["log_footers"]:
+                        handle_status(parsing_status, logs)
+                        parsing_status = False
+                        logs = []
+                    elif parsing_status is not False:
+                        logs.append(line)
+                    elif line == constants["age"]["status_header"]:
+                        parsing_status = "status"
+                        continue
+                    elif line == constants["age"]["players_header"]:
+                        parsing_status = "players"
+                        continue
 
         parsing_ttt = False
         parsing_jb = False
+        parsing_status = False
         logs = []
 
         current_time = time()

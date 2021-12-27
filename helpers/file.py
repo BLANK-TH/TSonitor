@@ -16,10 +16,9 @@ default_settings = {
     "steamkey": "",
     "check_delay": 5,
     "min_session_save_interval": 10,
+    "header": "\n\n\n=================================",
     "logs": {
-        "enable": True,
         "save_logs": True,
-        "header": "\n\n\n=================================",
         "jb": {
             "enable": True,
             "subfeatures": {
@@ -75,6 +74,13 @@ constants = {
         "kill_regex": r"^\[(?P<time>\d{1,2}:\d{1,2})] -> \[(?P<attacker>.*) \((?P<attacker_role>Traitor|Detective|Innocent)\) killed (?P<victim>.*) \((?P<victim_role>Traitor|Detective|Innocent)\) with (?P<weapon>.*)](?: - BAD ACTION)?$",
         "log_header": "---------------TTT LOGS---------------",
         "log_separator": "--------------------------------------"
+    },
+    "age": {
+        "status_regex": r"^# (?P<user_id>\d*) \d* \"(?P<name>.*)\" (?P<steam_id>STEAM_\d:\d:\d*) .+$",
+        "players_regex": r"^# (?P<user_id>\d*) \"(?P<name>.*)\" (?P<steam_id>STEAM_\d:\d:\d*)$",
+        "status_header": "# userid name uniqueid connected ping loss state rate",
+        "players_header": "# userid name uniqueid",
+        "log_footers": ['#end','# end']
     }
 }
 
@@ -136,6 +142,9 @@ def assert_data() -> bool:
         if isinstance(r, dict):
             with open('data/constants.yaml', 'w') as f:
                 f.write(yaml.dump(r, sort_keys=False, width=float('inf')))
+    if not isfile('data/age_cache.json'):
+        with open('data/age_cache.json', 'w') as f:
+            dump({}, f, indent=2)
 
     return success
 
@@ -163,7 +172,20 @@ def load_constants() -> dict:
     with open('data/constants.yaml', 'r') as f:
         return yaml.load(f.read(), Loader=yaml.FullLoader)
 
+def load_age_cache() -> dict:
+    """Loads and parses the age cache JSON file
+
+    :return: Age cache loaded from file
+    """
+    with open('data/age_cache.json', 'r') as f:
+        return load(f)
+
 def save_session(session):
     """Updates the session JSON file"""
     with open('data/session.json', 'w') as f:
-        dump(session, f)
+        dump(session, f, indent=2)
+
+def save_age_cache(cache):
+    """Updates the age cache JSON file"""
+    with open('data/age_cache.json', 'w') as f:
+        dump(cache, f, indent=2)
