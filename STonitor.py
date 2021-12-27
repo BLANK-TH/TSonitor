@@ -120,7 +120,7 @@ if __name__ == '__main__':
 
                 # Status Log Parsing
                 if config["age"]["enable"]:
-                    if parsing_status and line == constants["age"]["log_footer"]:
+                    if parsing_status and line == constants["age"]["footer"]:
                         if logs not in parsed_statuses:
                             handle_status(logs)
                             parsed_statuses.append(logs)

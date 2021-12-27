@@ -81,7 +81,7 @@ constants = {
     "age": {
         "regex": r"^# (?P<user_id>\d*) \d* \"(?P<name>.*)\" (?P<steam_id>STEAM_\d:\d:\d*) .+$",
         "header": "# userid name uniqueid connected ping loss state rate",
-        "log_footer": "#end"
+        "footer": "#end"
     }
 }
 
