@@ -64,3 +64,56 @@ class TTTDamage(TTTAction):
 class TTTDeath(TTTAction):
     def __init__(self, raw_line:str, timestamp:str, attacker:TTTPlayer, victim:TTTPlayer, weapon:str):
         super().__init__(raw_line, timestamp, attacker, victim, weapon)
+
+class JBWarden(JBAction):
+    def __init__(self, raw_line:str, timestamp:str, warden:JBPlayer):
+        super().__init__(raw_line, timestamp)
+        self.warden = warden
+
+class JBVents(JBAction):
+    def __init__(self, raw_line:str, timestamp:str, player:JBPlayer):
+        super().__init__(raw_line, timestamp)
+        self.player = player
+
+class JBButton(JBAction):
+    def __init__(self, raw_line:str, timestamp:str, player:JBPlayer, button_id:str):
+        super().__init__(raw_line, timestamp)
+        self.player = player
+        self.button_id = button_id
+
+class JBUtility(JBAction):
+    def __init__(self, raw_line:str, timestamp:str, player:JBPlayer, t:str):
+        super().__init__(raw_line, timestamp)
+        self.player = player
+        self.type = t
+
+class JBDamage(JBAction):
+    def __init__(self, raw_line:str, timestamp:str, attacker:JBPlayer, victim:JBPlayer, dmg:int, weapon:str):
+        super().__init__(raw_line, timestamp)
+        self.attacker = attacker
+        self.victim = victim
+        self.damage = dmg
+        self.weapon = weapon
+
+class JBDeath(JBAction):
+    def __init__(self, raw_line:str, timestamp:str, attacker:JBPlayer, victim:JBPlayer, weapon:str):
+        super().__init__(raw_line, timestamp)
+        self.attacker = attacker
+        self.victim = victim
+        self.weapon = weapon
+
+class JBWardenDeath(JBAction):
+    def __init__(self, raw_line:str, timestamp:str, warden:JBPlayer):
+        super().__init__(raw_line, timestamp)
+        self.warden = warden
+
+class JBWeaponDrop(JBAction):
+    def __init__(self, raw_line:str, timestamp:str, player:JBPlayer, weapon:str):
+        super().__init__(raw_line, timestamp)
+        self.player = player
+        self.weapon = weapon
+
+class JBWardenPassFire(JBAction):
+    def __init__(self, raw_line:str, timestamp:str, warden:JBPlayer):
+        super().__init__(raw_line, timestamp)
+        self.warden = warden
