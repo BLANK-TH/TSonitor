@@ -46,7 +46,8 @@ def handle_ttt_log(logs):
         log.save_log()
 
 def handle_jb_log(logs, round_number):
-    print("\n".join(logs))
+    log = parse_jb_logs(logs, round_number)
+    print(config["header"] + '\nJB Logs\n' + log.summary_output(**config["logs"]["jb"]["summary_output"]), end='\n\n')
 
 def handle_status(logs):
     print(config["header"])
@@ -78,7 +79,7 @@ if __name__ == '__main__':
         sys.exit()
 
     from helpers.gvars import constants, TTT_ROUND_REGEX, STATUS_REGEX
-    from helpers.logs import parse_ttt_logs, parse_status
+    from helpers.logs import parse_ttt_logs, parse_jb_logs, parse_status
 
     config = load_config()
     session = load_session()

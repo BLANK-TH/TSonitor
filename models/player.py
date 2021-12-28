@@ -22,7 +22,7 @@ class JBPlayer:
         self.general_role = role
         self.context = {}
 
-    def add_involved_action(self, action, role):
+    def add_action(self, action, role):
         self.context[action] = role
 
     def __str__(self):
@@ -35,7 +35,10 @@ class JBPlayer:
         if context is None:
             return self.__str__()
         else:
-            return '{} ({})'.format(self.name, self.context[context])
+            return '{} ({})'.format(self.name, self.get_role(context))
+
+    def get_role(self, context):
+        return self.context[context]
 
 class JBWorld(JBPlayer):
     def __init__(self):

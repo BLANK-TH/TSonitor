@@ -11,7 +11,7 @@ import human_readable
 from steam.steamid import SteamID
 from requests.exceptions import HTTPError
 
-from helpers.gvars import TTT_ROUND_REGEX, TTT_TIME_REGEX, TTT_DAMAGE_REGEX, TTT_KILL_REGEX
+from helpers.gvars import *
 from models.logs import TTTLog, JBLog
 from models.actions import *
 
@@ -33,6 +33,15 @@ def find_human_suppress(td: timedelta):
         return suppressable[3:]
     else:
         return []
+
+def get_jb_player(players:dict, name:str, role:str):
+    if name not in players:
+        if role == 'Rebel':
+            role = 'Prisoner'
+        elif role == 'Warden':
+            role = 'Guard'
+        players[name] = JBPlayer(name, role)
+    return players[name]
 
 def parse_ttt_logs(lines:list) -> TTTLog:
     actions = []
@@ -82,7 +91,78 @@ def parse_jb_logs(lines:list, round_number:int) -> JBLog:
     actions = []
     players = {}
     for line in lines:
-        pass
+        line = line.strip()
+
+        r = handle_named_regex(JB_DEATH_REGEX, line)
+        if r is not None:
+            attacker = get_jb_player(players, r.group('attacker'), r.group('attacker_role'))
+            victim = get_jb_player(players, r.group('victim'), r.group('victim_role'))
+            actions.append(JBDeath(line, r.group('time'), attacker, victim))
+            attacker.add_action(actions[-1], r.group('attacker_role'))
+            victim.add_action(actions[-1], r.group('victim_role'))
+            continue
+
+        r = handle_named_regex(JB_DAMAGE_REGEX, line)
+        if r is not None:
+            attacker = get_jb_player(players, r.group('attacker'), r.group('attacker_role'))
+            victim = get_jb_player(players, r.group('victim'), r.group('victim_role'))
+            actions.append(JBDamage(line, r.group('time'), attacker, victim, int(r.group('damage')), r.group('weapon')))
+            attacker.add_action(actions[-1], r.group('attacker_role'))
+            victim.add_action(actions[-1], r.group('victim_role'))
+            continue
+
+        r = handle_named_regex(JB_BUTTON_REGEX, line)
+        if r is not None:
+            player = get_jb_player(players, r.group('player'), r.group('player_role'))
+            actions.append(JBButton(line, r.group('time'), player, r.group('button_name'),
+                                    int(r.group('button_number')) if r.group('button_number') is not None else None))
+            player.add_action(actions[-1], r.group('player_role'))
+            continue
+
+        r = handle_named_regex(JB_VENT_WALL_REGEX, line)
+        if r is not None:
+            player = get_jb_player(players, r.group('player'), r.group('player_role'))
+            actions.append(JBVents(line, r.group('time'), player))
+            player.add_action(actions[-1], r.group('player_role'))
+            continue
+
+        r = handle_named_regex(JB_UTILITY_REGEX, line)
+        if r is not None:
+            player = get_jb_player(players, r.group('player'), r.group('player_role'))
+            actions.append(JBUtility(line, r.group('time'), player, r.group('type')))
+            player.add_action(actions[-1], r.group('player_role'))
+            continue
+
+        r = handle_named_regex(JB_WARDEN_DEATH_REGEX, line)
+        if r is not None:
+            player = get_jb_player(players, r.group('player'), 'Warden')
+            actions.append(JBWardenDeath(line, r.group('time'), player))
+            player.add_action(actions[-1], 'Warden')
+            continue
+
+        r = handle_named_regex(JB_NEW_WARDEN_REGEX, line)
+        if r is not None:
+            player = get_jb_player(players, r.group('player'), 'Warden')
+            actions.append(JBWarden(line, r.group('time'), player))
+            player.add_action(actions[-1], 'Warden')
+            continue
+
+        r = handle_named_regex(JB_PASS_FIRE_REGEX, line)
+        if r is not None:
+            player = get_jb_player(players, r.group('player'), 'Warden')
+            actions.append(JBWardenPassFire(line, r.group('time'), player))
+            player.add_action(actions[-1], 'Warden')
+            continue
+
+        r = handle_named_regex(JB_WEAPON_DROP_REGEX, line)
+        if r is not None:
+            player = get_jb_player(players, r.group('player'), r.group('player_role'))
+            actions.append(JBWeaponDrop(line, r.group('time'), player, r.group('weapon')))
+            player.add_action(actions[-1], r.group('player_role'))
+            continue
+
+        if line.startswith('[') and not line.startswith('[DS]'):
+            actions.append(JBAction(line, handle_named_regex(JB_TIME_REGEX, line).group('time')))
 
     return JBLog('\n'.join(lines), actions, round_number)
 

@@ -67,6 +67,16 @@ default_settings = {
             "enabled": True,
             "tries": 10
         },
+        "summary_output": {
+            "kills": True,
+            "warden": True,
+            "warden_death": True,
+            "pass_fire": True,
+            "damage": False,
+            "vents": False,
+            "button": False,
+            "drop_weapon": False
+        },
         "timeout": 5
     }
 }
@@ -93,7 +103,8 @@ constants = {
             "wardendeath": r"^\[(?P<time>\d{1,2}:\d{1,2})] (?P<player>.*) \(WARDEN\) has died and is no longer warden$",
             "newwarden": r"^\[(?P<time>\d{1,2}:\d{1,2})] (?P<player>.*) \(WARDEN\) is now warden$",
             "passfire": r"^\[(?P<time>\d{1,2}:\d{1,2})] (?P<player>.*) \(WARDEN\) (?:has passed warden|has disconnected, passing warden|has been fired by an admin)$",
-            "weapondrop": r"^\[(?P<time>\d{1,2}:\d{1,2})] (?P<player>.*) \((?P<player_role>Prisoner|Rebel|Guard|Warden)\) dropped the weapon (?P<weapon>.*)$"
+            "weapondrop": r"^\[(?P<time>\d{1,2}:\d{1,2})] (?P<player>.*) \((?P<player_role>Prisoner|Rebel|Guard|Warden)\) dropped the weapon (?P<weapon>.*)$",
+            "time": r"^\[(?P<time>\d{1,2}:\d{1,2})].*$"
         },
         "log_header": [
             "--------------------------------------------------",

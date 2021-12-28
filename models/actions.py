@@ -4,12 +4,15 @@
 #  file, You can obtain one at http://mozilla.org/MPL/2.0/.
 # ------------------------------------------------------------------------------
 
+from datetime import timedelta
+
 from .player import TTTPlayer, JBPlayer
 
 class Action:
     """Class representing all actions in JB & TTT logs"""
     def __init__(self, raw_line:str, timestamp:str):
         self.timestamp = list(map(int, timestamp.split(':')))
+        self.timestamp_delta = timedelta(minutes=self.timestamp[0], seconds=self.timestamp[1])
         self.raw_line = raw_line
 
     def __str__(self):
@@ -84,10 +87,11 @@ class JBVents(JBAction):
 
 class JBButton(JBAction):
     """Class representing someone pressing a button in JB logs"""
-    def __init__(self, raw_line:str, timestamp:str, player:JBPlayer, button_id:str):
+    def __init__(self, raw_line:str, timestamp:str, player:JBPlayer, button_id:str, button_number:int=None):
         super().__init__(raw_line, timestamp)
         self.player = player
         self.button_id = button_id
+        self.button_number = button_number
 
 class JBUtility(JBAction):
     """Class representing someone throwing utility in JB logs"""
