@@ -79,11 +79,17 @@ class JBWarden(JBAction):
         super().__init__(raw_line, timestamp)
         self.warden = warden
 
+    def __repr__(self):
+        return "[{:02}:{:02}] {} is now warden".format(*self.timestamp, self.warden.name)
+
 class JBVents(JBAction):
     """Class representing someone breaking a wall or vent in JB logs"""
     def __init__(self, raw_line:str, timestamp:str, player:JBPlayer):
         super().__init__(raw_line, timestamp)
         self.player = player
+
+    def __repr__(self):
+        return "[{:02}:{:02}] {} broke a vent or wall".format(*self.timestamp, self.player.to_str(self))
 
 class JBButton(JBAction):
     """Class representing someone pressing a button in JB logs"""
@@ -93,12 +99,19 @@ class JBButton(JBAction):
         self.button_id = button_id
         self.button_number = button_number
 
+    def __repr__(self):
+        return "[{:02}:{:02}] {} pressed {}{}".format(*self.timestamp, self.player.to_str(self),
+            ' ({})'.format(self.button_id) if self.button_id is not None else '')
+
 class JBUtility(JBAction):
     """Class representing someone throwing utility in JB logs"""
     def __init__(self, raw_line:str, timestamp:str, player:JBPlayer, t:str):
         super().__init__(raw_line, timestamp)
         self.player = player
         self.type = t
+
+    def __repr__(self):
+        return "[{:02}:{:02}] {} threw a {}".format(*self.timestamp, self.player.to_str(self), self.type)
 
 class JBDamage(JBAction):
     """Class representing someone being damaged in JB logs"""
@@ -109,6 +122,10 @@ class JBDamage(JBAction):
         self.damage = dmg
         self.weapon = weapon
 
+    def __repr__(self):
+        return "[{:02}:{:02}] {} damaged {} for {:,} damage using {}".format(
+            *self.timestamp, self.attacker.to_str(self), self.victim.to_str(self), self.damage, self.weapon)
+
 class JBDeath(JBAction):
     """Class representing someone dying in JB logs"""
     def __init__(self, raw_line:str, timestamp:str, attacker:JBPlayer, victim:JBPlayer):
@@ -116,11 +133,18 @@ class JBDeath(JBAction):
         self.attacker = attacker
         self.victim = victim
 
+    def __repr__(self):
+        return "[{:02}:{:02}] {} killed {}".format(*self.timestamp, self.attacker.to_str(self),
+                                                   self.victim.to_str(self))
+
 class JBWardenDeath(JBAction):
     """Class representing warden dying in JB logs"""
     def __init__(self, raw_line:str, timestamp:str, warden:JBPlayer):
         super().__init__(raw_line, timestamp)
         self.warden = warden
+
+    def __repr__(self):
+        return "[{:02}:{:02}] {} died and is no longer warden".format(*self.timestamp, self.warden.name)
 
 class JBWeaponDrop(JBAction):
     """Class representing a weapon being dropped in JB logs"""
@@ -129,8 +153,15 @@ class JBWeaponDrop(JBAction):
         self.player = player
         self.weapon = weapon
 
+    def __repr__(self):
+        return "[{:02}:{:02}] {} dropped weapon {}".format(*self.timestamp, self.player.to_str(self), self.weapon)
+
 class JBWardenPassFire(JBAction):
     """Class representing a warden passing (manually or through disconnect) or being fired"""
     def __init__(self, raw_line:str, timestamp:str, warden:JBPlayer):
         super().__init__(raw_line, timestamp)
         self.warden = warden
+
+    def __repr__(self):
+        return "[{:02}:{:02}] {} has passed or was fired, and is no longer warden".format(*self.timestamp,
+                                                                                          self.warden.name)
