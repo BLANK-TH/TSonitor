@@ -42,6 +42,12 @@ class JBPlayer:
     def get_role(self, context):
         return self.context[context]
 
+    def is_ct(self):
+        return self.general_role in ['Guard', 'Warden']
+
+    def is_t(self):
+        return self.general_role in ['Prisoner', 'Rebel']
+
 class JBWorld(JBPlayer):
     def __init__(self):
         super().__init__("World", "World")

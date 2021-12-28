@@ -4,6 +4,7 @@
 #  file, You can obtain one at http://mozilla.org/MPL/2.0/.
 # ------------------------------------------------------------------------------
 
+from datetime import timedelta
 from time import time
 
 import human_readable
@@ -42,6 +43,9 @@ def get_jb_player(players:dict, name:str, role:str):
             role = 'Guard'
         players[name] = JBPlayer(name, role)
     return players[name]
+
+def delta_range(td1: timedelta, td2: timedelta, minutes:int=0, seconds:int=0) -> bool:
+    return abs(td1 - td2) <= timedelta(minutes=minutes, seconds=seconds)
 
 def parse_ttt_logs(lines:list) -> TTTLog:
     actions = []
