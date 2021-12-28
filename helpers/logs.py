@@ -45,7 +45,7 @@ def get_jb_player(players:dict, name:str, role:str):
 
 def parse_ttt_logs(lines:list) -> TTTLog:
     actions = []
-    players = {'The World': JBWorld()}
+    players = {}
     round_number = None
     for line in lines:
         line = line.strip()
@@ -89,7 +89,7 @@ def parse_ttt_logs(lines:list) -> TTTLog:
 
 def parse_jb_logs(lines:list, round_number:int) -> JBLog:
     actions = []
-    players = {}
+    players = {'The World': JBWorld()}
     for line in lines:
         line = line.strip()
 
