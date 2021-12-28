@@ -4,6 +4,8 @@
 #  file, You can obtain one at http://mozilla.org/MPL/2.0/.
 # ------------------------------------------------------------------------------
 
+from collections import defaultdict
+
 class TTTPlayer:
     def __init__(self, name, role):
         self.name = name
@@ -20,7 +22,7 @@ class JBPlayer:
     def __init__(self, name, role):
         self.name = name
         self.general_role = role
-        self.context = {}
+        self.context = defaultdict(lambda: self.general_role)
 
     def add_action(self, action, role):
         self.context[action] = role
