@@ -98,3 +98,7 @@ class JBLog(Log):
     """Class representing JB logs"""
     def __init__(self, raw_log:str, actions:list, id:int):
         super().__init__(raw_log, actions, id, 'JB')
+
+    def summary_output(self, kills: bool, warden: bool, warden_death: bool, pass_fire: bool, damage: bool, vents: bool,
+                       button: bool, drop_weapon: bool):
+        pass

@@ -35,6 +35,16 @@ default_settings = {
                 "nade": 10,
                 "warden": 5,
                 "freeday_delay": 10
+            },
+            "summary_output": {
+                "kills": True,
+                "warden": True,
+                "warden_death": True,
+                "pass_fire": True,
+                "damage": False,
+                "vents": False,
+                "button": False,
+                "drop_weapon": False
             }
         },
         "ttt": {
@@ -66,16 +76,6 @@ default_settings = {
         "private": {
             "enabled": True,
             "tries": 10
-        },
-        "summary_output": {
-            "kills": True,
-            "warden": True,
-            "warden_death": True,
-            "pass_fire": True,
-            "damage": False,
-            "vents": False,
-            "button": False,
-            "drop_weapon": False
         },
         "timeout": 5
     }
