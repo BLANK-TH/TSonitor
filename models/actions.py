@@ -103,7 +103,7 @@ class JBButton(JBAction):
         return "[{:02}:{:02}] {} pressed {}".format(*self.timestamp, self.player.to_str(self), self.button_str())
 
     def button_str(self):
-        return self.button_name + ' ({})'.format(self.button_number) if self.button_number is not None else ''
+        return self.button_name + (' ({})'.format(self.button_number) if self.button_number is not None else '')
 
 class JBUtility(JBAction):
     """Class representing someone throwing utility in JB logs"""
