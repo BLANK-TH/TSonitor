@@ -183,7 +183,7 @@ class JBLog(Log):
 
     def find_button(self, delay, threshold):
         check_buttons = []
-        griefs = defaultdict(lambda: {'prisoner': [], 'rebel': [], 'guard': [], 'warden': []})
+        griefs = defaultdict(lambda: {'prisoner': [], 'guard': []})
         for action in self.actions:
             if isinstance(action, JBButton) and not action.player.is_warden(action):
                 check_buttons.append(action)
@@ -191,7 +191,7 @@ class JBLog(Log):
                 pending_remove = []
                 for button in check_buttons:
                     if delta_range(button.timestamp_delta, action.timestamp_delta, seconds=delay):
-                        griefs[button][action.victim.get_role(action).casefold()].append(action.victim)
+                        griefs[button][action.victim.general_role.casefold()].append(action.victim)
                     else:
                         pending_remove.append(button)
                 for remove in pending_remove:
@@ -201,7 +201,7 @@ class JBLog(Log):
 
     def find_utility(self, delay, threshold):
         check_utility = []
-        griefs = defaultdict(lambda: {'prisoner': [], 'rebel': [], 'guard': [], 'warden': []})
+        griefs = defaultdict(lambda: {'prisoner': [], 'guard': []})
         for action in self.actions:
             if isinstance(action, JBUtility):
                 check_utility.append(action)
@@ -209,7 +209,7 @@ class JBLog(Log):
                 pending_remove = []
                 for util in check_utility:
                     if delta_range(util.timestamp_delta, action.timestamp_delta, seconds=delay):
-                        griefs[util][action.victim.get_role(action).casefold()].append(action.victim)
+                        griefs[util][action.victim.general_role.casefold()].append(action.victim)
                     else:
                         pending_remove.append(util)
                 for remove in pending_remove:

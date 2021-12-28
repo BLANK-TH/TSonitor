@@ -84,10 +84,10 @@ def handle_jb_log(logs, round_number):
         if len(griefs) > 0:
             print('Potential Button Griefs:')
             for button, grief in griefs.items():
-                print("{} pressed {} and {:,} prisoner(s), {:,} rebel(s), {:,} guard(s), and {:,} warden(s) took at "
-                      "least {:,} damage from the earth shortly after".format(
-                    repr(button.player), button.button_str(), grief['prisoner'], grief['rebel'], grief['guard'],
-                    grief['warden'], config["logs"]["jb"]["limits"]["world_damage_threshold"]))
+                print("{} pressed {} and {:,} T(s) and {:,} CT(s) took at least {:,} damage from the earth shortly "
+                      "after".format(
+                    repr(button.player), button.button_str(), grief['prisoner'], grief['guard'],
+                    config["logs"]["jb"]["limits"]["world_damage_threshold"]))
             print('')
     if config["logs"]["jb"]["subfeatures"]["nades"]:
         nades = log.find_utility(config["logs"]["jb"]["limits"]["nade"],
@@ -95,10 +95,10 @@ def handle_jb_log(logs, round_number):
         if len(nades) > 0:
             print('Potential Nade Disruptions:')
             for util, grief in nades.items():
-                print("{} threw a {} and {:,} prisoner(s), {:,} rebel(s), {:,} guard(s), and {:,} warden(s) took at "
-                      "least {:,} damage from the earth shortly after".format(
-                    repr(util.player), util.type, grief['prisoner'], grief['rebel'], grief['guard'],
-                    grief['warden'], config["logs"]["jb"]["limits"]["world_damage_threshold"]))
+                print("{} threw a {} and {:,} T(s) and {:,} CT(s) took at least {:,} damage from the earth shortly "
+                      "after".format(
+                    repr(util.player), util.type, grief['prisoner'], grief['guard'],
+                    config["logs"]["jb"]["limits"]["world_damage_threshold"]))
     if config["logs"]["save_logs"]:
         log.save_log()
 
