@@ -6,7 +6,7 @@
 
 from collections import defaultdict
 
-from .actions import TTTDeath, TTTDamage
+from .actions import *
 
 class Log:
     """General class representing eGO logs"""
@@ -101,4 +101,14 @@ class JBLog(Log):
 
     def summary_output(self, kills: bool, warden: bool, warden_death: bool, pass_fire: bool, damage: bool, vents: bool,
                        button: bool, drop_weapon: bool):
-        pass
+        output = []
+        for action in self.actions:
+            if (kills and isinstance(action, JBDeath)) or (warden and isinstance(action, JBWarden)) or \
+                    (warden_death and isinstance(action, JBWardenDeath)) or \
+                    (pass_fire and isinstance(action, JBWardenPassFire)) or \
+                    (damage and isinstance(action, JBDamage)) or (vents and isinstance(action, JBVents)) or \
+                    (vents and isinstance(action, JBVents)) or (button and isinstance(action, JBButton)) or \
+                    (drop_weapon and isinstance(action, JBWeaponDrop)):
+                output.append(repr(action))
+
+        return '\n'.join(output)
