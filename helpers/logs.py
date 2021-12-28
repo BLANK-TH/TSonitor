@@ -4,7 +4,6 @@
 #  file, You can obtain one at http://mozilla.org/MPL/2.0/.
 # ------------------------------------------------------------------------------
 
-from datetime import timedelta
 from time import time
 
 import human_readable
@@ -14,6 +13,7 @@ from requests.exceptions import HTTPError
 from helpers.gvars import *
 from models.logs import TTTLog, JBLog
 from models.actions import *
+from models.player import TTTPlayer, JBPlayer, JBWorld
 
 def handle_named_regex(regex, search_string):
     try:
@@ -45,7 +45,7 @@ def get_jb_player(players:dict, name:str, role:str):
 
 def parse_ttt_logs(lines:list) -> TTTLog:
     actions = []
-    players = {}
+    players = {'The World': JBWorld()}
     round_number = None
     for line in lines:
         line = line.strip()
