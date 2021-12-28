@@ -188,11 +188,14 @@ class JBLog(Log):
             if isinstance(action, JBButton) and not action.player.is_warden(action):
                 check_buttons.append(action)
             elif isinstance(action, JBDamage) and isinstance(action.attacker, JBWorld) and action.damage >= threshold:
+                pending_remove = []
                 for button in check_buttons:
                     if delta_range(button.timestamp_delta, action.timestamp_delta, seconds=delay):
                         griefs[button][action.victim.get_role(action).casefold()].append(action.victim)
                     else:
-                        check_buttons.remove(button)
+                        pending_remove.append(button)
+                for remove in pending_remove:
+                    check_buttons.remove(remove)
 
         return {k: {k2: len(set(v2)) for k2, v2 in v.items()} for k, v in griefs.items()}
 
@@ -203,10 +206,13 @@ class JBLog(Log):
             if isinstance(action, JBUtility):
                 check_utility.append(action)
             elif isinstance(action, JBDamage) and isinstance(action.attacker, JBWorld) and action.damage >= threshold:
+                pending_remove = []
                 for util in check_utility:
                     if delta_range(util.timestamp_delta, action.timestamp_delta, seconds=delay):
                         griefs[util][action.victim.get_role(action).casefold()].append(action.victim)
                     else:
-                        check_utility.remove(util)
+                        pending_remove.append(util)
+                for remove in pending_remove:
+                    check_utility.remove(remove)
 
         return {k: {k2: len(set(v2)) for k2, v2 in v.items()} for k, v in griefs.items()}
