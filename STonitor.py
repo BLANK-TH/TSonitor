@@ -84,8 +84,11 @@ def handle_jb_log(logs, round_number):
                                  config["logs"]["jb"]["limits"]["world_damage_threshold"])
         if len(griefs) > 0:
             print('Potential Button Griefs:')
+            longest_name = str(len(repr(max(griefs.keys(), key=lambda x: len(repr(x.player))).player)) + 2)
+            longest_button = str(len(repr(max(griefs.keys(), key=lambda x: len(x.button_str())).button_str())))
             for button, grief in griefs.items():
-                print("{} pressed {} and {:,} T(s) and {:,} CT(s) might've been harmed".format(
+                print(("{:" + longest_name + "s} pressed {:" + longest_button + "s} and {:,} T(s) and {:,} CT(s) "
+                                                                                "might've been harmed").format(
                     repr(button.player), button.button_str(), grief['prisoner'], grief['guard']))
             print('')
     if config["logs"]["jb"]["subfeatures"]["nades"]:
@@ -93,8 +96,9 @@ def handle_jb_log(logs, round_number):
                                  config["logs"]["jb"]["limits"]["world_damage_threshold"])
         if len(nades) > 0:
             print('Potential Nade Disruptions:')
+            longest_name = str(len(repr(max(nades.keys(), key=lambda x: len(repr(x.player))).player)) + 2)
             for util, grief in nades.items():
-                print("{} threw a {} and {:,} T(s) and {:,} CT(s) might've been harmed".format(
+                print(("{:" + longest_name + "s} threw a {} and {:,} T(s) and {:,} CT(s) might've been harmed").format(
                     repr(util.player), util.type, grief['prisoner'], grief['guard']))
     if config["logs"]["save_logs"]:
         log.save_log()
