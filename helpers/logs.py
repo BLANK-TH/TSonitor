@@ -162,8 +162,9 @@ def parse_jb_logs(lines:list, round_number:int) -> JBLog:
             player.add_action(actions[-1], r.group('player_role'))
             continue
 
-        if line.startswith('[') and not line.startswith('[DS]'):
-            actions.append(JBAction(line, handle_named_regex(JB_TIME_REGEX, line).group('time')))
+        r = handle_named_regex(JB_TIME_REGEX, line)
+        if r is not None:
+            actions.append(JBAction(line, r.group('time')))
 
     return JBLog('\n'.join(lines), actions, round_number)
 
