@@ -98,7 +98,7 @@ def handle_jb_log(logs, round_number):
             print('Potential Nade Disruptions:')
             longest_name = str(len(repr(max(nades.keys(), key=lambda x: len(repr(x.player))).player)) + 2)
             for util, grief in nades.items():
-                print(("{:" + longest_name + "s} threw a {} and {:,} T(s) and {:,} CT(s) might've been harmed").format(
+                print(("{:" + longest_name + "s} threw a {} which could've disrupted {:,} T(s) and {:,} CT(s)").format(
                     repr(util.player), util.type, grief['prisoner'], grief['guard']))
     if config["logs"]["save_logs"]:
         log.save_log()
