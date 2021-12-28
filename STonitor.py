@@ -6,6 +6,7 @@
 
 import os
 import sys
+from datetime import datetime
 from time import sleep, time
 
 from steam.webapi import WebAPI
@@ -143,7 +144,6 @@ if __name__ == '__main__':
         sys.exit()
 
     current_ttt_round = session.get('last_ttt_round', float('-inf'))
-    current_jb_round = session.get('last_jb_round', 0)
     parsing_ttt = False
     parsing_jb = False
     parsing_status = False
@@ -199,9 +199,7 @@ if __name__ == '__main__':
                         if line == constants["jb"]["log_separator"][abs(parsing_jb)]:
                             if parsing_jb == -2:
                                 if logs not in parsed_jb:
-                                    current_jb_round += 1
-                                    session["last_jb_round"] = current_jb_round
-                                    handle_jb_log(logs, current_jb_round)
+                                    handle_jb_log(logs, datetime.now().strftime("%b-%d-%Y_%H-%M-%S_%f"))
                                     parsed_jb.append(logs)
                                 parsing_jb = False
                                 logs = []
