@@ -48,6 +48,12 @@ class JBPlayer:
     def is_t(self):
         return self.general_role in ['Prisoner', 'Rebel']
 
+    def is_inno(self, context):
+        return self.context[context] == 'Prisoner'
+
+    def is_warden(self, context):
+        return self.context[context].casefold() == 'warden'
+
 class JBWorld(JBPlayer):
     def __init__(self):
         super().__init__("World", "World")

@@ -38,7 +38,7 @@ def handle_ttt_log(logs):
         if len(inno_utility) > 0:
             print("Innocent Utility Damage:")
             for player, counts in inno_utility.items():
-                print("{} damaged {} Innocent(s), {} Detective(s), and {} Traitor(s) for a total of {:,} {}damage "
+                print("{} damaged {:,} Innocent(s), {:,} Detective(s), and {:,} Traitor(s) for a total of {:,} {}damage "
                       "using utility".format(repr(player), *counts, 'bad '
                 if config["logs"]["ttt"]["limits"]["utility_bad_only"] else '',))
             print('')
@@ -48,6 +48,57 @@ def handle_ttt_log(logs):
 def handle_jb_log(logs, round_number):
     log = parse_jb_logs(logs, round_number)
     print(config["header"] + '\nJB Logs\n' + log.summary_output(**config["logs"]["jb"]["summary_output"]), end='\n\n')
+    if config["logs"]["jb"]["subfeatures"]["wardenless_kill"]:
+        kills = log.find_wardenless_fk()
+        if len(kills) > 0:
+            print("Wardenless Freekills:")
+            for kill in kills:
+                print("{} killed {} without a warden".format(repr(kill.attacker), repr(kill.victim)))
+            print('')
+    if config["logs"]["jb"]["subfeatures"]["new_warden_kill"]:
+        kills = log.find_new_warden_fk(config["logs"]["jb"]["limits"]["warden"])
+        if len(kills) > 0:
+            print("New Warden Kills:")
+            for kill in kills:
+                print("{} killed {} without {:,} seconds given".format(repr(kill.attacker), repr(kill.victim),
+                                                                       config["logs"]["jb"]["limits"]["warden"]))
+            print('')
+    if config["logs"]["jb"]["subfeatures"]["early_vent"]:
+        vents = log.find_early_vent()
+        if len(vents) > 0:
+            print('Early CT Vents:')
+            for player in vents:
+                print("{} broke a wall or vent before any prisoner did".format(repr(player)))
+            print('')
+    if config["logs"]["jb"]["subfeatures"]["gunplant"]:
+        gunplants = log.find_gunplant(config["logs"]["jb"]["limits"]["gunplant"])
+        if len(gunplants) > 0:
+            print('Potential Gunplants:')
+            for gunplant in gunplants:
+                print("{} dropped a {} and {} used one shortly after".format(repr(gunplant["ct"]), gunplant["weapon"],
+                                                                             repr(gunplant["t"])))
+            print('')
+    if config["logs"]["jb"]["subfeatures"]["button_grief"]:
+        griefs = log.find_button(config["logs"]["jb"]["limits"]["button"],
+                                 config["logs"]["jb"]["limits"]["world_damage_threshold"])
+        if len(griefs) > 0:
+            print('Potential Button Griefs:')
+            for button, grief in griefs.items():
+                print("{} pressed {} and {:,} prisoner(s), {:,} rebel(s), {:,} guard(s), and {:,} warden(s) took at "
+                      "least {:,} damage from the earth shortly after".format(
+                    repr(button.player), button.button_str(), grief['prisoner'], grief['rebel'], grief['guard'],
+                    grief['warden'], config["logs"]["jb"]["limits"]["world_damage_threshold"]))
+            print('')
+    if config["logs"]["jb"]["subfeatures"]["nades"]:
+        nades = log.find_utility(config["logs"]["jb"]["limits"]["nade"],
+                                 config["logs"]["jb"]["limits"]["world_damage_threshold"])
+        if len(nades) > 0:
+            print('Potential Nade Disruptions:')
+            for util, grief in nades.items():
+                print("{} threw a {} and {:,} prisoner(s), {:,} rebel(s), {:,} guard(s), and {:,} warden(s) took at "
+                      "least {:,} damage from the earth shortly after".format(
+                    repr(util.player), util.type, grief['prisoner'], grief['rebel'], grief['guard'],
+                    grief['warden'], config["logs"]["jb"]["limits"]["world_damage_threshold"]))
     if config["logs"]["save_logs"]:
         log.save_log()
 

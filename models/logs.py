@@ -7,6 +7,8 @@
 from collections import defaultdict
 
 from .actions import *
+from .player import JBWorld
+from helpers.logs import delta_range
 
 class Log:
     """General class representing eGO logs"""
@@ -112,3 +114,89 @@ class JBLog(Log):
                 output.append(repr(action))
 
         return '\n'.join(output)
+
+    def find_wardenless_fk(self):
+        warden = False
+        fks = []
+        for action in self.actions:
+            if isinstance(action, JBWarden):
+                warden = True
+            elif isinstance(action, JBWardenDeath):
+                warden = False
+            elif not warden and isinstance(action, JBDeath) and action.attacker.is_ct() and action.victim.is_inno(
+                    action):
+                fks.append(action)
+
+        return fks
+
+    def find_new_warden_fk(self, seconds_limit):
+        new_warden = None
+        fks = []
+        for action in self.actions:
+            if isinstance(action, JBWarden):
+                new_warden = action.timestamp_delta
+            elif new_warden is not None and isinstance(action, JBDeath):
+                if delta_range(action.timestamp_delta, new_warden, seconds=seconds_limit):
+                    if action.attacker.is_ct() and action.victim.is_inno(action):
+                        fks.append(action)
+                else:
+                    new_warden = None
+
+        return fks
+
+    def find_early_vent(self):
+        players = []
+        for action in self.actions:
+            if isinstance(action, JBVents):
+                if action.player.is_ct():
+                    players.append(action.player)
+                elif action.player.is_t():
+                    break
+
+        return players
+
+    def find_gunplant(self, gunplant_delay):
+        check_gunplants = []
+        gunplants = []
+        for action in self.actions:
+            if isinstance(action, JBWeaponDrop) and action.player.is_ct():
+                check_gunplants.append({'weapon': action.weapon, 'delta': action.timestamp_delta,
+                                        'player': action.player})
+            elif isinstance(action, JBDamage) and action.attacker.is_t():
+                for plant in [i for i in check_gunplants if i['weapon'] == action.weapon]:
+                    if delta_range(plant['delta'], action.timestamp_delta, seconds=gunplant_delay):
+                        gunplants.append({'ct': plant['player'], 't': action.attacker, 'weapon': action.weapon})
+                    else:
+                        check_gunplants.remove(plant)
+
+        return gunplants
+
+    def find_button(self, delay, threshold):
+        check_buttons = []
+        griefs = defaultdict(lambda: {'prisoner': [], 'rebel': [], 'guard': [], 'warden': []})
+        for action in self.actions:
+            if isinstance(action, JBButton) and not action.player.is_warden(action):
+                check_buttons.append(action)
+            elif isinstance(action, JBDamage) and isinstance(action.attacker, JBWorld) and action.damage >= threshold:
+                for button in check_buttons:
+                    if delta_range(button.timestamp_delta, action.timestamp_delta, seconds=delay):
+                        griefs[button][action.victim.get_role(action).casefold()].append(action.victim)
+                    else:
+                        check_buttons.remove(button)
+
+        return {k:{k2:len(set(v2)) for k2, v2 in v.items()} for k, v in griefs.items()}
+
+    def find_utility(self, delay, threshold):
+        check_utility = []
+        griefs = defaultdict(lambda: {'prisoner': [], 'rebel': [], 'guard': [], 'warden': []})
+        for action in self.actions:
+            if isinstance(action, JBUtility):
+                check_utility.append(action)
+            elif isinstance(action, JBDamage) and isinstance(action.attacker, JBWorld) and action.damage >= threshold:
+                for util in check_utility:
+                    if delta_range(util.timestamp_delta, action.timestamp_delta, seconds=delay):
+                        griefs[util][action.victim.get_role(action).casefold()].append(action.victim)
+                    else:
+                        check_utility.remove(util)
+
+        return {k:{k2:len(set(v2)) for k2, v2 in v.items()} for k, v in griefs.items()}
