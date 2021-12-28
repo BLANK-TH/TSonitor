@@ -44,9 +44,6 @@ def get_jb_player(players:dict, name:str, role:str):
         players[name] = JBPlayer(name, role)
     return players[name]
 
-def delta_range(td1: timedelta, td2: timedelta, minutes:int=0, seconds:int=0) -> bool:
-    return abs(td1 - td2) <= timedelta(minutes=minutes, seconds=seconds)
-
 def parse_ttt_logs(lines:list) -> TTTLog:
     actions = []
     players = {}

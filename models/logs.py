@@ -8,11 +8,16 @@ from collections import defaultdict
 
 from .actions import *
 from .player import JBWorld
-from helpers.logs import delta_range
+
+
+def delta_range(td1: timedelta, td2: timedelta, minutes: int = 0, seconds: int = 0) -> bool:
+    return abs(td1 - td2) <= timedelta(minutes=minutes, seconds=seconds)
+
 
 class Log:
     """General class representing eGO logs"""
-    def __init__(self, raw_log:str, actions:list, id:int, ty:str='Unknown'):
+
+    def __init__(self, raw_log: str, actions: list, id: int, ty: str = 'Unknown'):
         self.raw_log = ""
         for line in raw_log.split('\n'):
             if line.startswith('[') and not line.startswith('[DS]'):
@@ -34,19 +39,22 @@ class Log:
     def __repr__(self):
         return self.__str__()
 
+
 class TTTLog(Log):
     """Class representing TTT logs"""
-    def __init__(self, raw_log:str, actions:list, id:int):
+
+    def __init__(self, raw_log: str, actions: list, id: int):
         super().__init__(raw_log, actions, id, 'TTT')
 
     def summary_output(self, kills: bool, damage: bool):
         output = ""
         for action in self.actions:
             if kills and isinstance(action, TTTDeath):
-                output += '[{:02}:{:02}] {} killed {}\n'.format(*action.timestamp, repr(action.attacker), repr(action.victim))
+                output += '[{:02}:{:02}] {} killed {}\n'.format(*action.timestamp, repr(action.attacker),
+                                                                repr(action.victim))
             elif damage and isinstance(action, TTTDamage):
                 output += '[{:02}:{:02}] {} damaged {} for {:,}\n'.format(*action.timestamp, repr(action.attacker),
-                                                                    repr(action.victim), action.damage)
+                                                                          repr(action.victim), action.damage)
 
         return output.rstrip()
 
@@ -80,7 +88,7 @@ class TTTLog(Log):
                 else:
                     rdm_count[action.attacker] += 1
 
-        return {player:amount for player, amount in rdm_count.items() if amount >= limit}
+        return {player: amount for player, amount in rdm_count.items() if amount >= limit}
 
     def find_innocent_utility(self, utility_weapon_names, bad_only):
         damage_count = defaultdict(lambda: {'Innocent': [], 'Detective': [], 'Traitor': [], 'damage': 0})
@@ -93,12 +101,14 @@ class TTTLog(Log):
                 damage_count[action.attacker][action.victim.role].append(action.victim)
                 damage_count[action.attacker]['damage'] += action.damage
 
-        return {k:[len(set(v['Innocent'])), len(set(v['Detective'])), len(set(v['Traitor'])), v['damage']]
+        return {k: [len(set(v['Innocent'])), len(set(v['Detective'])), len(set(v['Traitor'])), v['damage']]
                 for k, v in damage_count.items()}
+
 
 class JBLog(Log):
     """Class representing JB logs"""
-    def __init__(self, raw_log:str, actions:list, id:int):
+
+    def __init__(self, raw_log: str, actions: list, id: int):
         super().__init__(raw_log, actions, id, 'JB')
 
     def summary_output(self, kills: bool, warden: bool, warden_death: bool, pass_fire: bool, damage: bool, vents: bool,
@@ -184,7 +194,7 @@ class JBLog(Log):
                     else:
                         check_buttons.remove(button)
 
-        return {k:{k2:len(set(v2)) for k2, v2 in v.items()} for k, v in griefs.items()}
+        return {k: {k2: len(set(v2)) for k2, v2 in v.items()} for k, v in griefs.items()}
 
     def find_utility(self, delay, threshold):
         check_utility = []
@@ -199,4 +209,4 @@ class JBLog(Log):
                     else:
                         check_utility.remove(util)
 
-        return {k:{k2:len(set(v2)) for k2, v2 in v.items()} for k, v in griefs.items()}
+        return {k: {k2: len(set(v2)) for k2, v2 in v.items()} for k, v in griefs.items()}
