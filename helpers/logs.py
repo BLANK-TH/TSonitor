@@ -97,11 +97,13 @@ def parse_jb_logs(lines:list, round_number:int) -> JBLog:
 
         r = handle_named_regex(JB_DEATH_REGEX, line)
         if r is not None:
-            attacker = get_jb_player(players, r.group('attacker'), r.group('attacker_role'))
             victim = get_jb_player(players, r.group('victim'), r.group('victim_role'))
-            actions.append(JBDeath(line, r.group('time'), attacker, victim))
-            attacker.add_action(actions[-1], r.group('attacker_role'))
-            victim.add_action(actions[-1], r.group('victim_role'))
+            if victim.death_delta is None:
+                # Only add to actions if victim is not already dead, repeated deaths happen with ghosts
+                attacker = get_jb_player(players, r.group('attacker'), r.group('attacker_role'))
+                actions.append(JBDeath(line, r.group('time'), attacker, victim))
+                attacker.add_action(actions[-1], r.group('attacker_role'))
+                victim.add_action(actions[-1], r.group('victim_role'))
             continue
 
         r = handle_named_regex(JB_DAMAGE_REGEX, line)
