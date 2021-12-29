@@ -9,6 +9,7 @@ Table of Contents
 
    installation
    setup
+   usage
    settings
    constants
    faq
