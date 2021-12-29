@@ -197,96 +197,95 @@ if __name__ == '__main__':
     i = 0
     while True:
         try:
-            while True:
-                with open(config['output_file'], 'r', errors='replace') as f:
-                    for line in f.readlines():
-                        line = line.strip()
+            with open(config['output_file'], 'r', errors='replace') as f:
+                for line in f.readlines():
+                    line = line.strip()
 
-                        # TTT Log Parsing
-                        if config["logs"]["ttt"]["enable"]:
-                            if parsing_ttt and len(logs) == 0:
-                                round_number = int(TTT_ROUND_REGEX.findall(line)[0])
-                                if round_number <= current_ttt_round:
-                                    parsing_ttt = False
-                                    continue
-                                logs.append(line)
-                            elif parsing_ttt is None:
-                                if line == constants["ttt"]["log_separator"]:
-                                    parsing_ttt = False
-                                    current_ttt_round = round_number
-                                    session["last_ttt_round"] = round_number
-                                    handle_ttt_log(logs)
+                    # TTT Log Parsing
+                    if config["logs"]["ttt"]["enable"]:
+                        if parsing_ttt and len(logs) == 0:
+                            round_number = int(TTT_ROUND_REGEX.findall(line)[0])
+                            if round_number <= current_ttt_round:
+                                parsing_ttt = False
+                                continue
+                            logs.append(line)
+                        elif parsing_ttt is None:
+                            if line == constants["ttt"]["log_separator"]:
+                                parsing_ttt = False
+                                current_ttt_round = round_number
+                                session["last_ttt_round"] = round_number
+                                handle_ttt_log(logs)
+                                logs = []
+                            else:
+                                parsing_ttt = True
+                        elif parsing_ttt and line == constants["ttt"]["log_separator"]:
+                            parsing_ttt = None
+                        elif parsing_ttt:
+                            logs.append(line)
+                        elif line == constants["ttt"]["log_header"]:
+                            parsing_ttt = True
+                            continue
+
+                    # JB Log Parsing
+                    if config["logs"]["jb"]["enable"]:
+                        if parsing_jb is True and line == constants["jb"]["log_separator"][0]:
+                            parsing_jb = -1
+                            continue
+                        elif not isinstance(parsing_jb, bool) and 3 > parsing_jb > 0:
+                            if line == constants["jb"]["log_header"][parsing_jb]:
+                                if parsing_jb == 2:
+                                    parsing_jb = True
+                                else:
+                                    parsing_jb += 1
+                                continue
+                            else:
+                                parsing_jb = False
+                        elif not isinstance(parsing_jb, bool) and 0 > parsing_jb > -3:
+                            if line == constants["jb"]["log_separator"][abs(parsing_jb)]:
+                                if parsing_jb == -2:
+                                    if logs not in parsed_jb:
+                                        handle_jb_log(logs, datetime.now().strftime("%b-%d-%Y_%H-%M-%S_%f"))
+                                        parsed_jb.append(logs)
+                                    parsing_jb = False
                                     logs = []
                                 else:
-                                    parsing_ttt = True
-                            elif parsing_ttt and line == constants["ttt"]["log_separator"]:
-                                parsing_ttt = None
-                            elif parsing_ttt:
+                                    parsing_jb -= 1
+                            else:
+                                parsing_jb = True
                                 logs.append(line)
-                            elif line == constants["ttt"]["log_header"]:
-                                parsing_ttt = True
-                                continue
+                        elif parsing_jb is False and line == constants["jb"]["log_header"][0]:
+                            parsing_jb = 1
+                            continue
+                        elif parsing_jb is True:
+                            logs.append(line)
 
-                        # JB Log Parsing
-                        if config["logs"]["jb"]["enable"]:
-                            if parsing_jb is True and line == constants["jb"]["log_separator"][0]:
-                                parsing_jb = -1
-                                continue
-                            elif not isinstance(parsing_jb, bool) and 3 > parsing_jb > 0:
-                                if line == constants["jb"]["log_header"][parsing_jb]:
-                                    if parsing_jb == 2:
-                                        parsing_jb = True
-                                    else:
-                                        parsing_jb += 1
-                                    continue
-                                else:
-                                    parsing_jb = False
-                            elif not isinstance(parsing_jb, bool) and 0 > parsing_jb > -3:
-                                if line == constants["jb"]["log_separator"][abs(parsing_jb)]:
-                                    if parsing_jb == -2:
-                                        if logs not in parsed_jb:
-                                            handle_jb_log(logs, datetime.now().strftime("%b-%d-%Y_%H-%M-%S_%f"))
-                                            parsed_jb.append(logs)
-                                        parsing_jb = False
-                                        logs = []
-                                    else:
-                                        parsing_jb -= 1
-                                else:
-                                    parsing_jb = True
-                                    logs.append(line)
-                            elif parsing_jb is False and line == constants["jb"]["log_header"][0]:
-                                parsing_jb = 1
-                                continue
-                            elif parsing_jb is True:
-                                logs.append(line)
+                    # Status Log Parsing
+                    if config["age"]["enable"]:
+                        if parsing_status and line == constants["age"]["footer"]:
+                            if logs not in parsed_statuses:
+                                handle_status(logs)
+                                parsed_statuses.append(logs)
+                            parsing_status = False
+                            logs = []
+                        elif parsing_status:
+                            logs.append(line)
+                        elif line == constants["age"]["header"]:
+                            parsing_status = True
+                            continue
+            if config["clear_output_log"] and not parsing_status and not parsing_ttt and not parsing_jb:
+                with open(config["output_file"], 'w') as f:
+                    f.write('')
 
-                        # Status Log Parsing
-                        if config["age"]["enable"]:
-                            if parsing_status and line == constants["age"]["footer"]:
-                                if logs not in parsed_statuses:
-                                    handle_status(logs)
-                                    parsed_statuses.append(logs)
-                                parsing_status = False
-                                logs = []
-                            elif parsing_status:
-                                logs.append(line)
-                            elif line == constants["age"]["header"]:
-                                parsing_status = True
-                                continue
-                if config["clear_output_log"] and not parsing_status and not parsing_ttt and not parsing_jb:
-                    with open(config["output_file"], 'w') as f:
-                        f.write('')
+            parsing_ttt = False
+            parsing_jb = False
+            parsing_status = False
+            logs = []
 
-                parsing_ttt = False
-                parsing_jb = False
-                parsing_status = False
-                logs = []
-
-                current_time = time()
-                if current_time - last_time >= config["min_session_save_interval"]:
-                    save_session(session)
-                    last_time = current_time
-                sleep(config["check_delay"])
+            current_time = time()
+            if current_time - last_time >= config["min_session_save_interval"]:
+                save_session(session)
+                last_time = current_time
+            sleep(config["check_delay"])
         except (Exception,) as e:
             sys.excepthook(type(e), e, e.__traceback__)
             if i >= constants["error_threshold"]:
