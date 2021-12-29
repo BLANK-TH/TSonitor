@@ -21,7 +21,10 @@ this part. If not, follow the steps below:
 2. Run the installer (may differ depending on Operating System).
     .. attention:: Be on the lookout for a checkbox labeled ``Add to PATH`` while installing, make sure that it's
         checked or you'll likely run into issues.
-3. Once the installation has been completed, test it. Open up a command prompt window and type ``python --version``. If the version number you installed pops up, it's installed properly, congrats! If the command is unrecognized, make sure that it's installed properly **AND** added to PATH. If the version number is wrong, you may already have a version installed, as long as it's 3.X, you can use it.
+3. Once the installation has been completed, test it. Open up a command prompt window and type ``python --version``.
+    * If the version number you installed pops up, it's installed properly, congrats!
+    * If the command is unrecognized, make sure that it's installed properly **AND** added to PATH.
+    * If the version number is wrong, you may already have a version installed, as long as it's 3.X, you can use it.
 
 Downloading STonitor
 -----------------------
@@ -42,7 +45,7 @@ That was easy, wasn't it? This one's slightly harder, but still not horrible. We
 2. Once you've opened up a command prompt window and properly navigated to STonitor's install location (make sure you're in the root folder, that's the folder that has the file named ``requirements.txt``), enter the following command: ``pip install -r requirements.txt``. You should see an output and multiple progress bars installing the packages.
     .. tip:: If it says command not found, first try to replace ``pip`` with ``pip3``. If it still doesn't work, try to replace it with ``python -m pip``. If it still doesn't work, go back and make sure you installed Python properly.
     .. tip:: If it says that it couldn't find ``requirements.txt``, make sure you're in the right folder
-3. Make sure that everything has been properly installed (you should see ``Successfully installed `` then a lot of names)
+3. Make sure that everything has been properly installed (you should see ``Successfully installed`` then a lot of names)
 
 Done
 -----
