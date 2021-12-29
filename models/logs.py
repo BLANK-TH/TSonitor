@@ -162,7 +162,8 @@ class JBLog(Log):
             elif isinstance(action, JBWardenDeath):
                 warden = False
             elif not warden and isinstance(action, JBDeath) and action.attacker.is_ct() and action.victim.is_inno(
-                    action):
+                    action) and not (
+                    self.last_guard is not None and action.timestamp_delta >= self.last_guard.timestamp_delta):
                 fks.append(action)
 
         return fks
