@@ -4,7 +4,6 @@
 #  file, You can obtain one at http://mozilla.org/MPL/2.0/.
 # ------------------------------------------------------------------------------
 
-from datetime import timedelta
 from time import time
 
 import human_readable
@@ -191,7 +190,7 @@ def parse_status(steamapi, line, regex, cache, check_private, max_guess_iteratio
                 while created is None:
                     if iterations > max_guess_iterations:
                         return float('inf'), r.group('user_id'), r.group('name'), 'Max guess iterations reached',\
-                               False, 'None'
+                               False, None
                     uuid += 1
                     iterations += 1
                     p = steamapi.call('ISteamUser.GetPlayerSummaries', steamids=uuid)['response']['players']
@@ -202,7 +201,7 @@ def parse_status(steamapi, line, regex, cache, check_private, max_guess_iteratio
                     except KeyError:
                         continue
             else:
-                return float('inf'), r.group('user_id'), r.group('name'), 'Guessing disabled', False, 'None'
+                return float('inf'), r.group('user_id'), r.group('name'), 'Guessing disabled', False, None
         cache[steam_id] = created, approximate
     else:
         created, approximate = cache[steam_id]
@@ -221,4 +220,4 @@ def parse_status(steamapi, line, regex, cache, check_private, max_guess_iteratio
 
     return created, r.group('user_id'), r.group('name'), human_readable.precise_delta(
         td, suppress=find_human_suppress(td)), approximate, human_readable.precise_delta(
-        td2, suppress=find_human_suppress(td2)) if td2 is not None else 'None'
+        td2, suppress=find_human_suppress(td2)) if td2 is not None else None

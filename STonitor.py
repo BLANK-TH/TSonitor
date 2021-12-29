@@ -110,19 +110,22 @@ def handle_status(logs):
     results = []
     cache = load_age_cache() if config["age"]["cache"] else {}
     for line in logs:
+        if len(line.strip()) == 0:
+            continue
         try:
             results.append(parse_status(steam_api, line, STATUS_REGEX, cache, config["age"]["private"]["enabled"],
                                         config["age"]["private"]["tries"],
                                         config["age"]["subfeatures"]["csgo_playtime"]))
         except (Exception,):
-            results.append((float('inf'), '-1', 'Error', 'Error parsing line: ' + line, False, 'None'))
+            results.append((float('inf'), '-1', 'Error', 'Error parsing line: ' + line, False, None))
     results.sort()
+    pad_age = str(len(max(results, key=lambda x:len(x[3]))[3]) + 2)
     pad_name = str(len(max(results, key=lambda x:len(x[2]))[2]) + 2)
-    pad_num = str(len(max(results, key=lambda x:len(x[1]))))
+    pad_num = str(len(max(results, key=lambda x:len(x[1]))[1]))
     for result in results:
-        print(('# {:' + pad_num + 's} {:' + pad_name + 's} {}{} {}').format(
+        print(('# {:' + pad_num + 's} {:' + pad_name + 's} {}{:' + pad_age + 's} {}').format(
             result[1], result[2], '~' if result[4] else '', result[3], '(GPT: {})'.format(
-            result[5]) if result[5] != 'None' else ''))
+            result[5]) if result[5] is not None else ''))
     if config["age"]["cache"]:
         save_age_cache(cache)
 
