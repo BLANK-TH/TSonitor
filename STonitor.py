@@ -8,11 +8,34 @@ import os
 import sys
 from datetime import datetime
 from time import sleep, time
+from traceback import format_exception
 
 from requests.exceptions import HTTPError
 from steam.webapi import WebAPI
 
 from helpers.file import assert_data, load_config, load_session, save_session, load_age_cache, save_age_cache
+
+
+def except_hook(exc_class, message, traceback):
+    """Global exception handler"""
+    if exc_class is KeyboardInterrupt:
+        graceful_exit()
+    else:
+        formatted = ''.join(format_exception(exc_class, message, traceback))
+        print("==================== [ ERROR OCCURRED ] ====================\nError Name: {}\nError Message: {}\n{}---\n"
+              "Attempting to automatically restart program, a restart is recommended.\nIf this keeps happening, report "
+              "a bug here: https://s.blankdvth.com/UU6CXoJb\n=========================".format(exc_class.__name__,
+                                                                                               message, formatted))
+        with open('data/errors.txt', 'a') as f:
+            f.write('=====\n{}\n====='.format(formatted))
+
+
+def graceful_exit():
+    try:
+        save_session(session)
+    except (Exception,):
+        pass
+    sys.exit()
 
 
 def handle_ttt_log(logs):
@@ -145,24 +168,7 @@ def handle_status(logs):
         save_age_cache(cache)
 
 
-if __name__ == '__main__':
-    os.chdir(sys.path[0])  # Set CWD to this file in case clueless users run wo/ a proper working directory
-    if not assert_data():
-        print("Missing or invalid data files found, an automatic creation/fix was attempted, please check data files "
-              "for potential needed user input")
-        sys.exit()
-
-    from helpers.gvars import constants, TTT_ROUND_REGEX, STATUS_REGEX
-    from helpers.logs import parse_ttt_logs, parse_jb_logs, parse_status
-
-    config = load_config()
-    session = load_session()
-    try:
-        steam_api = WebAPI(key=config["steamkey"]) if config["steamkey"] != '' else None
-    except HTTPError:
-        print("Error connecting to Steam API, check steam key or remove it for now (disables features requiring key)")
-        sys.exit()
-
+def main_loop():
     current_ttt_round = session.get('last_ttt_round', float('-inf'))
     parsing_ttt = False
     parsing_jb = False
@@ -258,3 +264,36 @@ if __name__ == '__main__':
             save_session(session)
             last_time = current_time
         sleep(config["check_delay"])
+
+
+if __name__ == '__main__':
+    os.chdir(sys.path[0])  # Set CWD to this file in case clueless users run wo/ a proper working directory
+    sys.excepthook = except_hook  # Setup custom exception handler
+    if not assert_data():
+        print("Missing or invalid data files found, an automatic creation/fix was attempted, please check data files "
+              "for potential needed user input")
+        sys.exit()
+
+    from helpers.gvars import constants, TTT_ROUND_REGEX, STATUS_REGEX
+    from helpers.logs import parse_ttt_logs, parse_jb_logs, parse_status
+
+    config = load_config()
+    session = load_session()
+    try:
+        steam_api = WebAPI(key=config["steamkey"]) if config["steamkey"] != '' else None
+    except HTTPError:
+        print("Error connecting to Steam API, check steam key or remove it for now (disables features requiring key)")
+        sys.exit()
+
+    i = 0
+    while True:
+        try:
+            main_loop()
+        except (Exception,) as e:
+            sys.excepthook(type(e), e, e.__traceback__)
+            if i >= constants["error_threshold"]:
+                break
+            else:
+                i += 1
+
+    print('Program exiting, errored out {:,} times'.format(i))

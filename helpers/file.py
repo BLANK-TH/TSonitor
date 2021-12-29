@@ -127,7 +127,8 @@ constants = {
         "regex": r"^# (?P<user_id>\d*) \d* \"(?P<name>.*)\" (?P<steam_id>STEAM_\d:\d:\d*) .+$",
         "header": "# userid name uniqueid connected ping loss state rate",
         "footer": "#end"
-    }
+    },
+    "error_threshold": 10
 }
 
 
@@ -193,6 +194,9 @@ def assert_data() -> bool:
     if not isfile('data/age_cache.json'):
         with open('data/age_cache.json', 'w') as f:
             dump({}, f, indent=2)
+    if not isfile('data/errors.txt'):
+        with open('data/errors.txt', 'w') as f:
+            f.write('')
 
     return success
 
