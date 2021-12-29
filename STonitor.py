@@ -253,6 +253,9 @@ def main_loop():
                     elif line == constants["age"]["header"]:
                         parsing_status = True
                         continue
+        if not parsing_status and not parsing_ttt and not parsing_jb:
+            with open(config["output_file"], 'w') as f:
+                f.write('')
 
         parsing_ttt = False
         parsing_jb = False
