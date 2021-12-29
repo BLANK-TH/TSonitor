@@ -16,6 +16,7 @@ default_settings = {
     "steamkey": "",
     "check_delay": 5,
     "min_session_save_interval": 10,
+    "clear_output_log": True,
     "header": "\n\n\n=================================",
     "logs": {
         "save_logs": True,
