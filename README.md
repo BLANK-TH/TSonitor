@@ -53,3 +53,7 @@ features and their sub-features can be disabled through a detailed settings file
     - Tells you if a player has more than X bad kills (if enabled, can also detect reason for these kills)
   - Inno Utility Detection
     - Detects when an innocent damages someone with an HE grenade or molotov
+- Log Summary Output
+  - A summary of the logs that isn't as cluttered, what actions are shown in this summary can be configured
+- Automatic Log Saving
+  - Logs are automatically saved once they are received and parsed, so that you can always access them
