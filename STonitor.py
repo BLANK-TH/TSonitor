@@ -193,6 +193,7 @@ if __name__ == '__main__':
     parsing_status = False
     parsed_jb = []
     parsed_statuses = []
+    logs = []
     last_time = time()
     i = 0
     while True:
