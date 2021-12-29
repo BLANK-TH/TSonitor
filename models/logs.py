@@ -153,14 +153,19 @@ class JBLog(Log):
 
         return '\n'.join(output)
 
-    def find_wardenless_fk(self) -> List[JBDeath]:
+    def find_wardenless_fk(self, freeday_delay:int) -> List[JBDeath]:
         warden = False
         fks = []
         for action in self.actions:
+            if isinstance(warden, timedelta):
+                if abs(warden - action.timestamp_delta) > timedelta(seconds=freeday_delay):
+                    warden = False
             if isinstance(action, JBWarden):
                 warden = True
             elif isinstance(action, JBWardenDeath):
                 warden = False
+            elif isinstance(action, JBWardenPassFire):
+                warden = action.timestamp_delta
             elif not warden and isinstance(action, JBDeath) and action.attacker.is_ct() and action.victim.is_inno(
                     action) and not (
                     self.last_guard is not None and action.timestamp_delta >= self.last_guard.timestamp_delta):

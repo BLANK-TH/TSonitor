@@ -51,7 +51,7 @@ def handle_jb_log(logs, round_number):
     print(config["header"] + '\nJB Logs ({})\n'.format(round_number) +
           log.summary_output(**config["logs"]["jb"]["summary_output"]), end='\n\n')
     if config["logs"]["jb"]["subfeatures"]["wardenless_kill"]:
-        kills = log.find_wardenless_fk()
+        kills = log.find_wardenless_fk(config["logs"]["jb"]["limits"]["freeday_delay"])
         if len(kills) > 0:
             print("Wardenless Freekills:")
             for kill in kills:
