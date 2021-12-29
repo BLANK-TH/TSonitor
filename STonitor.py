@@ -169,7 +169,7 @@ def handle_status(logs):
 
 
 def main_loop():
-    last_time = time()
+    global current_ttt_round, parsing_ttt, parsing_jb, parsing_status, parsed_jb, parsed_statuses, last_time
     logs = []
     while True:
         with open(config['output_file'], 'r', errors='replace') as f:
@@ -288,6 +288,7 @@ if __name__ == '__main__':
     parsing_status = False
     parsed_jb = []
     parsed_statuses = []
+    last_time = time()
     i = 0
     while True:
         try:
