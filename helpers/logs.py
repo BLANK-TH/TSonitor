@@ -7,19 +7,21 @@
 from time import time
 
 import human_readable
-from steam.steamid import SteamID
 from requests.exceptions import HTTPError
+from steam.steamid import SteamID
 
 from helpers.gvars import *
-from models.logs import TTTLog, JBLog
 from models.actions import *
+from models.logs import TTTLog, JBLog
 from models.player import TTTPlayer, JBPlayer, JBWorld
+
 
 def handle_named_regex(regex, search_string):
     try:
         return next(regex.finditer(search_string))
     except StopIteration:
         return None
+
 
 def find_human_suppress(td: timedelta):
     suppressable = ['days', 'hours', 'minutes', 'seconds']
@@ -34,7 +36,8 @@ def find_human_suppress(td: timedelta):
     else:
         return []
 
-def get_jb_player(players:dict, name:str, role:str):
+
+def get_jb_player(players: dict, name: str, role: str):
     if name not in players:
         if role == 'Rebel':
             role = 'Prisoner'
@@ -43,7 +46,8 @@ def get_jb_player(players:dict, name:str, role:str):
         players[name] = JBPlayer(name, role)
     return players[name]
 
-def parse_ttt_logs(lines:list) -> TTTLog:
+
+def parse_ttt_logs(lines: list) -> TTTLog:
     actions = []
     players = {}
     round_number = None
@@ -89,7 +93,8 @@ def parse_ttt_logs(lines:list) -> TTTLog:
 
     return TTTLog('\n'.join(lines), actions, round_number)
 
-def parse_jb_logs(lines:list, round_number:int) -> JBLog:
+
+def parse_jb_logs(lines: list, round_number: int) -> JBLog:
     actions = []
     players = {'The World': JBWorld()}
     for line in lines:
@@ -171,6 +176,7 @@ def parse_jb_logs(lines:list, round_number:int) -> JBLog:
 
     return JBLog('\n'.join(lines), actions, round_number, [i for i in players.values() if not isinstance(i, JBWorld)])
 
+
 def parse_status(steamapi, line, regex, cache, check_private, max_guess_iterations, check_csgo_playtime):
     if steamapi is None:
         raise ValueError('Steam API key not provided')
@@ -183,7 +189,7 @@ def parse_status(steamapi, line, regex, cache, check_private, max_guess_iteratio
     uuid = SteamID(steam_id).as_64
     if steam_id not in cache:
         try:
-            p = steamapi.call('ISteamUser.GetPlayerSummaries',steamids=uuid)['response']['players']
+            p = steamapi.call('ISteamUser.GetPlayerSummaries', steamids=uuid)['response']['players']
             if len(p) == 0:
                 raise ValueError('Invalid steam ID')
             created = p[0]['timecreated']
@@ -193,7 +199,7 @@ def parse_status(steamapi, line, regex, cache, check_private, max_guess_iteratio
                 iterations = 0
                 while created is None:
                     if iterations > max_guess_iterations:
-                        return float('inf'), r.group('user_id'), r.group('name'), 'Max guess iterations reached',\
+                        return float('inf'), r.group('user_id'), r.group('name'), 'Max guess iterations reached', \
                                False, None
                     uuid += 1
                     iterations += 1
@@ -210,7 +216,7 @@ def parse_status(steamapi, line, regex, cache, check_private, max_guess_iteratio
     else:
         created, approximate = cache[steam_id]
 
-    td = timedelta(seconds=time()-created)
+    td = timedelta(seconds=time() - created)
     td2 = None
 
     if check_csgo_playtime and not approximate:

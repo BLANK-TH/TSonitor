@@ -9,10 +9,11 @@ import sys
 from datetime import datetime
 from time import sleep, time
 
-from steam.webapi import WebAPI
 from requests.exceptions import HTTPError
+from steam.webapi import WebAPI
 
 from helpers.file import assert_data, load_config, load_session, save_session, load_age_cache, save_age_cache
+
 
 def handle_ttt_log(logs):
     log = parse_ttt_logs(logs)
@@ -39,12 +40,14 @@ def handle_ttt_log(logs):
         if len(inno_utility) > 0:
             print("Innocent Utility Damage:")
             for player, counts in inno_utility.items():
-                print("{} damaged {:,} Innocent(s), {:,} Detective(s), and {:,} Traitor(s) for a total of {:,} {}damage "
-                      "using utility".format(repr(player), *counts, 'bad '
-                if config["logs"]["ttt"]["limits"]["utility_bad_only"] else '',))
+                print(
+                    "{} damaged {:,} Innocent(s), {:,} Detective(s), and {:,} Traitor(s) for a total of {:,} {}damage "
+                    "using utility".format(repr(player), *counts, 'bad '
+                    if config["logs"]["ttt"]["limits"]["utility_bad_only"] else '', ))
             print('')
     if config["logs"]["save_logs"]:
         log.save_log()
+
 
 def handle_jb_log(logs, round_number):
     log = parse_jb_logs(logs, round_number)
@@ -105,6 +108,7 @@ def handle_jb_log(logs, round_number):
     if config["logs"]["save_logs"]:
         log.save_log()
 
+
 def handle_status(logs):
     print(config["header"] + '\nProcessing status, this may take a while...')
     results = []
@@ -119,13 +123,13 @@ def handle_status(logs):
         except (Exception,):
             results.append((float('inf'), '-1', 'Error', 'Error parsing line: ' + line, False, None))
     results.sort()
-    pad_age = str(len(max(results, key=lambda x:len(x[3]))[3]) + 2)
-    pad_name = str(len(max(results, key=lambda x:len(x[2]))[2]) + 2)
-    pad_num = str(len(max(results, key=lambda x:len(x[1]))[1]))
+    pad_age = str(len(max(results, key=lambda x: len(x[3]))[3]) + 2)
+    pad_name = str(len(max(results, key=lambda x: len(x[2]))[2]) + 2)
+    pad_num = str(len(max(results, key=lambda x: len(x[1]))[1]))
     for result in results:
         print(('# {:' + pad_num + 's} {:' + pad_name + 's} {}{:' + pad_age + 's} {}').format(
             result[1], result[2], '~' if result[4] else '', result[3], '(GPT: {})'.format(
-            result[5]) if result[5] is not None else ''))
+                result[5]) if result[5] is not None else ''))
     if config["age"]["cache"]:
         save_age_cache(cache)
 

@@ -5,9 +5,9 @@
 # ------------------------------------------------------------------------------
 
 from json import load, dump
-from typing import Union
 from os import mkdir
 from os.path import isfile, isdir
+from typing import Union
 
 import yaml
 
@@ -126,6 +126,7 @@ constants = {
     }
 }
 
+
 def check_dict(d: dict, expected: dict, fixed_dict=None) -> Union[bool, dict]:
     """Goes through each dict and subdict to check if the keys in expected are in d, if not, they're filled in with the
     value in expected
@@ -150,7 +151,8 @@ def check_dict(d: dict, expected: dict, fixed_dict=None) -> Union[bool, dict]:
             if isinstance(sr, dict):
                 fixed_dict[k] = sr
 
-    return True if fixed_dict == d else {k:fixed_dict[k] for k in expected}  # Hacky way to sort & remove unused keys
+    return True if fixed_dict == d else {k: fixed_dict[k] for k in expected}  # Hacky way to sort & remove unused keys
+
 
 def assert_data() -> bool:
     """Checks if the data folder and required files exist, if not, create them
@@ -190,6 +192,7 @@ def assert_data() -> bool:
 
     return success
 
+
 def load_config() -> dict:
     """Loads and parses the YAML config file
 
@@ -197,6 +200,7 @@ def load_config() -> dict:
     """
     with open('data/settings.yaml', 'r') as f:
         return yaml.load(f.read(), Loader=yaml.FullLoader)
+
 
 def load_session() -> dict:
     """Loads and parses the session JSON file
@@ -206,6 +210,7 @@ def load_session() -> dict:
     with open('data/session.json', 'r') as f:
         return load(f)
 
+
 def load_constants() -> dict:
     """Loads and parses the YAML constants file
 
@@ -213,6 +218,7 @@ def load_constants() -> dict:
     """
     with open('data/constants.yaml', 'r') as f:
         return yaml.load(f.read(), Loader=yaml.FullLoader)
+
 
 def load_age_cache() -> dict:
     """Loads and parses the age cache JSON file
@@ -222,10 +228,12 @@ def load_age_cache() -> dict:
     with open('data/age_cache.json', 'r') as f:
         return load(f)
 
+
 def save_session(session):
     """Updates the session JSON file"""
     with open('data/session.json', 'w') as f:
         dump(session, f, indent=2)
+
 
 def save_age_cache(cache):
     """Updates the age cache JSON file"""

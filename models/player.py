@@ -6,6 +6,7 @@
 
 from collections import defaultdict
 
+
 class TTTPlayer:
     def __init__(self, name, role):
         self.name = name
@@ -17,6 +18,7 @@ class TTTPlayer:
 
     def __repr__(self):
         return '{} ({})'.format(self.name, self.role)
+
 
 class JBPlayer:
     def __init__(self, name, role):
@@ -57,6 +59,7 @@ class JBPlayer:
 
     def is_warden(self, context):
         return self.context[context].casefold() == 'warden'
+
 
 class JBWorld(JBPlayer):
     def __init__(self):

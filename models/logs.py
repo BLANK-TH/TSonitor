@@ -153,7 +153,7 @@ class JBLog(Log):
 
         return '\n'.join(output)
 
-    def find_wardenless_fk(self, freeday_delay:int) -> List[JBDeath]:
+    def find_wardenless_fk(self, freeday_delay: int) -> List[JBDeath]:
         warden = False
         fks = []
         for action in self.actions:
