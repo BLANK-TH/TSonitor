@@ -20,11 +20,13 @@ analyzing TTT and JB logs to facilitate understanding them. STonitor also comes 
 the age of steam accounts connected to any CS:GO server as well as CS:GO playtime (if available). This application may
 eventually evolve to contain a broader spectrum of features that would be useful.
 
-.. attention:: This program is designed to assist in the analysis and understanding of logs, it cannot replace human
+.. important:: This program is designed to assist in the analysis and understanding of logs, it cannot replace human
    discretion and understanding. This program is only able to make sense of the information provided to it (logs) and
    won't be able to understand what's going on in the game if it isn't in logs. An example would be the program
    reporting a JB wardenless freekill, the player that was supposedly freekilled is in armory and is thus KOS regardless
    of if there is a warden or not. The program is unable to tell because location information is unavailable in logs.
+
+If you want to use this program, start with the step-by-step `Installation <installation.html>`_ instructions.
 
 Features
 ---------
