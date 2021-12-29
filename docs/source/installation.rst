@@ -30,7 +30,7 @@ Downloading STonitor
 -----------------------
 Congrats on installing Python. The next part is fairly straightforward, download the most recent version of STonitor.
 
-1. Head over to the released page and grab the latest version. This `link <https://github.com/BLANK-TH/STonitor/releases/latest>`_ also brings you there.
+1. Head over to the releases page and grab the latest version. This `link <https://github.com/BLANK-TH/STonitor/releases/latest>`_ also brings you there.
 2. Once you've found a proper release, check the assets section near the bottom and download the one labeled ``Source code (zip)``.
 3. When the download has finished, extract the ZIP file to your location of choice. This is where the program will reside, so it's recommended not to leave it in Downloads and rather someplace accessible and memorable.
 
