@@ -27,7 +27,7 @@ def except_hook(exc_class, message, traceback):
               "report a bug here: https://s.blankdvth.com/UU6CXoJb\n===========================================".format(
             exc_class.__name__, message, formatted))
         with open('data/errors.txt', 'a') as f:
-            f.write('=====\n{}\n====='.format(formatted))
+            f.write('=====\n{}\n---\n{}\n====='.format(datetime.utcnow().strftime("%b %d, %Y %H:%M:%S UTC"), formatted))
 
 
 def graceful_exit():
