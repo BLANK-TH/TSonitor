@@ -23,9 +23,13 @@ class JBPlayer:
         self.name = name
         self.general_role = role
         self.context = defaultdict(lambda: self.general_role)
+        self.death_delta = None
 
     def add_action(self, action, role):
         self.context[action] = role
+        if action.__class__.__name__ == 'JBDeath':  # Manual comparison due to unavoidable circular import
+            if action.victim == self:
+                self.death_delta = action.timestamp_delta
 
     def __str__(self):
         return self.name

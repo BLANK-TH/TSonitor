@@ -170,14 +170,19 @@ class JBLog(Log):
         gunplants = []
         for action in self.actions:
             if isinstance(action, JBWeaponDrop) and action.player.is_ct():
+                if action.player.death_delta is not None and action.timestamp_delta >= action.player.death_delta:
+                    continue  # Skip gunplants caused by CT's death
                 check_gunplants.append({'weapon': action.weapon, 'delta': action.timestamp_delta,
                                         'player': action.player})
             elif isinstance(action, JBDamage) and action.attacker.is_t():
+                pending_remove = []
                 for plant in [i for i in check_gunplants if i['weapon'] == action.weapon]:
                     if delta_range(plant['delta'], action.timestamp_delta, seconds=gunplant_delay):
                         gunplants.append({'ct': plant['player'], 't': action.attacker, 'weapon': action.weapon})
                     else:
-                        check_gunplants.remove(plant)
+                        pending_remove.append(plant)
+                for remove in pending_remove:
+                    check_gunplants.remove(remove)
 
         return gunplants
 

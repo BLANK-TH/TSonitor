@@ -77,8 +77,8 @@ def handle_jb_log(logs, round_number):
         if len(gunplants) > 0:
             print('Potential Gunplants:')
             for gunplant in gunplants:
-                print("{} dropped a {} and {} used one shortly after".format(repr(gunplant["ct"]), gunplant["weapon"],
-                                                                             repr(gunplant["t"])))
+                print("{} dropped a(n) {} and {} used one shortly after".format(
+                    repr(gunplant["ct"]), gunplant["weapon"], repr(gunplant["t"])))
             print('')
     if config["logs"]["jb"]["subfeatures"]["button_grief"]:
         griefs = log.find_button(config["logs"]["jb"]["limits"]["button"],
