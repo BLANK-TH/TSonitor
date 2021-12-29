@@ -122,7 +122,7 @@ constants = {
             "--------------[ JAILBREAK LOGS END ]--------------",
             "--------------------------------------------------"
         ],
-        'utility_weapon_names': {'molotov':'inferno', 'grenade':'hegrenade_projectile'}
+        'utility_weapon_names': {'molotov': 'inferno', 'grenade': 'hegrenade_projectile'}
     },
     "age": {
         "regex": r"^# (?P<user_id>\d*) \d* \"(?P<name>.*)\" (?P<steam_id>STEAM_\d:\d:\d*) .+$",
