@@ -81,7 +81,7 @@ def parse_ttt_logs(lines:list) -> TTTLog:
             actions.append(TTTDeath(line, rk.group('time'), attacker, victim, rk.group('weapon')))
 
         r = TTT_TIME_REGEX.findall(line)
-        if r is not None:
+        if r is not None and len(r) > 0:
             actions.append(TTTAction(line, r[0]))
 
     if round_number is None:
