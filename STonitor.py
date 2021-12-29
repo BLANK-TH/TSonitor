@@ -169,13 +169,7 @@ def handle_status(logs):
 
 
 def main_loop():
-    current_ttt_round = session.get('last_ttt_round', float('-inf'))
-    parsing_ttt = False
-    parsing_jb = False
-    parsing_status = False
     last_time = time()
-    parsed_jb = []
-    parsed_statuses = []
     logs = []
     while True:
         with open(config['output_file'], 'r', errors='replace') as f:
@@ -288,6 +282,12 @@ if __name__ == '__main__':
         print("Error connecting to Steam API, check steam key or remove it for now (disables features requiring key)")
         sys.exit()
 
+    current_ttt_round = session.get('last_ttt_round', float('-inf'))
+    parsing_ttt = False
+    parsing_jb = False
+    parsing_status = False
+    parsed_jb = []
+    parsed_statuses = []
     i = 0
     while True:
         try:
