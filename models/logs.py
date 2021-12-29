@@ -167,8 +167,7 @@ class JBLog(Log):
             elif isinstance(action, JBWardenPassFire):
                 warden = action.timestamp_delta
             elif not warden and isinstance(action, JBDeath) and action.attacker.is_ct() and action.victim.is_inno(
-                    action) and not (
-                    self.last_guard is not None and action.timestamp_delta >= self.last_guard.timestamp_delta):
+                    action) and not self.is_lg(action.timestamp_delta):
                 fks.append(action)
 
         return fks
@@ -179,7 +178,7 @@ class JBLog(Log):
         for action in self.actions:
             if isinstance(action, JBWarden):
                 new_warden = action.timestamp_delta
-            elif new_warden is not None and isinstance(action, JBDeath):
+            elif new_warden is not None and isinstance(action, JBDeath) and not self.is_lg(action.timestamp_delta):
                 if delta_range(action.timestamp_delta, new_warden, seconds=seconds_limit):
                     if action.attacker.is_ct() and action.victim.is_inno(action):
                         fks.append(action)
@@ -256,6 +255,26 @@ class JBLog(Log):
 
         return {k: {k2: len(set(v2)) for k2, v2 in v.items()} for k, v in griefs.items()}
 
+    def find_utility_mfd(self, duration: int, threshold: int, utility: dict) -> dict:
+        check_utility = []
+        mfds = defaultdict(lambda: [])
+        for action in self.actions:
+            if isinstance(action, JBUtility) and action.player.is_ct():
+                check_utility.append(action)
+            elif isinstance(action, JBDamage) and action.weapon in utility.values() and not self.is_lg(
+                    action.timestamp_delta):
+                pending_remove = []
+                for util in check_utility:
+                    if delta_range(util.timestamp_delta, action.timestamp_delta, seconds=duration):
+                        if action.attacker == util.player and utility[util.type] == action.weapon:
+                            mfds[util].append(action.victim)
+                    else:
+                        pending_remove.append(util)
+                for remove in pending_remove:
+                    check_utility.remove(remove)
+
+        return {k: len(set(v)) for k, v in mfds.items() if len(set(v)) >= threshold}
+
     def get_lr_lg(self) -> Tuple[Union[JBDeath, None], ...]:
         last_request = None
         last_guard = None
@@ -265,3 +284,6 @@ class JBLog(Log):
             last_guard = self.ct_deaths[-1 if self.ct_win else -2]
 
         return last_guard, last_request
+
+    def is_lg(self, delta):
+        return self.last_guard is not None and delta >= self.last_guard.timestamp_delta

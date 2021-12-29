@@ -27,6 +27,7 @@ default_settings = {
                 "new_warden_kill": True,
                 "button_grief": True,
                 "nades": True,
+                "mass_freedamage": True,
                 "gunplant": True
             },
             "limits": {
@@ -35,6 +36,8 @@ default_settings = {
                 "nade": 10,
                 "warden": 5,
                 "freeday_delay": 10,
+                "mass_freedamage": 5,
+                "mass_freedamage_threshold": 6,
                 "world_damage_threshold": 15,
                 "ignore_warden_button": True
             },
@@ -117,7 +120,8 @@ constants = {
             "--------------------------------------------------",
             "--------------[ JAILBREAK LOGS END ]--------------",
             "--------------------------------------------------"
-        ]
+        ],
+        'utility_weapon_names': {'molotov':'inferno', 'grenade':'hegrenade_projectile'}
     },
     "age": {
         "regex": r"^# (?P<user_id>\d*) \d* \"(?P<name>.*)\" (?P<steam_id>STEAM_\d:\d:\d*) .+$",

@@ -105,6 +105,17 @@ def handle_jb_log(logs, round_number):
             for util, grief in nades.items():
                 print(("{:" + longest_name + "s} threw a {} which could've disrupted {:,} T(s) and {:,} CT(s)").format(
                     repr(util.player), util.type, grief['prisoner'], grief['guard']))
+            print('')
+    if config["logs"]["jb"]["subfeatures"]["mass_freedamage"]:
+        mfds = log.find_utility_mfd(config["logs"]["jb"]["limits"]["mass_freedamage"],
+                                    config["logs"]["jb"]["limits"]["mass_freedamage_threshold"],
+                                    constants["jb"]["utility_weapon_names"])
+        if len(mfds) > 0:
+            print("Potential Nade Mass Freedamages:")
+            for util, mfd in mfds.items():
+                print("{} threw a {} which could've mass freedamaged {:,} T(s)".format(repr(util.player), util.type,
+                                                                                       mfd))
+            print('')
     if config["logs"]["save_logs"]:
         log.save_log()
 
