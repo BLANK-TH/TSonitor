@@ -297,3 +297,4 @@ if __name__ == '__main__':
                 i += 1
 
     print('Program exiting, errored out {:,} times'.format(i))
+    graceful_exit()
