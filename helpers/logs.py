@@ -79,8 +79,10 @@ def parse_ttt_logs(lines:list) -> TTTLog:
             attacker = players[attacker]
             victim = players[victim]
             actions.append(TTTDeath(line, rk.group('time'), attacker, victim, rk.group('weapon')))
-        elif line.startswith('[') and not line.startswith('[DS]'):
-            actions.append(TTTAction(line, TTT_TIME_REGEX.findall(line)[0]))
+
+        r = TTT_TIME_REGEX.findall(line)
+        if r is not None:
+            actions.append(TTTAction(line, r[0]))
 
     if round_number is None:
         raise ValueError('Round number could not be found, log may be incomplete:\n' + '\n'.join(lines))
