@@ -20,7 +20,7 @@ this part. If not, follow the steps below:
         work fine
 2. Run the installer (may differ depending on Operating System).
     .. attention:: Be on the lookout for a checkbox labeled ``Add to PATH`` while installing, make sure that it's
-        installed or you'll likely run into issues.
+        checked or you'll likely run into issues.
 3. Once the installation has been completed, test it. Open up a command prompt window and type ``python --version``. If the version number you installed pops up, it's installed properly, congrats! If the command is unrecognized, make sure that it's installed properly **AND** added to PATH. If the version number is wrong, you may already have a version installed, as long as it's 3.X, you can use it.
 
 Downloading STonitor
