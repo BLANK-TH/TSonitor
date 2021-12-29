@@ -169,7 +169,7 @@ def parse_jb_logs(lines:list, round_number:int) -> JBLog:
         if r is not None:
             actions.append(JBAction(line, r.group('time')))
 
-    return JBLog('\n'.join(lines), actions, round_number)
+    return JBLog('\n'.join(lines), actions, round_number, [i for i in players.values() if not isinstance(i, JBWorld)])
 
 def parse_status(steamapi, line, regex, cache, check_private, max_guess_iterations, check_csgo_playtime):
     if steamapi is None:

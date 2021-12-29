@@ -5,6 +5,7 @@
 # ------------------------------------------------------------------------------
 
 from collections import defaultdict
+from typing import Union, Tuple, List
 
 from .actions import *
 from .player import JBWorld
@@ -108,11 +109,30 @@ class TTTLog(Log):
 class JBLog(Log):
     """Class representing JB logs"""
 
-    def __init__(self, raw_log: str, actions: list, id: int):
+    def __init__(self, raw_log: str, actions: list, id: int, players: List[JBPlayer]):
         super().__init__(raw_log, actions, id, 'JB')
+        self.players = players
+        self.deaths = [action for action in self.actions if isinstance(action, JBDeath)]
+        self.ts = []
+        self.cts = []
+        self.t_deaths = []
+        self.ct_deaths = []
+        self.ct_win = self.deaths[-1].attacker.is_ct()
+        for player in self.players:
+            if player.is_t():
+                self.ts.append(player)
+            elif player.is_ct():
+                self.cts.append(player)
+        for death in self.deaths:
+            if death.victim.is_t():
+                self.t_deaths.append(death)
+            elif death.victim.is_ct():
+                self.ct_deaths.append(death)
+
+        self.last_guard, self.last_request = self.get_lr_lg()
 
     def summary_output(self, kills: bool, warden: bool, warden_death: bool, pass_fire: bool, damage: bool, vents: bool,
-                       button: bool, drop_weapon: bool):
+                       button: bool, drop_weapon: bool) -> str:
         output = []
         for action in self.actions:
             if (kills and isinstance(action, JBDeath)) or (warden and isinstance(action, JBWarden)) or \
@@ -123,9 +143,17 @@ class JBLog(Log):
                     (drop_weapon and isinstance(action, JBWeaponDrop)):
                 output.append(repr(action))
 
+        if self.last_guard is not None and (self.last_request is None or
+                                            self.last_request.timestamp_delta > self.last_guard.timestamp_delta):
+            output.append('{} died, activating last guard at {:02}:{:02}'.format(self.last_guard.victim.name,
+                                                                                 *self.last_guard.timestamp))
+        if self.last_request is not None:
+            output.append('{} died, activating last request at {:02}:{:02}'.format(self.last_request.victim.name,
+                                                                                   *self.last_request.timestamp))
+
         return '\n'.join(output)
 
-    def find_wardenless_fk(self):
+    def find_wardenless_fk(self) -> List[JBDeath]:
         warden = False
         fks = []
         for action in self.actions:
@@ -139,7 +167,7 @@ class JBLog(Log):
 
         return fks
 
-    def find_new_warden_fk(self, seconds_limit):
+    def find_new_warden_fk(self, seconds_limit: int) -> List[JBDeath]:
         new_warden = None
         fks = []
         for action in self.actions:
@@ -154,7 +182,7 @@ class JBLog(Log):
 
         return fks
 
-    def find_early_vent(self):
+    def find_early_vent(self) -> List[JBVents]:
         players = []
         for action in self.actions:
             if isinstance(action, JBVents):
@@ -165,7 +193,7 @@ class JBLog(Log):
 
         return players
 
-    def find_gunplant(self, gunplant_delay):
+    def find_gunplant(self, gunplant_delay: int) -> List[dict]:
         check_gunplants = []
         gunplants = []
         for action in self.actions:
@@ -186,7 +214,7 @@ class JBLog(Log):
 
         return gunplants
 
-    def find_button(self, delay, threshold, ignore_warden):
+    def find_button(self, delay: int, threshold: int, ignore_warden: bool) -> dict:
         check_buttons = []
         griefs = defaultdict(lambda: {'prisoner': [], 'guard': []})
         for action in self.actions:
@@ -204,7 +232,7 @@ class JBLog(Log):
 
         return {k: {k2: len(set(v2)) for k2, v2 in v.items()} for k, v in griefs.items()}
 
-    def find_utility(self, delay, threshold):
+    def find_utility(self, delay: int, threshold: int) -> dict:
         check_utility = []
         griefs = defaultdict(lambda: {'prisoner': [], 'guard': []})
         for action in self.actions:
@@ -221,3 +249,13 @@ class JBLog(Log):
                     check_utility.remove(remove)
 
         return {k: {k2: len(set(v2)) for k2, v2 in v.items()} for k, v in griefs.items()}
+
+    def get_lr_lg(self) -> Tuple[Union[JBDeath, None], ...]:
+        last_request = None
+        last_guard = None
+        if len(self.t_deaths) > 2 and len(self.ts) - len(self.t_deaths) <= 2:
+            last_request = self.t_deaths[-2]
+        if len(self.ct_deaths) > 2 and len(self.cts) - len(self.ct_deaths) <= 1:
+            last_guard = self.ct_deaths[-1 if self.ct_win else -2]
+
+        return last_guard, last_request
