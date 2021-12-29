@@ -106,7 +106,7 @@ def handle_jb_log(logs, round_number):
         log.save_log()
 
 def handle_status(logs):
-    print(config["header"])
+    print(config["header"] + '\nProcessing status, this may take a while...')
     results = []
     cache = load_age_cache() if config["age"]["cache"] else {}
     for line in logs:
