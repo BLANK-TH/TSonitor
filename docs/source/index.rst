@@ -37,25 +37,25 @@ how to edit this file and what each parameter means, `go here <settings.html>`_.
       * If an account is private, the age is estimated by getting the ages of accounts created directly after the private account
    * Automatically retrieves and outputs player's CS:GO playtime if available
 * JB Log Analysis
-   * *Wardenless Freekill*: Notifies you when a CT kills a non-rebelling T without warden alive
-   * *New Warden Freekill*: Notifies you when a CT kills a non-rebelling T within X seconds of a new warden coming on
-   * *Mass Freedamage*: Notifies you when a CT throws an HE grenade or molotov and damages more than X Ts within Y seconds
-   * *Early Vent*: Notifies you when a CT breaks a vent/wall before any T does
+   * **Wardenless Freekill**: *Notifies you when a CT kills a non-rebelling T without warden alive*
+   * **New Warden Freekill**: *Notifies you when a CT kills a non-rebelling T within X seconds of a new warden coming on*
+   * **Mass Freedamage**: *Notifies you when a CT throws an HE grenade or molotov and damages more than X Ts within Y seconds*
+   * **Early Vent**: *Notifies you when a CT breaks a vent/wall before any T does*
       .. note:: On certain maps, a player opening cell doors may count as breaking a vent/wall, creating a false-positive
-   * *Button Grief*: Notifies you when someone presses a button and players take damage from the world within X seconds after
+   * **Button Grief**: *Notifies you when someone presses a button and players take damage from the world within X seconds after*
       * By default, the warden is not counted in this, it can be toggled off in settings however
       * The damage threshold before a warning is triggered is configurable in settings
-   * *Nade Disruption*: Notifies you when a prisoner throws utility and players take damage from the world within X seconds
+   * **Nade Disruption**: *Notifies you when a prisoner throws utility and players take damage from the world within X seconds*
       * The damage threshold before a warning is triggered is configurable in settings
-   * *Gunplant*: Notifies you when a CT drops a weapon and a T uses that same weapon within X seconds
+   * **Gunplant**: *Notifies you when a CT drops a weapon and a T uses that same weapon within X seconds*
 * TTT Log Analysis
-   * *RDM*: Notifies you if there may have been a potential RDM
+   * **RDM**: *Notifies you if there may have been a potential RDM*
       * The program can attempt to detect reasoning and eliminate reasonable bad kills. This is done by going back through logs to check if the 'victim' of the RDM attacked the potential RDMer first.
-   * *Mass RDM*: Notifies you if a player has more than X bad kills in a single round
+   * **Mass RDM**: *Notifies you if a player has more than X bad kills in a single round*
       * Similarly to RDM detection, Mass RDM detection can also attempt to detect reasoning, however this is disabled by default for Mass RDM
-   * *Inno Utility*: Notifies you when an innocent or detective damages someone with utility
-* *Log Summary Output*: Creates a customizable summary of each round log, so that if you want to take a quick glance, its not as cluttered
-* *Automatic Log Saving*: Automatically saves TTT & JB logs ony our computer as .txt files, so that you can access them whenever
+   * **Inno Utility**: *Notifies you when an innocent or detective damages someone with utility*
+* **Log Summary Output**: *Creates a customizable summary of each round log, so that if you want to take a quick glance, its not as cluttered*
+* **Automatic Log Saving**: *Automatically saves TTT & JB logs ony our computer as .txt files, so that you can access them whenever*
    * TTT logs are saved in the format: ``TTT_round-number-here.txt`` with ``round-number-here`` being the TTT round number. E.g. ``TTT_12345.txt``
    * JB logs are saved in the format: ``JB_datetime-here.txt`` with ``datetime-here`` being the date and time down to the millisecond in which the log was initially processed. E.g. ``JB_Dec-28-2021_19-28-06_372498.txt``
 
