@@ -48,7 +48,7 @@ instructions:
     @echo off
     cls
     title STonitor
-    cd C:\Users\Username\Desktop\STonitor
+    cd C:/Users/Username/Desktop/STonitor
     python STonitor.py
     pause
 
