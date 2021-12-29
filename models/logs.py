@@ -181,11 +181,11 @@ class JBLog(Log):
 
         return gunplants
 
-    def find_button(self, delay, threshold):
+    def find_button(self, delay, threshold, ignore_warden):
         check_buttons = []
         griefs = defaultdict(lambda: {'prisoner': [], 'guard': []})
         for action in self.actions:
-            if isinstance(action, JBButton) and not action.player.is_warden(action):
+            if isinstance(action, JBButton) and not (ignore_warden and action.player.is_warden(action)):
                 check_buttons.append(action)
             elif isinstance(action, JBDamage) and isinstance(action.attacker, JBWorld) and action.damage >= threshold:
                 pending_remove = []

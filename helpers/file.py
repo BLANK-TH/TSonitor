@@ -35,7 +35,8 @@ default_settings = {
                 "nade": 10,
                 "warden": 5,
                 "freeday_delay": 10,
-                "world_damage_threshold": 15
+                "world_damage_threshold": 15,
+                "ignore_warden_button": True
             },
             "summary_output": {
                 "kills": True,

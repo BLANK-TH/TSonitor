@@ -81,7 +81,8 @@ def handle_jb_log(logs, round_number):
             print('')
     if config["logs"]["jb"]["subfeatures"]["button_grief"]:
         griefs = log.find_button(config["logs"]["jb"]["limits"]["button"],
-                                 config["logs"]["jb"]["limits"]["world_damage_threshold"])
+                                 config["logs"]["jb"]["limits"]["world_damage_threshold"],
+                                 config["logs"]["jb"]["limits"]["ignore_warden_button"])
         if len(griefs) > 0:
             print('Potential Button Griefs:')
             longest_name = str(len(repr(max(griefs.keys(), key=lambda x: len(repr(x.player))).player)) + 2)
@@ -89,7 +90,7 @@ def handle_jb_log(logs, round_number):
             for button, grief in griefs.items():
                 print(("{:" + longest_name + "s} pressed {:" + longest_button + "s} and {:,} T(s) and {:,} CT(s) "
                                                                                 "might've been harmed").format(
-                    repr(button.player), button.button_str(), grief['prisoner'], grief['guard']))
+                    button.player.to_str(button), button.button_str(), grief['prisoner'], grief['guard']))
             print('')
     if config["logs"]["jb"]["subfeatures"]["nades"]:
         nades = log.find_utility(config["logs"]["jb"]["limits"]["nade"],
