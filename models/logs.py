@@ -117,7 +117,7 @@ class JBLog(Log):
         self.cts = []
         self.t_deaths = []
         self.ct_deaths = []
-        self.ct_win = self.deaths[-1].attacker.is_ct()
+        self.ct_win = self.deaths[-1].attacker.is_ct() if len(self.deaths) > 0 else None
         for player in self.players:
             if player.is_t():
                 self.ts.append(player)
