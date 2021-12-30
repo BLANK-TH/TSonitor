@@ -14,12 +14,12 @@ from traceback import format_exception
 from webbrowser import open as wbopen
 
 import requests
-from requests.exceptions import HTTPError
 from packaging import version
+from requests.exceptions import HTTPError
 from steam.webapi import WebAPI
 
-from helpers.gvars import VERSION
 from helpers.file import assert_data, load_config, load_session, save_session, load_age_cache, save_age_cache
+from helpers.gvars import VERSION
 
 
 def except_hook(exc_class, message, traceback):
