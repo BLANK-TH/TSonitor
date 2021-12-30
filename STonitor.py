@@ -36,6 +36,7 @@ def except_hook(exc_class, message, traceback):
 
 
 def graceful_exit():
+    """Perform proper exit operations"""
     try:
         save_session(session)
     except (Exception,):
@@ -49,6 +50,7 @@ def graceful_exit():
 
 
 def handle_ttt_log(logs):
+    """Create and parse TTT logs from raw TTT lines"""
     log = parse_ttt_logs(logs, constants["ttt"]["log_separator"] + '\n' + constants["ttt"]["log_header"],
                          ((constants["ttt"]["log_separator"] + '\n') * 2).rstrip())
     print(config["header"] + '\nTTT Logs (#{})\n'.format(log.id) +
@@ -84,6 +86,7 @@ def handle_ttt_log(logs):
 
 
 def handle_jb_log(logs, round_number):
+    """Create and parse JB logs from raw JB lines"""
     log = parse_jb_logs(logs, round_number, '\n'.join(constants["jb"]["log_header"]),
                         '\n'.join(constants["jb"]["log_separator"]))
     print(config["header"] + '\nJB Logs ({})\n'.format(round_number) +
@@ -156,6 +159,7 @@ def handle_jb_log(logs, round_number):
 
 
 def handle_status(logs):
+    """Process and retrieve status from raw status lines"""
     print(config["header"] + '\nProcessing status, this may take a while...')
     results = []
     cache = load_age_cache() if config["age"]["cache"] else {}
@@ -216,6 +220,7 @@ if __name__ == '__main__':
                 if yn_resp:
                     wbopen(constants["github_release_latest"])
 
+    # Set initial variable values
     current_ttt_round = session.get('last_ttt_round', float('-inf'))
     parsing_ttt = False
     parsing_jb = False
@@ -229,18 +234,22 @@ if __name__ == '__main__':
     print("STonitor is ready, waiting for output...\n---")
     while True:
         try:
+            # Open output file and read all contents line by line
             with open(config['output_file'], 'r', errors='replace') as f:
                 for line in f.readlines():
                     line = line.strip()
 
                     # TTT Log Parsing
                     if config["logs"]["ttt"]["enable"]:
+                        # If currently parsing TTT logs, and it's the first line, it's the round number
                         if parsing_ttt and len(logs) == 0:
                             round_number = int(TTT_ROUND_REGEX.findall(line)[0])
                             if round_number <= current_ttt_round:
                                 parsing_ttt = False
                                 continue
                             logs.append(line)
+                        # If 1 footer line has been detected and the current line is final footer part, handle the log
+                        # Else, continue parsing
                         elif parsing_ttt is None:
                             if line == constants["ttt"]["log_separator"]:
                                 parsing_ttt = False
@@ -250,19 +259,25 @@ if __name__ == '__main__':
                                 logs = []
                             else:
                                 parsing_ttt = True
+                        # If parsing TTT and encounter initial footer line, tell program to look for final footer line
                         elif parsing_ttt and line == constants["ttt"]["log_separator"]:
                             parsing_ttt = None
+                        # Add line to logs list if parsing TTT
                         elif parsing_ttt:
                             logs.append(line)
+                        # If line indicates the start of TTT logs, start parsing
                         elif line == constants["ttt"]["log_header"]:
                             parsing_ttt = True
                             continue
 
                     # JB Log Parsing
                     if config["logs"]["jb"]["enable"]:
+                        # If parsing JB and encountered first footer line, tell program to look for next footer lines
                         if parsing_jb is True and line == constants["jb"]["log_separator"][0]:
                             parsing_jb = -1
                             continue
+                        # If looking for header lines, check that current line is the expected header line, if it
+                        # matches, look for next header line. If it's the final header line, begin parsing
                         elif not isinstance(parsing_jb, bool) and 3 > parsing_jb > 0:
                             if line == constants["jb"]["log_header"][parsing_jb]:
                                 if parsing_jb == 2:
@@ -272,6 +287,8 @@ if __name__ == '__main__':
                                 continue
                             else:
                                 parsing_jb = False
+                        # If looking for footer lines, check that current line is the expected footer line, if it
+                        # matches, look for next footer line. If it's the final footer line, begin handling
                         elif not isinstance(parsing_jb, bool) and 0 > parsing_jb > -3:
                             if line == constants["jb"]["log_separator"][abs(parsing_jb)]:
                                 if parsing_jb == -2:
@@ -285,44 +302,53 @@ if __name__ == '__main__':
                             else:
                                 parsing_jb = True
                                 logs.append(line)
+                        # If not parsing and encountered first header line, tell program to look for next header lines
                         elif parsing_jb is False and line == constants["jb"]["log_header"][0]:
                             parsing_jb = 1
                             continue
+                        # Add line to logs list if parsing JB
                         elif parsing_jb is True:
                             logs.append(line)
 
                     # Status Log Parsing
                     if config["age"]["enable"]:
+                        # If line is footer, stop parsing and start handling
                         if parsing_status and line == constants["age"]["footer"]:
                             if logs not in parsed_statuses:
                                 handle_status(logs)
                                 parsed_statuses.append(logs)
                             parsing_status = False
                             logs = []
+                        # Add line to logs list if parsing status
                         elif parsing_status:
                             logs.append(line)
+                        # If line is header, begin parsing
                         elif line == constants["age"]["header"]:
                             parsing_status = True
                             continue
+            # Clear output.log if there's no unfinished parsing
             if config["clear_output_log"] and not parsing_status and not parsing_ttt and not parsing_jb:
                 with open(config["output_file"], 'w') as f:
                     f.write('')
 
+            # Reset variables for next iteration
             parsing_ttt = False
             parsing_jb = False
             parsing_status = False
             logs = []
 
+            # Save session if it's been longer than the minimum interval
             current_time = time()
             if current_time - last_time >= config["min_session_save_interval"]:
                 save_session(session)
                 last_time = current_time
             sleep(config["check_delay"])
         except (Exception,) as e:
-            sys.excepthook(type(e), e, e.__traceback__)
-            if i >= constants["error_threshold"]:
+            sys.excepthook(type(e), e, e.__traceback__)  # Handle errors
+            if i >= constants["error_threshold"]:  # Exit program if it's crashed more than X times
                 break
             else:
+                # Increment crash counter and attempt to restart program by ignoring error
                 i += 1
                 print("Attempting to automatically restart the program, if it closes, this has failed. It's "
                       "recommended to close and re-open the program for a manual restart/reset.")
