@@ -11,12 +11,20 @@ though as it's highly likely someone's already had the exact same issue as you d
 
 I messed up something in the settings, what should I do?
 --------------------------------------------------------------
+
 Delete the ``settings.yaml`` file, and it'll be regenerated with default values. You'll have to change the settings
 again to the values you want and fill in the API key again however.
 
 I messed with the constants file, and now the program isn't parsing lines correctly
 ----------------------------------------------------------------------------------------
+
 Delete the ``constants.yaml`` file, and it'll be regenerated with the proper working default values.
+
+Early Vents keeps showing despite no CT breaking vents
+---------------------------------------------------------
+
+There is a bug that occurs on some JB maps in which when a CT opens cells, it gets counted as breaking a vent or wall.
+Adding a feature to catch and ignore this is in the plans but currently doesn't exist.
 
 How do I update STonitor?
 ---------------------------
