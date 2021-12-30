@@ -8,11 +8,17 @@ import os
 import sys
 from datetime import datetime
 from time import sleep, time
+from tkinter import Tk
+from tkinter.messagebox import askyesno
 from traceback import format_exception
+from webbrowser import open as wbopen
 
+import requests
 from requests.exceptions import HTTPError
+from packaging import version
 from steam.webapi import WebAPI
 
+from helpers.gvars import VERSION
 from helpers.file import assert_data, load_config, load_session, save_session, load_age_cache, save_age_cache
 
 
@@ -192,6 +198,23 @@ if __name__ == '__main__':
     except HTTPError:
         print("Error connecting to Steam API, check steam key or remove it for now (disables features requiring key)")
         sys.exit()
+
+    if config["update_check"]:
+        # Check GitHub API endpoint
+        resp = requests.get("https://api.github.com/repos/" + constants["github_release_latest"].lstrip(
+            'https://github.com/'))
+        # Check whether response is a success
+        if resp.status_code == 200:
+            resp_js = resp.json()
+            # Check whether the version number of remote is greater than version number of local (to avoid dev conflict)
+            if version.parse(resp_js["tag_name"]) > version.parse(VERSION):
+                # Ask user whether they want to open the releases page
+                Tk().withdraw()
+                yn_resp = askyesno("New Version",
+                                   "A new version ({}) is available.\n\nPress yes to open page and no to ignore.\n"
+                                   "Update checking can be disabled in config.".format(resp_js["tag_name"]))
+                if yn_resp:
+                    wbopen(constants["github_release_latest"])
 
     current_ttt_round = session.get('last_ttt_round', float('-inf'))
     parsing_ttt = False

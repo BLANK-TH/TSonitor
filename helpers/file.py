@@ -18,6 +18,7 @@ default_settings = {
     "min_session_save_interval": 10,
     "clear_output_log": True,
     "confirm_exit": True,
+    "update_check": True,
     "header": "\n\n\n=================================",
     "logs": {
         "save_logs": True,
@@ -129,7 +130,8 @@ constants = {
         "header": "# userid name uniqueid connected ping loss state rate",
         "footer": "#end"
     },
-    "error_threshold": 10
+    "error_threshold": 10,
+    "github_release_latest": "https://github.com/BLANK-TH/STonitor/releases/latest"
 }
 
 

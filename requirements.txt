@@ -2,3 +2,4 @@ pyyaml~=6.0
 steam~=1.2.0
 human-readable~=1.1.0
 requests>=2.25.1
+packaging~=21.0

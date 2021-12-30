@@ -18,3 +18,4 @@ here unless instructed to or you know exactly what you're doing.
     - **header**: *Full line of the header indicating the start of a status output*
     - **footer**: *Full line of the footer indicating the end of a status output*
 - **error_threshold**: *Number of errors the program will attempt to recover from before exiting*
+- **github_release_latest**: *URL to latest GitHub releases page for STonitor*
