@@ -22,7 +22,7 @@ In ``settings.yaml`` you'll find an empty parameter named ``steamkey``. If you w
 (and/or CS:GO playtime) feature, you'll need to fill this in. A steam API key is what is used to authenticate with
 Steam in order to retrieve this data. Luckily getting one is a piece of cake, head on over to
 `this steam page <https://steamcommunity.com/dev/apikey>`_ and you can easily get one (you will need to login). Once
-you've gotten one, paste it into the file. It should look something like this: ``steamkey: 31312ANDSAHW1324`` (actual
+you've gotten one, paste it into the file. It should look something like this: ``steamkey: '31312ANDSAHW1324'`` (actual
 steamkey in the example is made up, yours will likely be longer and look different).
 
 All Set
