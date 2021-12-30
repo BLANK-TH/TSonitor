@@ -41,7 +41,7 @@ Once you've adjusted all of the settings to your liking, STonitor is ready to go
 folder in Command Prompt and enter ``python STonitor.py``. It's fairly straightforward but if you don't know how to
 use it or want a refresher, head on over to `Usage <usage.html>`_.
 
-Using a Batch file
+Using a Batch File
 ---------------------
 If you don't want to have to bother with command prompt everytime, you can also use a batch (.bat) file to run it.
 Batch files basically run a sequence of command prompt commands automatically when you run it (if you're on Linux,
