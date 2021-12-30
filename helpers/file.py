@@ -82,8 +82,7 @@ default_settings = {
         "private": {
             "enabled": True,
             "tries": 10
-        },
-        "timeout": 5
+        }
     }
 }
 

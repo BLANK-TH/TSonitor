@@ -3,6 +3,16 @@ Setup
 Now that installation is done, it's pretty much all a breeze from here on out. This section is a short one, first time
 setup before you start to use STonitor.
 
+Configure CS:GO AutoExec
+--------------------------
+By default, CS:GO doesn't output it's console anywhere, in order for this program to work, we need to change that.
+Luckily it's pretty simple!
+
+1. Open up a file explorer window and navigate to your CS:GO cfg directory, for most people, it's at: ``C:/Program Files (x86)/Steam/steamapps/common/Counter-Strike: Global Offensive/csgo/cfg``.
+2. In that folder, open the file named ``autoexec.cfg`` (if this file doesn't exist, that's fine, create one that's named that exactly)
+3. Near the end of the file, add this line in: ``con_logfile output.log``
+4. Save the file
+
 Run STonitor
 ---------------
 Run STonitor, to do so, open a command prompt window to STonitor's installation location (see Installation section if
