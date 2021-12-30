@@ -49,6 +49,13 @@ still want to, delete all files not in the ``data`` folder and then extract the 
 Try to run it, but if you encounter an error than that likely means that the data files aren't compatible either. You'll
 need to delete the data folder as well and re-configure them as if you were installing STonitor anew.
 
+An invalid line keeps crashing STonitor, how can I resolve it?
+-----------------------------------------------------------------
+
+You can open the output.log file manually and wipe everything in it, then restart STonitor. If it was an issue with some
+corrupted log/output, this will fix it. It's also recommended to :ref:`report it as a bug<How can I report a bug?>` so
+that I can fix it within the program and prevent it from happening again.
+
 How can I report a bug?
 --------------------------
 

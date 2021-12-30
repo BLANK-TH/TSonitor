@@ -293,7 +293,7 @@ if __name__ == '__main__':
             else:
                 i += 1
                 print("Attempting to automatically restart the program, if it closes, this has failed. It's "
-                      "recommended to close and re-open the program for a manual restart.")
+                      "recommended to close and re-open the program for a manual restart/reset.")
 
     print('Program exiting, errored out {:,} times'.format(i))
     graceful_exit()
