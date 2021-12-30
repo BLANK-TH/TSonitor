@@ -34,7 +34,11 @@ def graceful_exit():
         save_session(session)
     except (Exception,):
         pass
-    input("Press enter to exit the program...")
+    try:
+        if config["confirm_exit"]:
+            input("Press enter to exit the program...")
+    except (Exception,):
+        pass
     sys.exit()
 
 

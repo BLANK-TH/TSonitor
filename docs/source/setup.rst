@@ -38,8 +38,9 @@ steamkey in the example is made up, yours will likely be longer and look differe
 All Set
 ---------
 Once you've adjusted all of the settings to your liking, STonitor is ready to go. To run it, simply navigate to the
-folder in Command Prompt and enter ``python STonitor.py``. It's fairly straightforward but if you don't know how to
-use it or want a refresher, head on over to `Usage <usage.html>`_.
+folder in Command Prompt and enter ``python STonitor.py`` (you can also choose to double click the file if everything
+is setup right on your computer, but this isn't as recommended, explanation is in the FAQ). It's fairly straightforward
+but if you don't know how to use it or want a refresher, head on over to `Usage <usage.html>`_.
 
 Using a Batch File
 ---------------------

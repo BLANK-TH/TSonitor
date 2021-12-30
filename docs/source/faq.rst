@@ -26,6 +26,16 @@ Early Vents keeps showing despite no CT breaking vents
 There is a bug that occurs on some JB maps in which when a CT opens cells, it gets counted as breaking a vent or wall.
 Adding a feature to catch and ignore this is in the plans but currently doesn't exist.
 
+
+Why shouldn't I double click to run STonitor?
+-------------------------------------------------
+
+This works just fine in most use cases, but if the program crashes or you close it, all output will be instantly gone.
+You won't be able to see it again, normally closing is fine as STonitor will ask you confirm closing but not for errors.
+Whether or not you decide to run STonitor by double-clicking is your choice, but using command prompt really isn't that
+inconvenient (if you use a Batch file, it's actually more convenient!). When using command prompt, the past output still
+shows until you close the command prompt window.
+
 How was the name STonitor chosen?
 ------------------------------------
 Since the idea for STonitor came from MSWS' Sonitor, I based the name of the program off of that. Sonitor didn't support
