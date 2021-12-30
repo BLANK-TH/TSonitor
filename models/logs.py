@@ -63,14 +63,20 @@ class TTTLog(Log):
         rdms = []
         for i, action in enumerate(self.actions):
             if action.bad and isinstance(action, TTTDeath):
+                rdm = True
                 if detect_reason:
+                    rdm = False
                     for a in self.actions[:i]:
-                        if (isinstance(action, TTTDamage) or isinstance(action, TTTDeath)) and a.is_victim(
-                                action.attacker) and a.is_attacker(action.victim) and a.bad:
-                            break
-                    else:
-                        rdms.append(action)
-                else:
+                        if isinstance(a, TTTDamage):
+                            if a.is_attacker(action.attacker) and a.is_victim(action.victim) and a.bad:
+                                rdm = True
+                                print(repr(action), repr(a), rdm)
+                                break
+                            if a.is_attacker(action.victim) and a.is_victim(action.attacker) and a.bad:
+                                rdm = False
+                                print(repr(action), repr(a), rdm)
+                                break
+                if rdm:
                     rdms.append(action)
 
         return rdms
@@ -79,14 +85,20 @@ class TTTLog(Log):
         rdm_count = defaultdict(lambda: 0)
         for i, action in enumerate(self.actions):
             if action.bad and isinstance(action, TTTDeath):
+                rdm = True
                 if detect_reason:
+                    rdm = False
                     for a in self.actions[:i]:
-                        if (isinstance(action, TTTDamage) or isinstance(action, TTTDeath)) and a.is_victim(
-                                action.attacker) and a.is_attacker(action.victim) and a.bad:
-                            break
-                    else:
-                        rdm_count[action.attacker] += 1
-                else:
+                        if isinstance(a, TTTDamage):
+                            if a.is_attacker(action.attacker) and a.is_victim(action.victim) and a.bad:
+                                rdm = True
+                                print(repr(action), repr(a), rdm)
+                                break
+                            if a.is_attacker(action.victim) and a.is_victim(action.attacker) and a.bad:
+                                rdm = False
+                                print(repr(action), repr(a), rdm)
+                                break
+                if rdm:
                     rdm_count[action.attacker] += 1
 
         return {player: amount for player, amount in rdm_count.items() if amount >= limit}
