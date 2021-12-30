@@ -38,7 +38,7 @@ default_settings = {
                 "warden": 5,
                 "freeday_delay": 10,
                 "mass_freedamage": 5,
-                "mass_freedamage_threshold": 6,
+                "mass_freedamage_threshold": 4,
                 "world_damage_threshold": 15,
                 "ignore_warden_button": True
             },

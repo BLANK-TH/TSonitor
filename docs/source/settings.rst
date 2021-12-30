@@ -27,7 +27,7 @@ Here's a list of all of the currently available settings parameters, and what th
             - **warden**: *Number of seconds after someone becomes warden that the program will be looking for potential freekills*. Default Value: ``5``
             - **freeday_delay**: *Number of seconds after warden passes or gets fired that the program will begin looking for potential freekills*. Default Value: ``10``
             - **mass_freedamage**: *Number of seconds after a CT throws a nade that the program will be looking for Ts taking damage from that person using that nade*. Default Value: ``5``
-            - **mass_freedamage_threshold**: *Number of unique players that take damage from a CT's nade before it's considered potential mass freedamage*. Default Value: ``6``
+            - **mass_freedamage_threshold**: *Number of unique players that take damage from a CT's nade before it's considered potential mass freedamage*. Default Value: ``4``
             - **world_damage_threshold**: *Minimum amount of damage for someone to take from the world for it to be considered in button grief detection and nade disruption detection*. Default Value: ``15``
             - **ignore_warden_button**: *Boolean (true/false) of whether warden is counted in button grief detection*. Default Value: ``true``
         - *summary_output*: :sup:`Boolean (true/false) to enable various types of actions to be shown in the JB summary output`\
