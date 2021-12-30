@@ -70,11 +70,9 @@ class TTTLog(Log):
                         if isinstance(a, TTTDamage):
                             if a.is_attacker(action.attacker) and a.is_victim(action.victim) and a.bad:
                                 rdm = True
-                                print(repr(action), repr(a), rdm)
                                 break
                             if a.is_attacker(action.victim) and a.is_victim(action.attacker) and a.bad:
                                 rdm = False
-                                print(repr(action), repr(a), rdm)
                                 break
                 if rdm:
                     rdms.append(action)
@@ -92,11 +90,9 @@ class TTTLog(Log):
                         if isinstance(a, TTTDamage):
                             if a.is_attacker(action.attacker) and a.is_victim(action.victim) and a.bad:
                                 rdm = True
-                                print(repr(action), repr(a), rdm)
                                 break
                             if a.is_attacker(action.victim) and a.is_victim(action.attacker) and a.bad:
                                 rdm = False
-                                print(repr(action), repr(a), rdm)
                                 break
                 if rdm:
                     rdm_count[action.attacker] += 1
