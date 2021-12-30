@@ -43,7 +43,8 @@ def graceful_exit():
 
 
 def handle_ttt_log(logs):
-    log = parse_ttt_logs(logs)
+    log = parse_ttt_logs(logs, constants["ttt"]["log_separator"] + '\n' + constants["ttt"]["log_header"],
+                         ((constants["ttt"]["log_separator"] + '\n') * 2).rstrip())
     print(config["header"] + '\nTTT Logs (#{})\n'.format(log.id) +
           log.summary_output(**config["logs"]["ttt"]["summary_output"]), end='\n\n')
     if config["logs"]["ttt"]["subfeatures"]["rdm"]:
@@ -77,7 +78,8 @@ def handle_ttt_log(logs):
 
 
 def handle_jb_log(logs, round_number):
-    log = parse_jb_logs(logs, round_number)
+    log = parse_jb_logs(logs, round_number, '\n'.join(constants["jb"]["log_header"]),
+                        '\n'.join(constants["jb"]["log_separator"]))
     print(config["header"] + '\nJB Logs ({})\n'.format(round_number) +
           log.summary_output(**config["logs"]["jb"]["summary_output"]), end='\n\n')
     if config["logs"]["jb"]["subfeatures"]["wardenless_kill"]:

@@ -18,7 +18,7 @@ def delta_range(td1: timedelta, td2: timedelta, minutes: int = 0, seconds: int =
 class Log:
     """General class representing eGO logs"""
 
-    def __init__(self, raw_log: str, actions: list, id: int, ty: str = 'Unknown'):
+    def __init__(self, raw_log: str, actions: list, id: int, ty: str = 'Unknown', header: str = '', footer: str = ''):
         self.raw_log = ""
         for line in raw_log.split('\n'):
             if line.startswith('[') and not line.startswith('[DS]'):
@@ -26,11 +26,13 @@ class Log:
         self.actions = actions
         self.id = id
         self.type = ty
+        self.header = header + '\n' if header != '' else ''
+        self.footer = footer + '\n' if header != '' else ''
 
     def save_log(self):
         with open('data/logs/{}_{}.txt'.format(self.type, self.id), 'w', encoding='utf-8') as f:
             try:
-                f.write(self.raw_log)
+                f.write(self.header + self.raw_log + self.footer)
             except UnicodeEncodeError:
                 print("Failed to encode Log #" + str(self.id))
 
@@ -44,8 +46,8 @@ class Log:
 class TTTLog(Log):
     """Class representing TTT logs"""
 
-    def __init__(self, raw_log: str, actions: list, id: int):
-        super().__init__(raw_log, actions, id, 'TTT')
+    def __init__(self, raw_log: str, actions: list, id: int, header: str = '', footer: str = ''):
+        super().__init__(raw_log, actions, id, 'TTT', header, footer)
 
     def summary_output(self, kills: bool, damage: bool):
         output = ""
@@ -117,8 +119,9 @@ class TTTLog(Log):
 class JBLog(Log):
     """Class representing JB logs"""
 
-    def __init__(self, raw_log: str, actions: list, id: int, players: List[JBPlayer]):
-        super().__init__(raw_log, actions, id, 'JB')
+    def __init__(self, raw_log: str, actions: list, id: int, players: List[JBPlayer], header: str = '',
+                 footer: str = ''):
+        super().__init__(raw_log, actions, id, 'JB', header, footer)
         self.players = players
         self.deaths = [action for action in self.actions if isinstance(action, JBDeath)]
         self.ts = []

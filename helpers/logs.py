@@ -47,7 +47,7 @@ def get_jb_player(players: dict, name: str, role: str):
     return players[name]
 
 
-def parse_ttt_logs(lines: list) -> TTTLog:
+def parse_ttt_logs(lines: list, header: str = '', footer: str = '') -> TTTLog:
     actions = []
     players = {}
     round_number = None
@@ -91,10 +91,10 @@ def parse_ttt_logs(lines: list) -> TTTLog:
     if round_number is None:
         raise ValueError('Round number could not be found, log may be incomplete:\n' + '\n'.join(lines))
 
-    return TTTLog('\n'.join(lines), actions, round_number)
+    return TTTLog('\n'.join(lines), actions, round_number, header, footer)
 
 
-def parse_jb_logs(lines: list, round_number: int) -> JBLog:
+def parse_jb_logs(lines: list, round_number: int, header: str = '', footer: str = '') -> JBLog:
     actions = []
     players = {'The World': JBWorld()}
     for line in lines:
@@ -174,7 +174,8 @@ def parse_jb_logs(lines: list, round_number: int) -> JBLog:
         if r is not None:
             actions.append(JBAction(line, r.group('time')))
 
-    return JBLog('\n'.join(lines), actions, round_number, [i for i in players.values() if not isinstance(i, JBWorld)])
+    return JBLog('\n'.join(lines), actions, round_number, [i for i in players.values() if not isinstance(i, JBWorld)],
+                 header, footer)
 
 
 def parse_status(steamapi, line, regex, cache, check_private, max_guess_iterations, check_csgo_playtime):
