@@ -202,6 +202,8 @@ if __name__ == '__main__':
     logs = []
     last_time = time()
     i = 0
+
+    print("STonitor is ready, waiting for output...\n---")
     while True:
         try:
             with open(config['output_file'], 'r', errors='replace') as f:
