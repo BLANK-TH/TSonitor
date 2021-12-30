@@ -1,6 +1,5 @@
 Installation
 ==============
-.. warning:: Installing STonitor is not an easy task. Seriously...
 
 STonitor's installation is neither streamlined or easy, depending on how experienced you are with things like this,
 things may go wrong (solutions to some common issues may be available in the `FAQ <faq.html>`_). If you want an easy to
