@@ -19,7 +19,6 @@ from requests.exceptions import HTTPError
 from steam.webapi import WebAPI
 
 from helpers.file import assert_data, load_config, load_session, save_session, load_age_cache, save_age_cache
-from helpers.gvars import VERSION
 
 
 def except_hook(exc_class, message, traceback):
@@ -192,7 +191,7 @@ if __name__ == '__main__':
               "for potential needed user input")
         sys.exit()
 
-    from helpers.gvars import constants, TTT_ROUND_REGEX, STATUS_REGEX
+    from helpers.gvars import constants, VERSION, TTT_ROUND_REGEX, STATUS_REGEX
     from helpers.logs import parse_ttt_logs, parse_jb_logs, parse_status
 
     config = load_config()
