@@ -7,7 +7,7 @@ Here's a list of all of the currently available settings parameters, and what th
 - **check_delay**: *The delay in between the program checking the output.log file for new contents, in seconds. The lower it is the faster you get results but the more resources the program uses.*. Default Value: ``5``
 - **min_session_save_interval**: *The minimum delay before the session gets saved, in seconds. This isn't very important due to updates on how the program works, it's still there for redundancy however*. Default Value: ``10``
 - **clear_output_log**: *Boolean (true/false) of whether output.log should be cleared once STonitor is done with it, this prevents repeat output (a runtime caching solution is implemented for JB & Status and a round number session solution for TTT in the case that you turn this off)*. Default Value: ``true``
-- **header**: *The header that gets outputted before each program output session/log analysis. In order to create new lines, just press enter to make a new line as you would in any other file. This value must be in quotes (``'``)*. Example Value: ``====================``
+- **header**: *The header that gets outputted before each program output session/log analysis. In order to create new lines, just press enter to make a new line as you would in any other file. This value must be in single quotes (')*. Example Value: ``====================``
 - *logs*:
     - **save_logs**: *Boolean (true/false) of whether logs should be saved to a .txt file for archival purposes*. Default Value: ``true``
     - *jb*:
