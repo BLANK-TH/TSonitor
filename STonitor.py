@@ -23,9 +23,8 @@ def except_hook(exc_class, message, traceback):
     else:
         formatted = ''.join(format_exception(exc_class, message, traceback))
         print("==================== [ ERROR OCCURRED ] ====================\nError Name: {}\nError Message: {}\n{}---\n"
-              "Attempting to automatically restart program, a manual restart is recommended.\nIf this keeps happening, "
-              "report a bug here: https://s.blankdvth.com/UU6CXoJb\n===========================================".format(
-            exc_class.__name__, message, formatted))
+              "If this keeps happening, report a bug here: https://s.blankdvth.com/UU6CXoJb\n"
+              "===========================================".format(exc_class.__name__, message, formatted))
         with open('data/errors.txt', 'a') as f:
             f.write('=====\n{}\n---\n{}\n====='.format(datetime.utcnow().strftime("%b %d, %Y %H:%M:%S UTC"), formatted))
 
@@ -293,6 +292,8 @@ if __name__ == '__main__':
                 break
             else:
                 i += 1
+                print("Attempting to automatically restart the program, if it closes, this has failed. It's "
+                      "recommended to close and re-open the program for a manual restart.")
 
     print('Program exiting, errored out {:,} times'.format(i))
     graceful_exit()
