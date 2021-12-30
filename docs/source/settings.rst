@@ -12,7 +12,7 @@ Here's a list of all of the currently available settings parameters, and what th
     - **save_logs**: *Boolean (true/false) of whether logs should be saved to a .txt file for archival purposes*. Default Value: ``true``
     - *jb*:
         - **enable**: *Boolean (true/false) of whether JB log analysis should be enabled*. Default Value: ``true``
-        - *subfeatures*: :sub:`Boolean (true/false) toggles for whether each subfeature in JB log analysis is enabled`\
+        - *subfeatures*: :sup:`Boolean (true/false) toggles for whether each subfeature in JB log analysis is enabled`\
             - **early_vent**: *Notifies when a CT breaks vents before any prisoner does*. Default Value: ``true``
             - **wardenless_kill**: *Notifies when a CT kills a non-rebelling T without a warden*. Default Value: ``true``
             - **new_warden_kill**: *Notifies when a CT kills a non-rebelling T within X seconds of someone becoming warden, X is set in the limits section*. Default Value: ``true``
@@ -20,7 +20,7 @@ Here's a list of all of the currently available settings parameters, and what th
             - **nades**: *Notifies when someone throws a nade/utility (flash, HE, molotov, etc) and players take more than X damage from the world within Y seconds, X and Y are set in limits.*. Default Value: ``true``
             - **mass_freedamage**: *Notifies when a CT throws a nade and more than X Ts take damage within Y seconds, X and Y are set in limits*. Default Value: ``true``
             - **gunplant**: *Notifies when a CT drops a gun and a T uses that same gun to damage someone within X seconds, X is set in limits*. Default Value: ``true``
-        - *limits*: :sub:`Various configuration values for the sub-features above`\
+        - *limits*: :sup:`Various configuration values for the sub-features above`\
             - **gunplant**: *Number of seconds after a CT drops a gun that gunplant detection is active for that CT (if a T uses that gun within this number of seconds after it being dropped)*. Default Value: ``20``
             - **button**: *Number of seconds after someone presses a button that the program will be looking for damage from the world*. Default Value: ``10``
             - **nade**: *Number of seconds after someone throws utility that the program will be looking for damage from the world*. Default Value: ``10``
@@ -30,7 +30,7 @@ Here's a list of all of the currently available settings parameters, and what th
             - **mass_freedamage_threshold**: *Number of unique players that take damage from a CT's nade before it's considered potential mass freedamage*. Default Value: ``6``
             - **world_damage_threshold**: *Minimum amount of damage for someone to take from the world for it to be considered in button grief detection and nade disruption detection*. Default Value: ``15``
             - **ignore_warden_button**: *Boolean (true/false) of whether warden is counted in button grief detection*. Default Value: ``true``
-        - *summary_output*: :sub:`Boolean (true/false) to enable various types of actions to be shown in the JB summary output`\
+        - *summary_output*: :sup:`Boolean (true/false) to enable various types of actions to be shown in the JB summary output`\
             - **kills**: *Whether kills are shown in the JB summary output*. Default Value: ``true``
             - **warden**: *Whether someone becoming warden is shown in the JB summary output*. Default Value: ``true``
             - **warden_death**: *Whether warden dying is shown in the JB summary output*. Default Value: ``true``
@@ -41,24 +41,24 @@ Here's a list of all of the currently available settings parameters, and what th
             - **drop_weapon**: *Whether someone dropping a weapon is shown in the JB summary output, note that CTs dying counts as them dropping their weapons (don't worry, gunplant detection handles this)*. Default Value: ``false``
     - *ttt*:
         - **enable**: *Boolean (true/false) of whether TTT log analysis should be enabled*. Default Value: ``true``
-        - *subfeatures*: :sub:`Boolean (true/false) toggles for whether each subfeature in TTT log analysis is enabled`\
+        - *subfeatures*: :sup:`Boolean (true/false) toggles for whether each subfeature in TTT log analysis is enabled`\
             - **rdm**: *Notifies when a player may have RDMed someone. By default, reason will be detected (configurable in limits)*. Default Value: ``true``
             - **mass_rdm**: *Notifies when a player may have mass RDMed. By default, reason will not be detected (configurable in limits)*. Default Value: ``true``
             - **inno_utility**: *Notifies when an innocent or detective throws utility and someone gets damaged by it*. Default Value: ``true``
-        - *limits*: :sub:`Various configuration values for the sub-features above`\
+        - *limits*: :sup:`Various configuration values for the sub-features above`\
             - **rdm_detect_reason**: *Boolean (true/false) of whether reason is detected for normal RDMs. All reason detection is is going back in logs to check if the victim of an RDM attacked/damaged the attacker/potential RDMer first. If they did, it's not considered RDM*. Default Value: ``true``
             - **mass_rdm**: *Number of RDMs for a player to be considered Mass RDMing*. Default Value: ``2``
             - **mass_rdm_detect_reason**: *Boolean (true/false) of whether reason is detected for mass RDMs. See description of ``rdm_detect_reason`` for how reason detection works*. Default Value: ``false``
             - **utility_bad_only**: *Boolean (true/false) of whether only bad damage is counted for inno utility detection*. Default Value: ``false``
-        - *summary_output*: :sub:`Boolean (true/false) to enable various types of actions to be shown in the TTT summary output`\
+        - *summary_output*: :sup:`Boolean (true/false) to enable various types of actions to be shown in the TTT summary output`\
             - **kills**: *Whether kills are shown in the TTT summary output*. Default Value: ``true``
             - **damage**: *Whether damage is shown in the TTT summary output*. Default Value: ``false``
-- *age*: :sub:`Steam account age, CS:GO playtime, and (hopefully) soon to be server playtime`\
+- *age*: :sup:`Steam account age, CS:GO playtime, and (hopefully) soon to be server playtime`\
     - **enable**: *Boolean (true/false) of whether status/age detection should be enabled*. Default Value: ``true``
     - **cache**: *Boolean (true/false) of whether to cache account ages (this significantly minimizes the number of API calls, speeding the program up significantly)*. Default Value: ``true``
-    - *subfeatures*: :sub:`Boolean (true/false) toggles for whether each subfeature in TTT log analysis is enabled`\
+    - *subfeatures*: :sup:`Boolean (true/false) toggles for whether each subfeature in TTT log analysis is enabled`\
         - **csgo_playtime**: *Whether CS:GO playtime for accounts is retrieved (when available)*. Default Value: ``true``
         - **server_playtime**: *Whether server playtime for accounts is retrieved (when available). This config option is currently unused as the feature is not yet made*. Default Value: ``true``
-    - *private*: :sub:`Configuration options specifically for `
+    - *private*: :sup:`Configuration options specifically for `
         - **enabled**: *Boolean (true/false) of whether private account age guessing is enabled. This is done by checking the account ages of accounts made immediately after the private account to estimate the age of the private account*. Default Value: ``true``
         - **tries**: *Number of tries for private account age detection (number of accounts after private account) to try before giving up*. Default Value: ``10``
