@@ -26,6 +26,13 @@ Early Vents keeps showing despite no CT breaking vents
 There is a bug that occurs on some JB maps in which when a CT opens cells, it gets counted as breaking a vent or wall.
 Adding a feature to catch and ignore this is in the plans but currently doesn't exist.
 
+How was the name STonitor chosen?
+------------------------------------
+Since the idea for STonitor came from MSWS' Sonitor, I based the name of the program off of that. Sonitor didn't support
+TTT while I was planning for STonitor to support it, so I added a T for TTT into the name. It was put after the S so
+that it was in the order ST, representing Special Treatment for JB. In the end, it's just me being uncreative and not
+wanting to come up with a new name.
+
 How do I update STonitor?
 ---------------------------
 
