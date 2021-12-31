@@ -5,13 +5,14 @@ Table of Contents
 ---------------------
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
    installation
    setup
    usage
    settings
    constants
+   changelog
    faq
 
 About
