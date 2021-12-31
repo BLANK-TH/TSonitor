@@ -15,7 +15,6 @@ default_settings = {
     "output_file": "C:/Program Files (x86)/Steam/steamapps/common/Counter-Strike Global Offensive/csgo/output.log",
     "steamkey": "",
     "check_delay": 5,
-    "min_session_save_interval": 10,
     "clear_output_log": True,
     "confirm_exit": True,
     "update_check": True,
@@ -183,9 +182,6 @@ def assert_data() -> bool:
             with open('data/settings.yaml', 'w') as f:
                 f.write(yaml.dump(r, sort_keys=False))
             success = False
-    if not isfile('data/session.json'):
-        with open('data/session.json', 'w') as f:
-            dump({}, f, indent=2)
     if not isfile('data/constants.yaml'):
         with open('data/constants.yaml', 'w') as f:
             f.write(yaml.dump(constants, sort_keys=False, width=float('inf')))
@@ -213,15 +209,6 @@ def load_config() -> dict:
         return yaml.load(f.read(), Loader=yaml.FullLoader)
 
 
-def load_session() -> dict:
-    """Loads and parses the session JSON file
-
-    :return: Session dict loaded from file
-    """
-    with open('data/session.json', 'r') as f:
-        return load(f)
-
-
 def load_constants() -> dict:
     """Loads and parses the YAML constants file
 
@@ -238,12 +225,6 @@ def load_age_cache() -> dict:
     """
     with open('data/age_cache.json', 'r') as f:
         return load(f)
-
-
-def save_session(session):
-    """Updates the session JSON file"""
-    with open('data/session.json', 'w') as f:
-        dump(session, f, indent=2)
 
 
 def save_age_cache(cache):

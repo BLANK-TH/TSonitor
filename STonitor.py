@@ -18,7 +18,7 @@ from packaging import version
 from requests.exceptions import HTTPError
 from steam.webapi import WebAPI
 
-from helpers.file import assert_data, load_config, load_session, save_session, load_age_cache, save_age_cache
+from helpers.file import assert_data, load_config, load_age_cache, save_age_cache
 
 
 def except_hook(exc_class, message, traceback):
@@ -36,10 +36,6 @@ def except_hook(exc_class, message, traceback):
 
 def graceful_exit():
     """Perform proper exit operations"""
-    try:
-        save_session(session)
-    except (Exception,):
-        pass
     try:
         if config["confirm_exit"]:
             input("Press enter to exit the program...")
@@ -191,11 +187,10 @@ if __name__ == '__main__':
               "for potential needed user input")
         sys.exit()
 
-    from helpers.gvars import constants, VERSION, TTT_ROUND_REGEX, STATUS_REGEX
+    from helpers.gvars import constants, VERSION, STATUS_REGEX
     from helpers.logs import parse_ttt_logs, parse_jb_logs, parse_status
 
     config = load_config()
-    session = load_session()
     try:
         steam_api = WebAPI(key=config["steamkey"]) if config["steamkey"] != '' else None
     except HTTPError:
@@ -220,10 +215,10 @@ if __name__ == '__main__':
                     wbopen(constants["github_release_latest"])
 
     # Set initial variable values
-    current_ttt_round = session.get('last_ttt_round', float('-inf'))
     parsing_ttt = False
     parsing_jb = False
     parsing_status = False
+    parsed_ttt = []
     parsed_jb = []
     parsed_statuses = []
     logs = []
@@ -240,24 +235,14 @@ if __name__ == '__main__':
 
                     # TTT Log Parsing
                     if config["logs"]["ttt"]["enable"]:
-                        # If currently parsing TTT logs, and it's the first line, it's the round number
-                        if parsing_ttt and len(logs) == 0:
-                            r = TTT_ROUND_REGEX.findall(line)
-                            if len(r) == 0:  # First line in TTT logs should always be the round number
-                                continue
-                            round_number = int(r[0])
-                            if round_number <= current_ttt_round:
-                                parsing_ttt = False
-                                continue
-                            logs.append(line)
                         # If 1 footer line has been detected and the current line is final footer part, handle the log
                         # Else, continue parsing
-                        elif parsing_ttt is None:
+                        if parsing_ttt is None:
                             if line == constants["ttt"]["log_separator"]:
+                                if logs in parsed_ttt:
+                                    handle_ttt_log(logs)
+                                    parsed_ttt.append(logs)
                                 parsing_ttt = False
-                                current_ttt_round = round_number
-                                session["last_ttt_round"] = round_number
-                                handle_ttt_log(logs)
                                 logs = []
                             else:
                                 parsing_ttt = True
@@ -341,11 +326,6 @@ if __name__ == '__main__':
             parsing_status = False
             logs = []
 
-            # Save session if it's been longer than the minimum interval
-            current_time = time()
-            if current_time - last_time >= config["min_session_save_interval"]:
-                save_session(session)
-                last_time = current_time
             sleep(config["check_delay"])
         except (Exception,) as e:
             sys.excepthook(type(e), e, e.__traceback__)  # Handle errors
