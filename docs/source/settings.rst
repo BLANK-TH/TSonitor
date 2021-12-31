@@ -5,7 +5,6 @@ Here's a list of all of the currently available settings parameters, and what th
 - **output_file**: *Full path to where the CS:GO output.log file is located, the prefilled value is the default for most people*. Default Value: ``C:/Program Files (x86)/Steam/steamapps/common/Counter-Strike Global Offensive/csgo/output.log``
 - **steamkey**: *Your steam API key, needed to use the account age and CS:GO playtime features*. Example Value: ``A=12345A789101234FJ32U``
 - **check_delay**: *The delay in between the program checking the output.log file for new contents, in seconds. The lower it is the faster you get results but the more resources the program uses.*. Default Value: ``5``
-- **min_session_save_interval**: *The minimum delay before the session gets saved, in seconds. This isn't very important due to updates on how the program works, it's still there for redundancy however*. Default Value: ``10``
 - **clear_output_log**: *Boolean (true/false) of whether output.log should be cleared once STonitor is done with it, this prevents repeat output (a runtime caching solution is implemented for JB & Status and a round number session solution for TTT in the case that you turn this off)*. Default Value: ``true``
 - **confirm_exit**: *Boolean (true/false) of whether the program will ask you to confirm exiting by pressing enter. This may not work in all cases (certain errors at certain locations will bypass this)*. Default Value: ``true``
 - **update_check**: *Boolean (true/false) of whether the program will check for newer versions on run*. Default Value: ``true``
@@ -64,3 +63,6 @@ Here's a list of all of the currently available settings parameters, and what th
     - *private*: :sup:`Configuration options specifically for `\
         - **enabled**: *Boolean (true/false) of whether private account age guessing is enabled. This is done by checking the account ages of accounts made immediately after the private account to estimate the age of the private account*. Default Value: ``true``
         - **tries**: *Number of tries for private account age detection (number of accounts after private account) to try before giving up*. Default Value: ``10``
+
+.. versionchanged:: 1.0.1
+    Removed ``min_session_save_interval`` as session is no longer used
