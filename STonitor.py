@@ -332,6 +332,8 @@ if __name__ == '__main__':
             if config["clear_output_log"] and not parsing_status and not parsing_ttt and not parsing_jb:
                 with open(config["output_file"], 'w') as f:
                     f.write('')
+                parsed_jb = []
+                parsed_statuses = []
 
             # Reset variables for next iteration
             parsing_ttt = False
