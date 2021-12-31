@@ -7,6 +7,8 @@
 from time import time
 
 import human_readable
+import requests
+from bs4 import BeautifulSoup
 from requests.exceptions import HTTPError
 from steam.steamid import SteamID
 
@@ -35,6 +37,21 @@ def find_human_suppress(td: timedelta):
         return suppressable[3:]
     else:
         return []
+
+
+def get_playtime(steam_id: str, game_id: str, playerinfo: str) -> str:
+    try:
+        p = requests.get("{}/{}/{}".format(playerinfo, game_id, steam_id))
+        if p.ok:
+            return [i for i in BeautifulSoup(p.content, 'html.parser').select(
+                'div.container > div.cont_left > table.spacer_b > tr.t_fc') if i.find(
+                'td', text='Connection Time:') is not None][0].select('td[colspan]')[0].text.replace(u'\xa0', u' ')
+        else:
+            return 'Failed GET request with code ' + str(p.status_code)
+    except HTTPError as e:
+        return 'HTTPError: ' + str(e)
+    except IndexError:
+        return 'Not Found'
 
 
 def get_jb_player(players: dict, name: str, role: str):
@@ -178,7 +195,8 @@ def parse_jb_logs(lines: list, round_number: int, header: str = '', footer: str 
                  header, footer)
 
 
-def parse_status(steamapi, line, regex, cache, check_private, max_guess_iterations, check_csgo_playtime):
+def parse_status(steamapi, line, regex, cache, check_private, max_guess_iterations, check_csgo_playtime,
+                 check_server_playtime, game_code_map, server_ip, playerinfo_url):
     if steamapi is None:
         raise ValueError('Steam API key not provided')
     r = handle_named_regex(regex, line)
@@ -187,10 +205,11 @@ def parse_status(steamapi, line, regex, cache, check_private, max_guess_iteratio
     approximate = False
     created = None
     steam_id = r.group('steam_id')
-    uuid = SteamID(steam_id).as_64
+    sid = SteamID(steam_id)
+    uuid_working = sid.as_64
     if steam_id not in cache:
         try:
-            p = steamapi.call('ISteamUser.GetPlayerSummaries', steamids=uuid)['response']['players']
+            p = steamapi.call('ISteamUser.GetPlayerSummaries', steamids=uuid_working)['response']['players']
             if len(p) == 0:
                 raise ValueError('Invalid steam ID')
             created = p[0]['timecreated']
@@ -201,10 +220,10 @@ def parse_status(steamapi, line, regex, cache, check_private, max_guess_iteratio
                 while created is None:
                     if iterations > max_guess_iterations:
                         return float('inf'), r.group('user_id'), r.group('name'), 'Max guess iterations reached', \
-                               False, None
-                    uuid += 1
+                               False, None, None
+                    uuid_working += 1
                     iterations += 1
-                    p = steamapi.call('ISteamUser.GetPlayerSummaries', steamids=uuid)['response']['players']
+                    p = steamapi.call('ISteamUser.GetPlayerSummaries', steamids=uuid_working)['response']['players']
                     if len(p) == 0:
                         continue
                     try:
@@ -212,7 +231,7 @@ def parse_status(steamapi, line, regex, cache, check_private, max_guess_iteratio
                     except KeyError:
                         continue
             else:
-                return float('inf'), r.group('user_id'), r.group('name'), 'Guessing disabled', False, None
+                return float('inf'), r.group('user_id'), r.group('name'), 'Guessing disabled', False, None, None
         cache[steam_id] = created, approximate
     else:
         created, approximate = cache[steam_id]
@@ -222,13 +241,21 @@ def parse_status(steamapi, line, regex, cache, check_private, max_guess_iteratio
 
     if check_csgo_playtime and not approximate:
         try:
-            p = steamapi.call('ISteamUserStats.GetUserStatsForGame', steamid=uuid, appid=730)
+            p = steamapi.call('ISteamUserStats.GetUserStatsForGame', steamid=sid.as_64, appid=730)
         except HTTPError:
             pass
         else:
             td2 = timedelta(seconds=next((i for i in p['playerstats']['stats'] if i['name'] == 'total_time_played'),
                                          None)['value'])
 
+    server_playtime = None
+
+    if check_server_playtime:
+        try:
+            server_playtime = get_playtime(sid.as_steam2_zero, game_code_map[server_ip], playerinfo_url)
+        except KeyError:
+            server_playtime = "Invalid Server"
+
     return created, r.group('user_id'), r.group('name'), human_readable.precise_delta(
         td, suppress=find_human_suppress(td)), approximate, human_readable.precise_delta(
-        td2, suppress=find_human_suppress(td2)) if td2 is not None else None
+        td2, suppress=find_human_suppress(td2)) if td2 is not None else None, server_playtime

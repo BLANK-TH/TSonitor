@@ -53,6 +53,16 @@ outputted and automatically parse and retrieve the desired data. This may take a
 are cached, how many are on the server, your internet speed, your computer specs, and what not. You will see a header
 and the words ``Processing status, this may take a while...`` fairly quickly however.
 
+Here's what a full output line looks like, not all players will have everything depending on account privacy settings:
+
+``# 228 =(eGO)= MSWS    5 years and 3.05 months    (GPT: 3 months and 10.16 days) (SPT: 31 days 06:49:14 hours)``
+
+it's in the format:
+
+``# <player id> <name> <steam age> (GPT: <CS:GO playtime>) (SPT: <server playtime>)``
+
+If an account has a ``~`` infront of the account age, that means that the account is private and the age was guessed.
+
 How to edit Settings
 ------------------------
 

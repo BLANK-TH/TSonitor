@@ -17,5 +17,9 @@ here unless instructed to or you know exactly what you're doing.
     - **regex**: *Named regex for each line in status*
     - **header**: *Full line of the header indicating the start of a status output*
     - **footer**: *Full line of the footer indicating the end of a status output*
+    - *gameme*:
+        - **playerinfo_url**: URL to GameME player info redirect page without a trailing /.
+        - *game_code*: :sup:`Pairs of IPs and their corresponding game codes on GameME`\
+- **connected_regex**: *Regex to detect ``Connected to <ip here>`` lines*
 - **error_threshold**: *Number of errors the program will attempt to recover from before exiting*
 - **github_release_latest**: *URL to latest GitHub releases page for STonitor*

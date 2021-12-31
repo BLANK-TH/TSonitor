@@ -157,7 +157,7 @@ def handle_jb_log(logs, round_number):
         log.save_log()
 
 
-def handle_status(logs):
+def handle_status(logs, server_ip):
     """Process and retrieve status from raw status lines"""
     print(config["header"] + '\nProcessing status, this may take a while...')
     results = []
@@ -168,17 +168,22 @@ def handle_status(logs):
         try:
             results.append(parse_status(steam_api, line, STATUS_REGEX, cache, config["age"]["private"]["enabled"],
                                         config["age"]["private"]["tries"],
-                                        config["age"]["subfeatures"]["csgo_playtime"]))
+                                        config["age"]["subfeatures"]["csgo_playtime"],
+                                        config["age"]["subfeatures"]["server_playtime"],
+                                        constants["age"]["gameme"]["game_code"],
+                                        server_ip,
+                                        constants["age"]["gameme"]["playerinfo_url"]))
         except (Exception,):
-            results.append((float('inf'), '-1', 'Error', 'Error parsing line: ' + line, False, None))
+            results.append((float('inf'), '-1', 'Error', 'Error parsing line: ' + line, False, None, None))
     results.sort()
     pad_age = str(len(max(results, key=lambda x: len(x[3]))[3]) + 2)
     pad_name = str(len(max(results, key=lambda x: len(x[2]))[2]) + 2)
     pad_num = str(len(max(results, key=lambda x: len(x[1]))[1]))
     for result in results:
-        print(('# {:' + pad_num + 's} {:' + pad_name + 's} {}{:' + pad_age + 's} {}').format(
+        print(('# {:' + pad_num + 's} {:' + pad_name + 's} {}{:' + pad_age + 's} {} {}').format(
             result[1], result[2], '~' if result[4] else '', result[3], '(GPT: {})'.format(
-                result[5]) if result[5] is not None else ''))
+                result[5]) if result[5] is not None else '',
+            '(SPT: {})'.format(result[6] if result[6] is not None else '')).strip())
     if config["age"]["cache"]:
         save_age_cache(cache)
 
@@ -191,7 +196,7 @@ if __name__ == '__main__':
               "for potential needed user input")
         sys.exit()
 
-    from helpers.gvars import constants, VERSION, STATUS_REGEX
+    from helpers.gvars import constants, VERSION, STATUS_REGEX, CONNECTED_REGEX
     from helpers.logs import parse_ttt_logs, parse_jb_logs, parse_status
 
     config = load_config()
@@ -222,6 +227,7 @@ if __name__ == '__main__':
     parsing_ttt = False
     parsing_jb = False
     parsing_status = False
+    server_ip = None
     parsed_ttt = []
     parsed_jb = []
     parsed_statuses = []
@@ -306,7 +312,7 @@ if __name__ == '__main__':
                         # If line is footer, stop parsing and start handling
                         if parsing_status and line == constants["age"]["footer"]:
                             if logs not in parsed_statuses:
-                                handle_status(logs)
+                                handle_status(logs, server_ip)
                                 parsed_statuses.append(logs)
                             parsing_status = False
                             logs = []
@@ -317,6 +323,11 @@ if __name__ == '__main__':
                         elif line == constants["age"]["header"]:
                             parsing_status = True
                             continue
+                        else:
+                            # Check for server IP, always outputted before status. Cache most recent for use in parsing
+                            r = CONNECTED_REGEX.findall(line)
+                            if len(r) > 0:
+                                server_ip = r[0]
             # Clear output.log if there's no unfinished parsing
             if config["clear_output_log"] and not parsing_status and not parsing_ttt and not parsing_jb:
                 with open(config["output_file"], 'w') as f:

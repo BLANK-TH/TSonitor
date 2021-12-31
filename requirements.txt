@@ -3,3 +3,4 @@ steam~=1.2.0
 human-readable~=1.1.0
 requests>=2.25.1
 packaging~=21.0
+beautifulsoup4~=4.9.1

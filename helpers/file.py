@@ -128,8 +128,13 @@ constants = {
     "age": {
         "regex": r"^# (?P<user_id>\d*) \d* \"(?P<name>.*)\" (?P<steam_id>STEAM_\d:\d:\d*) .+$",
         "header": "# userid name uniqueid connected ping loss state rate",
-        "footer": "#end"
+        "footer": "#end",
+        "gameme": {
+            "playerinfo_url": "https://prestigegaming.gameme.com/r/playerinfo",
+            "game_code": {"74.91.113.113:27015": 'csgo2', '74.91.113.83:27015': 'csgo3'}
+        }
     },
+    "connected_regex": r"^Connected to ([0-9\.:]*)$",
     "error_threshold": 10,
     "github_release_latest": "https://github.com/BLANK-TH/STonitor/releases/latest"
 }
