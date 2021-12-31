@@ -60,7 +60,7 @@ Here's a list of all of the currently available settings parameters, and what th
     - **cache**: *Boolean (true/false) of whether to cache account ages (this significantly minimizes the number of API calls, speeding the program up significantly)*. Default Value: ``true``
     - *subfeatures*: :sup:`Boolean (true/false) toggles for whether each subfeature in TTT log analysis is enabled`\
         - **csgo_playtime**: *Whether CS:GO playtime for accounts is retrieved (when available)*. Default Value: ``true``
-        - **server_playtime**: *Whether server playtime for accounts is retrieved (when available). This config option is currently unused as the feature is not yet made*. Default Value: ``true``
+        - **server_playtime**: *Whether server playtime for accounts is retrieved*. Default Value: ``true``
     - *private*: :sup:`Configuration options specifically for `\
         - **enabled**: *Boolean (true/false) of whether private account age guessing is enabled. This is done by checking the account ages of accounts made immediately after the private account to estimate the age of the private account*. Default Value: ``true``
         - **tries**: *Number of tries for private account age detection (number of accounts after private account) to try before giving up*. Default Value: ``10``

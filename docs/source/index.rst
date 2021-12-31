@@ -40,6 +40,7 @@ how to edit this file and what each parameter means, `go here <settings.html>`_.
    * Automatically retrieves and outputs the account age of everyone on the server
       * If an account is private, the age is estimated by getting the ages of accounts created directly after the private account
    * Automatically retrieves and outputs player's CS:GO playtime if available
+   * Automatically retrieves and outputs player's server playtime if available (using GameME)
 * JB Log Analysis
    * **Wardenless Freekill**: *Notifies you when a CT kills a non-rebelling T without warden alive*
    * **New Warden Freekill**: *Notifies you when a CT kills a non-rebelling T within X seconds of a new warden coming on*
@@ -65,8 +66,8 @@ how to edit this file and what each parameter means, `go here <settings.html>`_.
 
 Planned Features
 -----------------
-* Server playtime integrated with Steam Age using gameME (currently held back due to gameME being disabled)
 * Patch of cell opening false-positive for vent detection
+* Button alias file support
 
 Potential Features
 --------------------
