@@ -44,7 +44,7 @@ def get_playtime(steam_id: str, game_id: str, playerinfo: str) -> str:
         p = requests.get("{}/{}/{}".format(playerinfo, game_id, steam_id))
         if p.ok:
             return [i for i in BeautifulSoup(p.content, 'html.parser').select(
-                'div.container > div.cont_left > table.spacer_b > tr.t_fc') if i.find(
+                'div.container > div.cont_left > table.spacer_b > tr') if i.find(
                 'td', text='Connection Time:') is not None][0].select('td[colspan]')[0].text.replace(u'\xa0', u' ')
         else:
             return 'Failed GET request with code ' + str(p.status_code)
