@@ -290,7 +290,7 @@ class JBLog(Log):
         last_request = None
         last_guard = None
         if len(self.t_deaths) > 2 and len(self.ts) - len(self.t_deaths) <= 2:
-            last_request = self.t_deaths[(len(self.t_deaths) - 3)]
+            last_request = self.t_deaths[-3]
         if len(self.ct_deaths) > 2 and len(self.cts) - len(self.ct_deaths) <= 1:
             last_guard = self.ct_deaths[-1 if self.ct_win else -2]
 
