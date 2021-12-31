@@ -180,7 +180,7 @@ def handle_status(logs, server_ip):
     pad_name = str(len(max(results, key=lambda x: len(x[2]))[2]) + 2)
     pad_num = str(len(max(results, key=lambda x: len(x[1]))[1]))
     for result in results:
-        print(('# {:' + pad_num + 's} {:' + pad_name + 's} {}{:' + pad_age + 's} {}{}').format(
+        print(('# {:' + pad_num + 's} {:' + pad_name + 's} {:1s}{:' + pad_age + 's} {}{}').format(
             result[1], result[2], '~' if result[4] else '', result[3], '(GPT: {})'.format(
                 result[5]) if result[5] is not None else '',
             '{}(SPT: {})'.format(' ' if result[5] is not None else '',
