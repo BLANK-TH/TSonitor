@@ -9,7 +9,7 @@ import re
 from .file import load_constants
 
 constants = load_constants()
-VERSION = '1.0.0'
+VERSION = '1.0.1'
 
 TTT_ROUND_REGEX = re.compile(constants["ttt"]["regex"]["round"])
 TTT_TIME_REGEX = re.compile(constants["ttt"]["regex"]["time"])
@@ -17,6 +17,7 @@ TTT_DAMAGE_REGEX = re.compile(constants["ttt"]["regex"]["damage"])
 TTT_KILL_REGEX = re.compile(constants["ttt"]["regex"]["kill"])
 
 STATUS_REGEX = re.compile(constants["age"]["regex"])
+CONNECTED_REGEX = re.compile(constants["connected_regex"])
 
 JB_DEATH_REGEX = re.compile(constants["jb"]["regex"]["death"])
 JB_DAMAGE_REGEX = re.compile(constants["jb"]["regex"]["damage"])
