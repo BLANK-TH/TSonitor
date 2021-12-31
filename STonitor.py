@@ -242,7 +242,10 @@ if __name__ == '__main__':
                     if config["logs"]["ttt"]["enable"]:
                         # If currently parsing TTT logs, and it's the first line, it's the round number
                         if parsing_ttt and len(logs) == 0:
-                            round_number = int(TTT_ROUND_REGEX.findall(line)[0])
+                            r = TTT_ROUND_REGEX.findall(line)
+                            if len(r) == 0:  # First line in TTT logs should always be the round number
+                                continue
+                            round_number = int(r[0])
                             if round_number <= current_ttt_round:
                                 parsing_ttt = False
                                 continue
