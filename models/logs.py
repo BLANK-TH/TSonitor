@@ -289,8 +289,9 @@ class JBLog(Log):
     def get_lr_lg(self) -> Tuple[Union[JBDeath, None], ...]:
         last_request = None
         last_guard = None
-        if len(self.t_deaths) > 2 and len(self.ts) - len(self.t_deaths) <= 2:
-            last_request = self.t_deaths[-3]
+        ts_left = len(self.ts) - len(self.t_deaths)
+        if len(self.t_deaths) > 2 and ts_left <= 2:
+            last_request = self.t_deaths[ts_left - 3]
         if len(self.ct_deaths) > 2 and len(self.cts) - len(self.ct_deaths) <= 1:
             last_guard = self.ct_deaths[-1 if self.ct_win else -2]
 
