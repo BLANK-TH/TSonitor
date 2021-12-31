@@ -46,8 +46,12 @@ def graceful_exit():
 
 def handle_ttt_log(logs):
     """Create and parse TTT logs from raw TTT lines"""
-    log = parse_ttt_logs(logs, constants["ttt"]["log_separator"] + '\n' + constants["ttt"]["log_header"],
-                         ((constants["ttt"]["log_separator"] + '\n') * 2).rstrip())
+    try:
+        log = parse_ttt_logs(logs, constants["ttt"]["log_separator"] + '\n' + constants["ttt"]["log_header"],
+                             ((constants["ttt"]["log_separator"] + '\n') * 2).rstrip())
+    except ValueError as e:
+        print("Error handling TTT logs, bad or corrupted log: " + str(e))
+        return
     print(config["header"] + '\nTTT Logs (#{})\n'.format(log.id) +
           log.summary_output(**config["logs"]["ttt"]["summary_output"]), end='\n\n')
     if config["logs"]["ttt"]["subfeatures"]["rdm"]:
