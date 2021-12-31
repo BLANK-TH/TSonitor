@@ -239,7 +239,7 @@ if __name__ == '__main__':
                         # Else, continue parsing
                         if parsing_ttt is None:
                             if line == constants["ttt"]["log_separator"]:
-                                if logs in parsed_ttt:
+                                if logs not in parsed_ttt:
                                     handle_ttt_log(logs)
                                     parsed_ttt.append(logs)
                                 parsing_ttt = False
