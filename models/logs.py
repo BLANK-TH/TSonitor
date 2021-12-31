@@ -178,7 +178,7 @@ class JBLog(Log):
             elif isinstance(action, JBWardenPassFire):
                 warden = action.timestamp_delta
             elif not warden and isinstance(action, JBDeath) and action.attacker.is_ct() and action.victim.is_inno(
-                    action) and not self.is_lg(action.timestamp_delta):
+                    action) and not self.is_lg_lr(action.timestamp_delta):
                 fks.append(action)
 
         return fks
@@ -189,7 +189,7 @@ class JBLog(Log):
         for action in self.actions:
             if isinstance(action, JBWarden):
                 new_warden = action.timestamp_delta
-            elif new_warden is not None and isinstance(action, JBDeath) and not self.is_lg(action.timestamp_delta):
+            elif new_warden is not None and isinstance(action, JBDeath) and not self.is_lg_lr(action.timestamp_delta):
                 if delta_range(action.timestamp_delta, new_warden, seconds=seconds_limit):
                     if action.attacker.is_ct() and action.victim.is_inno(action):
                         fks.append(action)
@@ -272,7 +272,7 @@ class JBLog(Log):
         for action in self.actions:
             if isinstance(action, JBUtility) and action.player.is_ct():
                 check_utility.append(action)
-            elif isinstance(action, JBDamage) and action.weapon in utility.values() and not self.is_lg(
+            elif isinstance(action, JBDamage) and action.weapon in utility.values() and not self.is_lg_lr(
                     action.timestamp_delta):
                 pending_remove = []
                 for util in check_utility:
@@ -297,5 +297,6 @@ class JBLog(Log):
 
         return last_guard, last_request
 
-    def is_lg(self, delta):
-        return self.last_guard is not None and delta >= self.last_guard.timestamp_delta
+    def is_lg_lr(self, delta):
+        return (self.last_guard is not None and delta >= self.last_guard.timestamp_delta) or \
+               (self.last_request is not None and delta >= self.last_request.timestamp_delta)
