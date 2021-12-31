@@ -183,7 +183,7 @@ def handle_status(logs, server_ip):
         print(('# {:' + pad_num + 's} {:' + pad_name + 's} {}{:' + pad_age + 's} {} {}').format(
             result[1], result[2], '~' if result[4] else '', result[3], '(GPT: {})'.format(
                 result[5]) if result[5] is not None else '',
-            '(SPT: {}'.format(result[6] if result[6] is not None else '')).strip())
+            '(SPT: {})'.format(result[6] if result[6] is not None else '')).strip())
     if config["age"]["cache"]:
         save_age_cache(cache)
 
