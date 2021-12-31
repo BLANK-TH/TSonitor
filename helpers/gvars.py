@@ -9,7 +9,7 @@ import re
 from .file import load_constants
 
 constants = load_constants()
-VERSION = '0.0.9'
+VERSION = '1.0.1'
 
 TTT_ROUND_REGEX = re.compile(constants["ttt"]["regex"]["round"])
 TTT_TIME_REGEX = re.compile(constants["ttt"]["regex"]["time"])
