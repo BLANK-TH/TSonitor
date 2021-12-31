@@ -336,6 +336,13 @@ if __name__ == '__main__':
             if i >= constants["error_threshold"]:  # Exit program if it's crashed more than X times
                 break
             else:
+                # Attempt to clear output.log if error occurs
+                if config["clear_on_error"]:
+                    try:
+                        with open(config['output_file'], 'w') as f:
+                            f.write('')
+                    except (Exception,) as e:
+                        print("Failed to automatically clear output.log with {} {}".format(type(e).__name__, str(e)))
                 # Increment crash counter and attempt to restart program by ignoring error
                 i += 1
                 print("Attempting to automatically restart the program, if it closes, this has failed. It's "

@@ -66,6 +66,9 @@ You can open the output.log file manually and wipe everything in it, then restar
 corrupted log/output, this will fix it. It's also recommended to :ref:`report it as a bug<How can I report a bug?>` so
 that I can fix it within the program and prevent it from happening again.
 
+.. versionadded:: 1.0.1
+    STonitor will now automatically wipe output.log on error if the config option ``clear_on_error`` is true.
+
 How can I report a bug?
 --------------------------
 

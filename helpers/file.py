@@ -16,6 +16,7 @@ default_settings = {
     "steamkey": "",
     "check_delay": 5,
     "clear_output_log": True,
+    "clear_on_error": True,
     "confirm_exit": True,
     "update_check": True,
     "header": "\n\n\n=================================",
