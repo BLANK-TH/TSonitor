@@ -8,6 +8,12 @@ and this project adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0
 [Unreleased]
 --------------
 
+[1.1.2] - 2022-01-01
+------------------------
+Fixed
+^^^^^^
+* Damage regex not triggering if damage was headshot
+
 [1.1.1] - 2021-12-31
 ------------------------
 Added
