@@ -331,6 +331,8 @@ if __name__ == '__main__':
                                 server_ip = r[0]
             # Clear output.log if there's no unfinished parsing
             if config["clear_output_log"] and not parsing_ttt and not parsing_jb:
+                if parsing_status:
+                    print("Status still parsing after log ended, incomplete or missing footer?")
                 with open(config["output_file"], 'w') as f:
                     f.write('')
                 parsed_ttt = []
