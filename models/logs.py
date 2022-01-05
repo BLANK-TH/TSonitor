@@ -201,12 +201,15 @@ class JBLog(Log):
 
     def find_early_vent(self) -> List[JBVents]:
         players = []
+        last_action = None
         for action in self.actions:
             if isinstance(action, JBVents):
                 if action.player.is_ct():
-                    players.append(action.player)
+                    if not isinstance(last_action, JBButton):
+                        players.append(action.player)
                 elif action.player.is_t():
                     break
+            last_action = action
 
         return players
 
