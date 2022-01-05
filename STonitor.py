@@ -255,6 +255,10 @@ if __name__ == '__main__':
                               "and flushed.\n===========================================")
                         parsing_ttt, parsing_jb, parsing_status = False, False, False
                         logs = []
+                        # Attempt to clear output.log if error occurs
+                        if config["clear_on_error"]:
+                            with open(config['output_file'], 'w') as f:
+                                f.write('')
 
                     # TTT Log Parsing
                     if config["logs"]["ttt"]["enable"]:
