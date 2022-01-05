@@ -7,6 +7,10 @@ and this project adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0
 
 [Unreleased]
 --------------
+Added
+^^^^^
+* Clarification on common status issues in documentation
+
 Fixed
 ^^^^^^
 * KeyError on invalid weapon name (MFD Detection)
@@ -15,10 +19,6 @@ Fixed
 
 [1.1.2] - 2022-01-01
 ------------------------
-Added
-^^^^^
-* Clarification on common status issues in documentation
-
 Fixed
 ^^^^^^
 * Damage regex not triggering if damage was headshot
