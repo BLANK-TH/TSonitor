@@ -143,7 +143,7 @@ class JBLog(Log):
         self.last_guard, self.last_request = self.get_lr_lg()
 
     def summary_output(self, kills: bool, warden: bool, warden_death: bool, pass_fire: bool, damage: bool, vents: bool,
-                       button: bool, drop_weapon: bool) -> str:
+                       button: bool, drop_weapon: bool, world: bool) -> str:
         output = []
         for action in self.actions:
             if (kills and isinstance(action, JBDeath)) or (warden and isinstance(action, JBWarden)) or \
@@ -152,7 +152,8 @@ class JBLog(Log):
                     (damage and isinstance(action, JBDamage)) or (vents and isinstance(action, JBVents)) or \
                     (vents and isinstance(action, JBVents)) or (button and isinstance(action, JBButton)) or \
                     (drop_weapon and isinstance(action, JBWeaponDrop)):
-                output.append(repr(action))
+                if not (not world and hasattr(action, 'attacker') and isinstance(action.attacker, JBWorld)):
+                    output.append(repr(action))
 
         if self.last_guard is not None and (self.last_request is None or
                                             self.last_request.timestamp_delta > self.last_guard.timestamp_delta):

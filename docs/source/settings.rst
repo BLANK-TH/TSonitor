@@ -41,6 +41,7 @@ Here's a list of all of the currently available settings parameters, and what th
             - **vents**: *Whether someone breaking vents is shown in the JB summary output*. Default Value: ``false``
             - **button**: *Whether someone pressing a button is shown in the JB summary output*. Default Value: ``false``
             - **drop_weapon**: *Whether someone dropping a weapon is shown in the JB summary output, note that CTs dying counts as them dropping their weapons (don't worry, gunplant detection handles this)*. Default Value: ``false``
+            - **world**: *Whether to show an action if the attacker is the world (game deaths/fall damage deaths)*. Default Value: ``true``
     - *ttt*:
         - **enable**: *Boolean (true/false) of whether TTT log analysis should be enabled*. Default Value: ``true``
         - *subfeatures*: :sup:`Boolean (true/false) toggles for whether each subfeature in TTT log analysis is enabled`\

@@ -52,7 +52,8 @@ default_settings = {
                 "damage": False,
                 "vents": False,
                 "button": False,
-                "drop_weapon": False
+                "drop_weapon": False,
+                "world": True
             }
         },
         "ttt": {
