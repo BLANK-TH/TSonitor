@@ -63,6 +63,17 @@ it's in the format:
 
 If an account has a ``~`` infront of the account age, that means that the account is private and the age was guessed.
 
+.. attention:: There may be a couple issues associated with status parsing.
+
+    If the status doesn't get detected, try
+    run the ``status`` command again, this is because if it happens to be outputted as a output.log clear happens, it
+    doesn't get detected.
+
+    Sometimes, if the server is too full, the footer (``#end``) doesn't get outputted. This causes
+    the program to freak out and recover by cancelling parsing and flushing logs. If this happens, you can print the
+    footer yourself by entering ``echo #end`` in console quickly after issuing ``status``. This tricks the program into
+    thinking the status finished successfully. (You may get 1 or two invalid lines but that's fine).
+
 How to edit Settings
 ------------------------
 

@@ -15,6 +15,10 @@ Fixed
 
 [1.1.2] - 2022-01-01
 ------------------------
+Added
+^^^^^
+* Clarification on common status issues in documentation
+
 Fixed
 ^^^^^^
 * Damage regex not triggering if damage was headshot
