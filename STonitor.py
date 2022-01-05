@@ -215,6 +215,7 @@ if __name__ == '__main__':
     if isinstance(pe, Exception):
         print("Received {} opening output file, check that the path is valid and you have proper permissions.".format(
             type(pe).__name__))
+        sys.exit()
 
     if config["update_check"]:
         # Check GitHub API endpoint
