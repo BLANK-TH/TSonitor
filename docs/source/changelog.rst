@@ -12,6 +12,7 @@ Added
 * Clarification on common status issues in documentation
 * Check if output.log exists at runtime
 * Ability to hide world actions from summary output
+* Steam level to status
 
 Fixed
 ^^^^^^

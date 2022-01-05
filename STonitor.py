@@ -174,17 +174,17 @@ def handle_status(logs, server_ip):
                                         server_ip,
                                         constants["age"]["gameme"]["playerinfo_url"]))
         except (Exception,):
-            results.append((float('inf'), '-1', 'Error', 'Error parsing line: ' + line, False, None, None))
+            results.append((float('inf'), '-1', 'Error', 'Error parsing line: ' + line, False, None, None, None))
     results.sort()
     pad_age = str(len(max(results, key=lambda x: len(x[3]))[3]) + 2)
     pad_name = str(len(max(results, key=lambda x: len(x[2]))[2]) + 2)
     pad_num = str(len(max(results, key=lambda x: len(x[1]))[1]))
     for result in results:
-        print(('# {:' + pad_num + 's} {:' + pad_name + 's} {:1s}{:' + pad_age + 's} {}{}').format(
-            result[1], result[2], '~' if result[4] else '', result[3], '(GPT: {})'.format(
-                result[5]) if result[5] is not None else '',
-            '{}(SPT: {})'.format(' ' if result[5] is not None else '',
-                                 result[6] if result[6] is not None else '')).strip())
+        print(('# {:' + pad_num + 's} {:' + pad_name + 's} {:1s}{:' + pad_age + 's} {}{}{}').format(
+            result[1], result[2], '~' if result[4] else '', result[3], '(LVL: {}) '.format(
+                result[5]) if result[5] is not None else '', '(GPT: {}) '.format(
+                result[6]) if result[6] is not None else '',
+            '(SPT: {}) '.format(result[7]) if result[7] is not None else '').rstrip())
     if config["age"]["cache"]:
         save_age_cache(cache)
 
