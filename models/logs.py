@@ -277,8 +277,11 @@ class JBLog(Log):
                 pending_remove = []
                 for util in check_utility:
                     if delta_range(util.timestamp_delta, action.timestamp_delta, seconds=duration):
-                        if action.attacker == util.player and utility[util.type] == action.weapon:
-                            mfds[util].append(action.victim)
+                        try:
+                            if action.attacker == util.player and utility[util.type] == action.weapon:
+                                mfds[util].append(action.victim)
+                        except KeyError:
+                            continue
                     else:
                         pending_remove.append(util)
                 for remove in pending_remove:
