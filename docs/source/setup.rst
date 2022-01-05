@@ -12,6 +12,7 @@ Luckily it's pretty simple!
 2. In that folder, open the file named ``autoexec.cfg`` (if this file doesn't exist, that's fine, create one that's named that exactly)
 3. Near the end of the file, add this line in: ``con_logfile output.log``
 4. Save the file
+5. Run CS:GO once so that the file gets generated (STonitor checks if it exists before running)
 
 Run STonitor
 ---------------

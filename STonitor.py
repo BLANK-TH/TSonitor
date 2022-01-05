@@ -18,7 +18,7 @@ from packaging import version
 from requests.exceptions import HTTPError
 from steam.webapi import WebAPI
 
-from helpers.file import assert_data, load_config, load_age_cache, save_age_cache
+from helpers.file import assert_data, check_output, load_config, load_age_cache, save_age_cache
 
 
 def except_hook(exc_class, message, traceback):
@@ -211,6 +211,11 @@ if __name__ == '__main__':
         print("Error connecting to Steam API, check steam key or remove it for now (disables features requiring key)")
         sys.exit()
 
+    pe = check_output(config["output_file"])
+    if isinstance(pe, Exception):
+        print("Received {} opening output file, check that the path is valid and you have proper permissions.".format(
+            type(pe).__name__))
+
     if config["update_check"]:
         # Check GitHub API endpoint
         resp = requests.get("https://api.github.com/repos/" + constants["github_release_latest"].lstrip(
@@ -257,8 +262,9 @@ if __name__ == '__main__':
                         logs = []
                         # Attempt to clear output.log if error occurs
                         if config["clear_on_error"]:
-                            with open(config['output_file'], 'w') as f:
-                                f.write('')
+                            with open(config['output_file'], 'w') as f2:
+                                f2.write('')
+                            break
 
                     # TTT Log Parsing
                     if config["logs"]["ttt"]["enable"]:

@@ -206,6 +206,14 @@ def assert_data() -> bool:
     return success
 
 
+def check_output(path) -> Union[Exception, type(None)]:
+    try:
+        with open(path, 'r'):
+            pass
+    except (Exception,) as e:
+        return e
+
+
 def load_config() -> dict:
     """Loads and parses the YAML config file
 
