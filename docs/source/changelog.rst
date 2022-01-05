@@ -11,6 +11,7 @@ Fixed
 ^^^^^^
 * KeyError on invalid weapon name (MFD Detection)
 * Status getting stuck wo/ ``#end``
+* Multi-parse edge cases
 
 [1.1.2] - 2022-01-01
 ------------------------

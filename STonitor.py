@@ -189,6 +189,10 @@ def handle_status(logs, server_ip):
         save_age_cache(cache)
 
 
+def get_bool_status(*args):
+    return [True if not isinstance(i, bool) else i for i in args]
+
+
 if __name__ == '__main__':
     os.chdir(sys.path[0])  # Set CWD to this file in case clueless users run wo/ a proper working directory
     sys.excepthook = except_hook  # Setup custom exception handler
@@ -243,6 +247,14 @@ if __name__ == '__main__':
             with open(config['output_file'], 'r', errors='replace') as f:
                 for line in f.readlines():
                     line = line.strip()
+
+                    # Multi parse edge check
+                    if sum(get_bool_status(parsing_ttt, parsing_jb, parsing_status)) > 1:
+                        print("==================== [ ERROR OCCURRED ] ====================\nMore than 1 active "
+                              "parsing operation detected. All current parsing has been cancelled, logs may be ignored "
+                              "and flushed.\n===========================================")
+                        parsing_ttt, parsing_jb, parsing_status = False, False, False
+                        logs = []
 
                     # TTT Log Parsing
                     if config["logs"]["ttt"]["enable"]:
