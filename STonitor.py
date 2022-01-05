@@ -330,7 +330,7 @@ if __name__ == '__main__':
                             if len(r) > 0:
                                 server_ip = r[0]
             # Clear output.log if there's no unfinished parsing
-            if config["clear_output_log"] and not parsing_status and not parsing_ttt and not parsing_jb:
+            if config["clear_output_log"] and not parsing_ttt and not parsing_jb:
                 with open(config["output_file"], 'w') as f:
                     f.write('')
                 parsed_ttt = []
