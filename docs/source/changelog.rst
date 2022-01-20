@@ -15,6 +15,7 @@ Added
 * Steam level to status
 * Basic support for new ``ST`` role in logs
 * FAQ entry for new GameME detections
+* Known bugs page on documentation
 
 Changed
 ^^^^^^^^

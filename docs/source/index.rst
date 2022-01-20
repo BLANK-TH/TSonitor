@@ -13,6 +13,7 @@ Table of Contents
    settings
    constants
    changelog
+   bugs
    faq
 
 About
