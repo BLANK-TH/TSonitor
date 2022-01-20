@@ -55,7 +55,10 @@ class JBPlayer:
         return self.general_role in ['Prisoner', 'Rebel']
 
     def is_inno(self, context):
-        return self.context[context] == 'Prisoner'
+        return self.context[context] in ['Prisoner', 'ST']
+
+    def is_st(self, context):
+        return self.context[context] == 'ST'
 
     def is_warden(self, context):
         return self.context[context].casefold() == 'warden'

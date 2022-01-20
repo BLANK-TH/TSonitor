@@ -13,6 +13,7 @@ Added
 * Check if output.log exists at runtime
 * Ability to hide world actions from summary output
 * Steam level to status
+* Basic support for new ``ST`` role in logs
 
 Changed
 ^^^^^^^^

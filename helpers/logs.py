@@ -56,7 +56,7 @@ def get_playtime(steam_id: str, game_id: str, playerinfo: str) -> str:
 
 def get_jb_player(players: dict, name: str, role: str):
     if name not in players:
-        if role == 'Rebel':
+        if role in ['Rebel', 'ST']:
             role = 'Prisoner'
         elif role == 'Warden':
             role = 'Guard'
