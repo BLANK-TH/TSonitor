@@ -17,6 +17,7 @@ Added
 * FAQ entry for new GameME detections
 * Known bugs page on documentation
 * Show error message on status error
+* Button ignore & alias file
 
 Changed
 ^^^^^^^^

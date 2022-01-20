@@ -249,7 +249,7 @@ def assert_data() -> Union[bool, str]:
             try:
                 rcompile(k)
             except rerror:
-                success = "Invalid regex: " + k
+                success = "Invalid regex in buttons.yaml: " + k
             if 'ignore' not in v:
                 btns_working['regex'][k]['ignore'] = False
             if 'alias' not in v:

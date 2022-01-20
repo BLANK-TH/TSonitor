@@ -12,6 +12,7 @@ Table of Contents
    usage
    settings
    constants
+   buttons
    changelog
    bugs
    faq
@@ -51,6 +52,7 @@ how to edit this file and what each parameter means, `go here <settings.html>`_.
    * **Button Grief**: *Notifies you when someone presses a button and players take damage from the world within X seconds after*
       * By default, the warden is not counted in this, it can be toggled off in settings however
       * The damage threshold before a warning is triggered is configurable in settings
+      * Buttons can be ignored or renamed using a Button Configuration file
    * **Nade Disruption**: *Notifies you when a prisoner throws utility and players take damage from the world within X seconds*
       * The damage threshold before a warning is triggered is configurable in settings
    * **Gunplant**: *Notifies you when a CT drops a weapon and a T uses that same weapon within X seconds*
