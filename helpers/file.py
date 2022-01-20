@@ -141,8 +141,30 @@ constants = {
 }
 
 button_alias = {
-    "normal": {},
-    "regex": {}
+    "normal": {
+        "slthm_lever": {
+            'ignore': True,
+            'alias': None
+        },
+        'slthm_2_lever': {
+            'ignore': True,
+            'alias': None
+        },
+        'cellbutton': {
+            'ignore': True,
+            'alias': 'Cell Button'
+        },
+        'deathcreate_stop': {
+            'ignore': True,
+            'alias': 'Deathcrate Stop'
+        }
+    },
+    "regex": {
+        r"piano_key_\ws?": {
+            'ignore': True,
+            'alias': "Piano Key"
+        }
+    }
 }
 
 
