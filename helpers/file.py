@@ -150,6 +150,10 @@ button_alias = {
             'ignore': True,
             'alias': None
         },
+        'celldoors': {
+            'ignore': True,
+            'alias': 'Cell Button'
+        },
         'cellbutton': {
             'ignore': True,
             'alias': 'Cell Button'
@@ -163,6 +167,10 @@ button_alias = {
         r"piano_key_\ws?": {
             'ignore': True,
             'alias': "Piano Key"
+        },
+        r"gun_button_\d*": {
+            'ignore': True,
+            'alias': 'Gun Button'
         }
     }
 }
