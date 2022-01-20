@@ -40,6 +40,7 @@ features and their sub-features can be disabled through a detailed settings file
   - Button Grief Detection
     - Tells you when someone presses a button and players take damage from the world within X seconds
       - By default, Warden is not counted in this detection, it can be toggled off
+    - Buttons can be ignored or renamed using the Button Configuration file
   - Nade Disruption Detection
     - Tells you when a prisoner throws utility and players take damage from the world within X seconds
   - Gunplant Detection
