@@ -20,6 +20,19 @@ I messed with the constants file, and now the program isn't parsing lines correc
 
 Delete the ``constants.yaml`` file, and it'll be regenerated with the proper working default values.
 
+Can I add more GameME server IPs to playtime detection?
+--------------------------------------------------------
+Yes, provided that they're under the same GameME page as the existing entries, you can. To do so, go to
+``constants.yaml``, go to ``age`` -> ``gameme`` -> ``game_code``. You can then add the IP you want in the following
+format:
+
+``{ip here}: {game code here}``
+
+Replace ``{ip here}`` with the IP address of the server you wish to add, and replace ``{game code here}`` with the
+GameME game code of the specific server you want to add (to get this, go to the GameME page of the server you want to
+add and look at the URL, it'll be visible after the domain. For example ``csgo3`` is the gamecode in the URL
+``prestigegaming.gameme.com/csgo3``)
+
 Early Vents keeps showing despite no CT breaking vents
 ---------------------------------------------------------
 
