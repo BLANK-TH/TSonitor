@@ -140,6 +140,13 @@ constants = {
     "github_release_latest": "https://github.com/BLANK-TH/STonitor/releases/latest"
 }
 
+button_alias = {
+    "ignore": [],
+    "rename": [],
+    "regex_ignore": [],
+    "regex_rename": []
+}
+
 
 def check_dict(d: dict, expected: dict, fixed_dict=None) -> Union[bool, dict]:
     """Goes through each dict and subdict to check if the keys in expected are in d, if not, they're filled in with the
@@ -197,6 +204,9 @@ def assert_data() -> bool:
         if isinstance(r, dict):
             with open('data/constants.yaml', 'w') as f:
                 f.write(yaml.dump(r, sort_keys=False, width=float('inf')))
+    if not isfile('data/buttons.yaml'):
+        with open('data/buttons.yaml', 'w') as f:
+            f.write(yaml.dump(button_alias, sort_keys=False, width=float('inf')))
     if not isfile('data/age_cache.json'):
         with open('data/age_cache.json', 'w') as f:
             dump({}, f, indent=2)
@@ -230,6 +240,15 @@ def load_constants() -> dict:
     :return: Constants loaded from file
     """
     with open('data/constants.yaml', 'r') as f:
+        return yaml.load(f.read(), Loader=yaml.FullLoader)
+
+
+def load_buttons() -> dict:
+    """Loads and parses the YAML button configuration file
+
+    :return: Button config loaded from file
+    """
+    with open('data/buttons.yaml', 'r') as f:
         return yaml.load(f.read(), Loader=yaml.FullLoader)
 
 
