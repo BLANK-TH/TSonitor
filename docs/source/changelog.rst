@@ -21,6 +21,8 @@ Changed
 ^^^^^^^^
 * Output.log now opens in UTF-8 encoding
 * Non-context roles now show as T/CT to avoid confusion
+* Rewrote status parsing code to have less spaghetti
+* Other retrievable options are still retrieved if account is private now
 
 Fixed
 ^^^^^^

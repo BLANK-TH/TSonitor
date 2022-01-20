@@ -201,69 +201,77 @@ def parse_status(steamapi, line, regex, cache, check_private, max_guess_iteratio
         raise ValueError('Steam API key not provided')
     r = handle_named_regex(regex, line)
     if r is None:
-        raise ValueError('Invalid line')
-    approximate = False
-    created = None
+        raise ValueError('Invalid line, unable to parse')
+
     steam_id = r.group('steam_id')
     sid = SteamID(steam_id)
     uuid_working = sid.as_64
+
+    r_created = None
+    r_uid = r.group('user_id')
+    r_name = r.group('name')
+    r_age_td = None
+    r_approximate = False
+    r_lvl = None
+    r_csplaytime_td = None
+    r_server_playtime = None
+
     if steam_id not in cache:
         try:
             p = steamapi.call('ISteamUser.GetPlayerSummaries', steamids=uuid_working)['response']['players']
             if len(p) == 0:
-                raise ValueError('Invalid steam ID')
-            created = p[0]['timecreated']
+                raise ValueError('Invalid Steam ID')
+            r_created = p[0]['timecreated']
         except KeyError:
             if check_private:
-                approximate = True
+                r_approximate = True
                 iterations = 0
-                while created is None:
+                while r_created is None:
                     if iterations > max_guess_iterations:
-                        return float('inf'), r.group('user_id'), r.group('name'), 'Max guess iterations reached', \
-                               False, None, None, None
+                        r_age_td = "Max Guess Iterations Reached"
+                        break
                     uuid_working += 1
                     iterations += 1
                     p = steamapi.call('ISteamUser.GetPlayerSummaries', steamids=uuid_working)['response']['players']
                     if len(p) == 0:
                         continue
                     try:
-                        created = p[0]['timecreated']
+                        r_created = p[0]['timecreated']
                     except KeyError:
                         continue
             else:
-                return float('inf'), r.group('user_id'), r.group('name'), 'Guessing disabled', False, None, None, None
-        cache[steam_id] = created, approximate
+                r_age_td = "Guessing Disabled"
+        if not isinstance(r_age_td, str):
+            cache[steam_id] = r_created, r_approximate
     else:
-        created, approximate = cache[steam_id]
+        r_created, r_approximate = cache[steam_id]
 
-    td = timedelta(seconds=time() - created)
-    td2 = None
-    lvl = None
+    if r_created is not None:
+        r_age_td = timedelta(seconds=time() - r_created)
 
-    if not approximate:
+    if not r_approximate:
         try:
             p = steamapi.call('IPlayerService.GetSteamLevel', steamid=sid.as_64)
         except HTTPError:
             pass
         else:
-            lvl = p['response']['player_level']
+            r_lvl = p['response']['player_level']
         if check_csgo_playtime:
             try:
                 p = steamapi.call('ISteamUserStats.GetUserStatsForGame', steamid=sid.as_64, appid=730)
             except HTTPError:
                 pass
             else:
-                td2 = timedelta(seconds=next((i for i in p['playerstats']['stats'] if i['name'] == 'total_time_played'),
-                                             None)['value'])
-
-    server_playtime = None
+                r_csplaytime_td = timedelta(seconds=next(
+                    (i for i in p['playerstats']['stats'] if i['name'] == 'total_time_played'), None)['value'])
 
     if check_server_playtime:
         try:
-            server_playtime = get_playtime(sid.as_steam2_zero, game_code_map[server_ip], playerinfo_url)
+            r_server_playtime = get_playtime(sid.as_steam2_zero, game_code_map[server_ip], playerinfo_url)
         except KeyError:
-            server_playtime = "Invalid Server"
+            r_server_playtime = "Invalid Server"
 
-    return created, r.group('user_id'), r.group('name'), human_readable.precise_delta(
-        td, suppress=find_human_suppress(td)), approximate, lvl, human_readable.precise_delta(
-        td2, suppress=find_human_suppress(td2)) if td2 is not None else None, server_playtime
+    return r_created, r_uid, r_name, human_readable.precise_delta(r_age_td, suppress=find_human_suppress(
+        r_age_td)) if isinstance(r_age_td, timedelta) else r_age_td, r_approximate, r_lvl, human_readable.precise_delta(
+        r_csplaytime_td, suppress=find_human_suppress(r_csplaytime_td)) if isinstance(
+        r_csplaytime_td, timedelta) else r_csplaytime_td, r_server_playtime
