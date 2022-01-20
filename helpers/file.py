@@ -209,7 +209,7 @@ def assert_data() -> bool:
 
 def check_output(path) -> Union[Exception, type(None)]:
     try:
-        with open(path, 'r'):
+        with open(path, 'r', encoding='utf-8'):
             pass
     except (Exception,) as e:
         return e

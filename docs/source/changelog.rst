@@ -14,6 +14,10 @@ Added
 * Ability to hide world actions from summary output
 * Steam level to status
 
+Changed
+^^^^^^^^
+* Output.log now opens in UTF-8 encoding
+
 Fixed
 ^^^^^^
 * KeyError on invalid weapon name (MFD Detection)

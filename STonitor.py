@@ -250,7 +250,7 @@ if __name__ == '__main__':
     while True:
         try:
             # Open output file and read all contents line by line
-            with open(config['output_file'], 'r', errors='replace') as f:
+            with open(config['output_file'], 'r', encoding='utf-8', errors='replace') as f:
                 for line in f.readlines():
                     line = line.strip()
 
