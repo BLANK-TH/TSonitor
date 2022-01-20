@@ -149,7 +149,7 @@ def parse_jb_logs(lines: list, round_number: int, buttons: dict, header: str = '
             ignore = False
             if button_name in buttons['normal']:
                 button_config = buttons['normal'][button_name]
-            elif '#' + button_number in buttons['normal']:
+            elif isinstance(button_number, str) and '#' + button_number in buttons['normal']:
                 button_config = buttons['normal']['#' + button_number]
             else:
                 for r, v in buttons['regex'].values():
