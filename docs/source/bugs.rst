@@ -14,4 +14,3 @@ TTT
 Status Parsing
 ----------------
 * When parsing a very long status, ``#end`` doesn't output properly, this is an issue with CS:GO.
-* When parsing a very long status, some lines may be outputted as "Invalid". Currently unsure why this happens
