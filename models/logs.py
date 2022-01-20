@@ -236,7 +236,7 @@ class JBLog(Log):
 
     def find_button(self, delay: int, threshold: int, ignore_warden: bool) -> dict:
         check_buttons = []
-        griefs = defaultdict(lambda: {'prisoner': [], 'guard': []})
+        griefs = defaultdict(lambda: {'t': [], 'ct': []})
         for action in self.actions:
             if isinstance(action, JBButton) and not (ignore_warden and action.player.is_warden(action)):
                 check_buttons.append(action)
@@ -254,7 +254,7 @@ class JBLog(Log):
 
     def find_utility(self, delay: int, threshold: int) -> dict:
         check_utility = []
-        griefs = defaultdict(lambda: {'prisoner': [], 'guard': []})
+        griefs = defaultdict(lambda: {'t': [], 'ct': []})
         for action in self.actions:
             if isinstance(action, JBUtility):
                 check_utility.append(action)

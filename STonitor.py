@@ -131,7 +131,7 @@ def handle_jb_log(logs, round_number):
             for button, grief in griefs.items():
                 print(("{:" + longest_name + "s} pressed {:" + longest_button + "s} and {:,} T(s) and {:,} CT(s) "
                                                                                 "might've been harmed").format(
-                    button.player.to_str(button), button.button_str(), grief['prisoner'], grief['guard']))
+                    button.player.to_str(button), button.button_str(), grief['t'], grief['ct']))
             print('')
     if config["logs"]["jb"]["subfeatures"]["nades"]:
         nades = log.find_utility(config["logs"]["jb"]["limits"]["nade"],
@@ -141,7 +141,7 @@ def handle_jb_log(logs, round_number):
             longest_name = str(len(repr(max(nades.keys(), key=lambda x: len(repr(x.player))).player)) + 2)
             for util, grief in nades.items():
                 print(("{:" + longest_name + "s} threw a {} which could've disrupted {:,} T(s) and {:,} CT(s)").format(
-                    repr(util.player), util.type, grief['prisoner'], grief['guard']))
+                    repr(util.player), util.type, grief['t'], grief['ct']))
             print('')
     if config["logs"]["jb"]["subfeatures"]["mass_freedamage"]:
         mfds = log.find_utility_mfd(config["logs"]["jb"]["limits"]["mass_freedamage"],

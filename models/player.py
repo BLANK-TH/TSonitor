@@ -49,10 +49,10 @@ class JBPlayer:
         return self.context[context]
 
     def is_ct(self):
-        return self.general_role in ['Guard', 'Warden']
+        return self.general_role == 'CT'
 
     def is_t(self):
-        return self.general_role in ['Prisoner', 'Rebel']
+        return self.general_role == 'T'
 
     def is_inno(self, context):
         return self.context[context] in ['Prisoner', 'ST']
