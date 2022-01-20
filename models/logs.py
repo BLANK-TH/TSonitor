@@ -238,7 +238,8 @@ class JBLog(Log):
         check_buttons = []
         griefs = defaultdict(lambda: {'t': [], 'ct': []})
         for action in self.actions:
-            if isinstance(action, JBButton) and not (ignore_warden and action.player.is_warden(action)):
+            if isinstance(action, JBButton) and not action.ignore and not (
+                    ignore_warden and action.player.is_warden(action)):
                 check_buttons.append(action)
             elif isinstance(action, JBDamage) and isinstance(action.attacker, JBWorld) and action.damage >= threshold:
                 pending_remove = []
