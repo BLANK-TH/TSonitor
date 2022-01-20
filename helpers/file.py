@@ -4,9 +4,11 @@
 #  file, You can obtain one at http://mozilla.org/MPL/2.0/.
 # ------------------------------------------------------------------------------
 
+from copy import deepcopy
 from json import load, dump
 from os import mkdir
 from os.path import isfile, isdir
+from re import compile as rcompile, error as rerror
 from typing import Union
 
 import yaml
@@ -203,10 +205,10 @@ def check_dict(d: dict, expected: dict, fixed_dict=None) -> Union[bool, dict]:
     return True if fixed_dict == d else {k: fixed_dict[k] for k in expected}  # Hacky way to sort & remove unused keys
 
 
-def assert_data() -> bool:
+def assert_data() -> Union[bool, str]:
     """Checks if the data folder and required files exist, if not, create them
 
-    :return: True if all data is correct, False if data was created/modified
+    :return: True if all data is correct, False if data was created/modified, str if additional info is provided
     """
     success = True
 
@@ -235,6 +237,27 @@ def assert_data() -> bool:
     if not isfile('data/buttons.yaml'):
         with open('data/buttons.yaml', 'w') as f:
             f.write(yaml.dump(button_alias, sort_keys=False, width=float('inf')))
+    else:
+        btns = load_buttons()
+        btns_working = deepcopy(btns)
+        for k, v in btns['normal'].items():
+            if 'ignore' not in v:
+                btns_working['normal'][k]['ignore'] = False
+            if 'alias' not in v:
+                btns_working['normal'][k]['alias'] = None
+        for k, v in btns['regex'].items():
+            try:
+                rcompile(k)
+            except rerror:
+                success = "Invalid regex: " + k
+            if 'ignore' not in v:
+                btns_working['regex'][k]['ignore'] = False
+            if 'alias' not in v:
+                btns_working['regex'][k]['alias'] = None
+
+        if btns != btns_working:
+            with open('data/buttons.yaml', 'w') as f:
+                f.write(yaml.dump(btns_working, sort_keys=False, width=float('inf')))
     if not isfile('data/age_cache.json'):
         with open('data/age_cache.json', 'w') as f:
             dump({}, f, indent=2)

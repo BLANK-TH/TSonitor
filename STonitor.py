@@ -197,9 +197,12 @@ def get_bool_status(*args):
 if __name__ == '__main__':
     os.chdir(sys.path[0])  # Set CWD to this file in case clueless users run wo/ a proper working directory
     sys.excepthook = except_hook  # Setup custom exception handler
-    if not assert_data():
-        print("Missing or invalid data files found, an automatic creation/fix was attempted, please check data files "
-              "for potential needed user input")
+    asrep = assert_data()
+    if asrep is not True:
+        if isinstance(asrep, str):
+            print("File integrity check failed, user input needed: " + asrep)
+        else:
+            print("Missing or invalid data files found, an automatic creation/fix was attempted")
         sys.exit()
 
     from helpers.gvars import constants, VERSION, STATUS_REGEX, CONNECTED_REGEX
