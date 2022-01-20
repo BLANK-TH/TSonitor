@@ -16,6 +16,7 @@ Added
 * Basic support for new ``ST`` role in logs
 * FAQ entry for new GameME detections
 * Known bugs page on documentation
+* Show error message on status error
 
 Changed
 ^^^^^^^^

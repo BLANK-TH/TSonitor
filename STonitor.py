@@ -173,8 +173,9 @@ def handle_status(logs, server_ip):
                                         constants["age"]["gameme"]["game_code"],
                                         server_ip,
                                         constants["age"]["gameme"]["playerinfo_url"]))
-        except (Exception,):
-            results.append((float('inf'), '-1', 'Error', 'Error parsing line: ' + line, False, None, None, None))
+        except (Exception,) as e:
+            results.append((float('inf'), '-1', 'Error: ' + str(e), 'Error parsing line: ' + line, False, None,
+                            None, None))
     results.sort()
     pad_age = str(len(max(results, key=lambda x: len(x[3]))[3]) + 2)
     pad_name = str(len(max(results, key=lambda x: len(x[2]))[2]) + 2)
