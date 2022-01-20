@@ -24,8 +24,7 @@ features and their sub-features can be disabled through a detailed settings file
     - Steam accounts that are private has their age estimated by finding accounts created right after the private 
     account
   - Automatically retrieves and outputs their CS:GO playtime (if available)
-  - **Soon™**: Automatically retrieve and output their playtime on the server (this will be implemented once gameME is 
-  fixed and I can work out their API)
+  - Automatically retrieve and output their playtime on the server (if available)
 - JB Log Analysis
   - Wardenless Freekill Detection
     - Tells you when a CT kills a non-rebelling T without a warden alive
