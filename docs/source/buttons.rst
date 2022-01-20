@@ -84,3 +84,11 @@ To use Regex, simply put the regex where Button Name and Button ID would be in n
     'piano_key_\ws?':
       ignore: true
       alias: Piano Key
+
+Note: Precedence
+------------------
+Normal takes precedence over Regex, which means that if something is both a match for a normal config and a regex
+config, the normal config is the one that will be used.
+
+Both normal and regex are processed in order, which means that if something matches both the first and last value, the
+config of the first value is the one that will be used.
