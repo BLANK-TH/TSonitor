@@ -13,7 +13,7 @@ of button names, Regex is fairly advanced and it's not recommended you use it un
 Each configuration regardless of if it's normal mode or regex mode has two parameters (``ignore`` and ``alias``).
 A simple example using normal button names is the following:
 
-.. code-block::
+.. code-block:: yaml
 
     celldoors:
       ignore: true
@@ -33,7 +33,7 @@ you accidentally using formatting characters (``ignore`` and ``alias`` are fine,
 they are not literals (unless you want the name of a button to be ``null`` for some reason, then surround it with
 quotes in that case). The above example would become:
 
-.. code-block::
+.. code-block:: yaml
 
     'celldoors':
       ignore: true
@@ -53,7 +53,7 @@ methods (ignore and alias are random values in both examples):
 Button Name
 ^^^^^^^^^^^^^
 
-.. code-block::
+.. code-block:: yaml
 
     'celldoors':
       ignore: true
@@ -62,7 +62,7 @@ Button Name
 Button ID
 ^^^^^^^^^^
 
-.. code-block::
+.. code-block:: yaml
 
     '#123456':
       ignore: false
@@ -79,7 +79,7 @@ build your Regex and test if it works properly (make sure to set the flavor to P
 
 To use Regex, simply put the regex where Button Name and Button ID would be in normal mode. For example:
 
-.. code-block::
+.. code-block:: yaml
 
     'piano_key_\ws?':
       ignore: true
