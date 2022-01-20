@@ -18,7 +18,7 @@ from packaging import version
 from requests.exceptions import HTTPError
 from steam.webapi import WebAPI
 
-from helpers.file import assert_data, check_output, load_config, load_age_cache, save_age_cache
+from helpers.file import assert_data, check_output, load_config, load_age_cache, load_buttons, save_age_cache
 
 
 def except_hook(exc_class, message, traceback):
@@ -84,9 +84,9 @@ def handle_ttt_log(logs):
         log.save_log()
 
 
-def handle_jb_log(logs, round_number):
+def handle_jb_log(logs, round_number, buttons):
     """Create and parse JB logs from raw JB lines"""
-    log = parse_jb_logs(logs, round_number, '\n'.join(constants["jb"]["log_header"]),
+    log = parse_jb_logs(logs, round_number, buttons, '\n'.join(constants["jb"]["log_header"]),
                         '\n'.join(constants["jb"]["log_separator"]))
     print(config["header"] + '\nJB Logs ({})\n'.format(round_number) +
           log.summary_output(**config["logs"]["jb"]["summary_output"]), end='\n\n')
@@ -206,6 +206,7 @@ if __name__ == '__main__':
     from helpers.logs import parse_ttt_logs, parse_jb_logs, parse_status
 
     config = load_config()
+    buttons = load_buttons()
     try:
         steam_api = WebAPI(key=config["steamkey"]) if config["steamkey"] != '' else None
     except HTTPError:
@@ -315,7 +316,7 @@ if __name__ == '__main__':
                             if line == constants["jb"]["log_separator"][abs(parsing_jb)]:
                                 if parsing_jb == -2:
                                     if logs not in parsed_jb:
-                                        handle_jb_log(logs, datetime.now().strftime("%b-%d-%Y_%H-%M-%S_%f"))
+                                        handle_jb_log(logs, datetime.now().strftime("%b-%d-%Y_%H-%M-%S_%f"), buttons)
                                         parsed_jb.append(logs)
                                     parsing_jb = False
                                     logs = []

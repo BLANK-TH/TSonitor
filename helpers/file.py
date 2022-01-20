@@ -141,10 +141,8 @@ constants = {
 }
 
 button_alias = {
-    "ignore": [],
-    "rename": [],
-    "regex_ignore": [],
-    "regex_rename": []
+    "normal": {},
+    "regex": {}
 }
 
 

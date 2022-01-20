@@ -4,6 +4,8 @@
 #  file, You can obtain one at http://mozilla.org/MPL/2.0/.
 # ------------------------------------------------------------------------------
 
+# noinspection PyUnresolvedReferences
+import re
 from time import time
 
 import human_readable
@@ -111,7 +113,7 @@ def parse_ttt_logs(lines: list, header: str = '', footer: str = '') -> TTTLog:
     return TTTLog('\n'.join(lines), actions, round_number, header, footer)
 
 
-def parse_jb_logs(lines: list, round_number: int, header: str = '', footer: str = '') -> JBLog:
+def parse_jb_logs(lines: list, round_number: int, buttons: dict, header: str = '', footer: str = '') -> JBLog:
     actions = []
     players = {'The World': JBWorld()}
     for line in lines:
@@ -140,8 +142,28 @@ def parse_jb_logs(lines: list, round_number: int, header: str = '', footer: str 
         r = handle_named_regex(JB_BUTTON_REGEX, line)
         if r is not None:
             player = get_jb_player(players, r.group('player'), r.group('player_role'))
-            actions.append(JBButton(line, r.group('time'), player, r.group('button_name'),
-                                    int(r.group('button_number')) if r.group('button_number') is not None else None))
+
+            button_name = r.group('button_name')
+            button_number = r.group('button_number')
+            button_config = None
+            ignore = False
+            if button_name in buttons['normal']:
+                button_config = buttons['normal'][button_name]
+            elif '#' + button_number in buttons['normal']:
+                button_config = buttons['normal']['#' + button_number]
+            else:
+                for r, v in buttons['regex'].values():
+                    if re.fullmatch(r, button_name):
+                        button_config = v
+                        break
+
+            if button_config is not None:
+                ignore = button_config['ignore']
+                if button_config['alias'] is not None:
+                    button_name = button_config['alias']
+
+            actions.append(JBButton(line, r.group('time'), player, button_name, int(
+                button_number) if button_number is not None else None, ignore))
             player.add_action(actions[-1], r.group('player_role'))
             continue
 

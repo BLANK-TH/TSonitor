@@ -110,11 +110,13 @@ class JBVents(JBAction):
 class JBButton(JBAction):
     """Class representing someone pressing a button in JB logs"""
 
-    def __init__(self, raw_line: str, timestamp: str, player: JBPlayer, button_name: str, button_number: int = None):
+    def __init__(self, raw_line: str, timestamp: str, player: JBPlayer, button_name: str, button_number: int = None,
+                 ignore: bool = False):
         super().__init__(raw_line, timestamp)
         self.player = player
         self.button_name = button_name
         self.button_number = button_number
+        self.ignore = ignore
 
     def __repr__(self):
         return "[{:02}:{:02}] {} pressed {}".format(*self.timestamp, self.player.to_str(self), self.button_str())
