@@ -131,7 +131,7 @@ def handle_jb_log(logs, round_number, buttons):
             for button, grief in griefs.items():
                 print(("{:" + longest_name + "s} pressed {:" + longest_button + "s} and {:,} T(s) and {:,} CT(s) "
                                                                                 "might've been harmed").format(
-                    button.player.to_str(button), button.button_str(), grief['t'], grief['ct']))
+                    repr(button.player), button.button_str(), grief['t'], grief['ct']))
             print('')
     if config["logs"]["jb"]["subfeatures"]["nades"]:
         nades = log.find_utility(config["logs"]["jb"]["limits"]["nade"],

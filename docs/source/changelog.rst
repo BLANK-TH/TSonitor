@@ -10,6 +10,7 @@ and this project adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0
 Fixed
 ^^^^^
 * Outdated default GameME link for eGO
+* Space padding incorrect on button grief output
 
 [2.0.1] - 2022-01-20
 ------------------------
