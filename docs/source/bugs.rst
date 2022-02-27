@@ -7,6 +7,12 @@ Logs Parsing
 -------------
 JB
 ^^^
+* LR/LG detection can be incorrect for any one of the following reasons, there's no practical way to eliminate all of
+these issues:
+    * If someone does absolutely nothing that gets logged in the entire round, it will break LR/LG detection
+    * If someone joins in the middle of the round and runs !ghost
+* If someone gets respawned in the middle of the round, STonitor will ignore all logs about that person from their
+death point forward. This is an unintentional side-effect of an intentional feature.
 
 TTT
 ^^^^
