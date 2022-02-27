@@ -129,7 +129,7 @@ constants = {
         'utility_weapon_names': {'molotov': 'inferno', 'grenade': 'hegrenade'}
     },
     "age": {
-        "regex": r"^# *(?P<user_id>\d*) \d* \"(?P<name>.*)\" (?P<steam_id>STEAM_\d:\d:\d*).+$",
+        "regex": r"^# *(?P<user_id>\d*) *\d* *\"(?P<name>.*)\" *(?P<steam_id>STEAM_\d:\d:\d*).+$",
         "header": "# userid name uniqueid connected ping loss state rate",
         "footer": "#end",
         "gameme": {
