@@ -173,6 +173,10 @@ button_alias = {
         r"gun_button_\d*": {
             'ignore': True,
             'alias': 'Gun Button'
+        },
+        r"draw_color_.*": {
+            'ignore': True,
+            'alias': 'Pictionary Draw Button'
         }
     }
 }
