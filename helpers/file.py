@@ -133,7 +133,7 @@ constants = {
         "header": "# userid name uniqueid connected ping loss state rate",
         "footer": "#end",
         "gameme": {
-            "playerinfo_url": "https://prestigegaming.gameme.com/r/playerinfo",
+            "playerinfo_url": "https://edgegamersorg.gameme.com/r/playerinfo",
             "game_code": {"74.91.113.113:27015": 'csgo2', '74.91.113.83:27015': 'csgo3'}
         }
     },
