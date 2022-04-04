@@ -1,4 +1,6 @@
 # STonitor
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+
 STonitor is an application  with the same general goal as MSWS' [Sonitor](https://github.com/MSWS/Sonitor) program, to 
 facilitate admining eGO TTT & JB servers, by automatically analyzing logs outputted by those
 servers. It can also show you the account age and CS:GO playtime (if available) of Steam accounts on the server.
