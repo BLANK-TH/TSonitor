@@ -11,26 +11,38 @@ from .actions import *
 from .player import JBWorld
 
 
-def delta_range(td1: timedelta, td2: timedelta, minutes: int = 0, seconds: int = 0) -> bool:
+def delta_range(
+    td1: timedelta, td2: timedelta, minutes: int = 0, seconds: int = 0
+) -> bool:
     return abs(td1 - td2) <= timedelta(minutes=minutes, seconds=seconds)
 
 
 class Log:
     """General class representing eGO logs"""
 
-    def __init__(self, raw_log: str, actions: list, id: int, ty: str = 'Unknown', header: str = '', footer: str = ''):
+    def __init__(
+        self,
+        raw_log: str,
+        actions: list,
+        id: int,
+        ty: str = "Unknown",
+        header: str = "",
+        footer: str = "",
+    ):
         self.raw_log = ""
-        for line in raw_log.split('\n'):
-            if line.startswith('[') and not line.startswith('[DS]'):
-                self.raw_log += line + '\n'
+        for line in raw_log.split("\n"):
+            if line.startswith("[") and not line.startswith("[DS]"):
+                self.raw_log += line + "\n"
         self.actions = actions
         self.id = id
         self.type = ty
-        self.header = header + '\n' if header != '' else ''
-        self.footer = footer + '\n' if header != '' else ''
+        self.header = header + "\n" if header != "" else ""
+        self.footer = footer + "\n" if header != "" else ""
 
     def save_log(self):
-        with open('data/logs/{}_{}.txt'.format(self.type, self.id), 'w', encoding='utf-8') as f:
+        with open(
+            "data/logs/{}_{}.txt".format(self.type, self.id), "w", encoding="utf-8"
+        ) as f:
             try:
                 f.write(self.header + self.raw_log + self.footer)
             except UnicodeEncodeError:
@@ -46,18 +58,25 @@ class Log:
 class TTTLog(Log):
     """Class representing TTT logs"""
 
-    def __init__(self, raw_log: str, actions: list, id: int, header: str = '', footer: str = ''):
-        super().__init__(raw_log, actions, id, 'TTT', header, footer)
+    def __init__(
+        self, raw_log: str, actions: list, id: int, header: str = "", footer: str = ""
+    ):
+        super().__init__(raw_log, actions, id, "TTT", header, footer)
 
     def summary_output(self, kills: bool, damage: bool):
         output = ""
         for action in self.actions:
             if kills and isinstance(action, TTTDeath):
-                output += '[{:02}:{:02}] {} killed {}\n'.format(*action.timestamp, repr(action.attacker),
-                                                                repr(action.victim))
+                output += "[{:02}:{:02}] {} killed {}\n".format(
+                    *action.timestamp, repr(action.attacker), repr(action.victim)
+                )
             elif damage and isinstance(action, TTTDamage):
-                output += '[{:02}:{:02}] {} damaged {} for {:,}\n'.format(*action.timestamp, repr(action.attacker),
-                                                                          repr(action.victim), action.damage)
+                output += "[{:02}:{:02}] {} damaged {} for {:,}\n".format(
+                    *action.timestamp,
+                    repr(action.attacker),
+                    repr(action.victim),
+                    action.damage
+                )
 
         return output.rstrip()
 
@@ -70,10 +89,18 @@ class TTTLog(Log):
                     rdm = False
                     for a in self.actions[:i]:
                         if isinstance(a, TTTDamage):
-                            if a.is_attacker(action.attacker) and a.is_victim(action.victim) and a.bad:
+                            if (
+                                a.is_attacker(action.attacker)
+                                and a.is_victim(action.victim)
+                                and a.bad
+                            ):
                                 rdm = True
                                 break
-                            if a.is_attacker(action.victim) and a.is_victim(action.attacker) and a.bad:
+                            if (
+                                a.is_attacker(action.victim)
+                                and a.is_victim(action.attacker)
+                                and a.bad
+                            ):
                                 rdm = False
                                 break
                 if rdm:
@@ -90,38 +117,67 @@ class TTTLog(Log):
                     rdm = False
                     for a in self.actions[:i]:
                         if isinstance(a, TTTDamage):
-                            if a.is_attacker(action.attacker) and a.is_victim(action.victim) and a.bad:
+                            if (
+                                a.is_attacker(action.attacker)
+                                and a.is_victim(action.victim)
+                                and a.bad
+                            ):
                                 rdm = True
                                 break
-                            if a.is_attacker(action.victim) and a.is_victim(action.attacker) and a.bad:
+                            if (
+                                a.is_attacker(action.victim)
+                                and a.is_victim(action.attacker)
+                                and a.bad
+                            ):
                                 rdm = False
                                 break
                 if rdm:
                     rdm_count[action.attacker] += 1
 
-        return {player: amount for player, amount in rdm_count.items() if amount >= limit}
+        return {
+            player: amount for player, amount in rdm_count.items() if amount >= limit
+        }
 
     def find_innocent_utility(self, utility_weapon_names, bad_only):
-        damage_count = defaultdict(lambda: {'Innocent': [], 'Detective': [], 'Traitor': [], 'damage': 0})
+        damage_count = defaultdict(
+            lambda: {"Innocent": [], "Detective": [], "Traitor": [], "damage": 0}
+        )
         for action in self.actions:
-            if isinstance(action, TTTDamage) and action.attacker.role in ['Innocent', 'Detective']:
+            if isinstance(action, TTTDamage) and action.attacker.role in [
+                "Innocent",
+                "Detective",
+            ]:
                 if action.weapon not in utility_weapon_names:
                     continue
                 if not action.bad and bad_only:
                     continue
                 damage_count[action.attacker][action.victim.role].append(action.victim)
-                damage_count[action.attacker]['damage'] += action.damage
+                damage_count[action.attacker]["damage"] += action.damage
 
-        return {k: [len(set(v['Innocent'])), len(set(v['Detective'])), len(set(v['Traitor'])), v['damage']]
-                for k, v in damage_count.items()}
+        return {
+            k: [
+                len(set(v["Innocent"])),
+                len(set(v["Detective"])),
+                len(set(v["Traitor"])),
+                v["damage"],
+            ]
+            for k, v in damage_count.items()
+        }
 
 
 class JBLog(Log):
     """Class representing JB logs"""
 
-    def __init__(self, raw_log: str, actions: list, id: int, players: List[JBPlayer], header: str = '',
-                 footer: str = ''):
-        super().__init__(raw_log, actions, id, 'JB', header, footer)
+    def __init__(
+        self,
+        raw_log: str,
+        actions: list,
+        id: int,
+        players: List[JBPlayer],
+        header: str = "",
+        footer: str = "",
+    ):
+        super().__init__(raw_log, actions, id, "JB", header, footer)
         self.players = players
         self.deaths = [action for action in self.actions if isinstance(action, JBDeath)]
         self.ts = []
@@ -142,35 +198,64 @@ class JBLog(Log):
 
         self.last_guard, self.last_request = self.get_lr_lg()
 
-    def summary_output(self, kills: bool, warden: bool, warden_death: bool, pass_fire: bool, damage: bool, vents: bool,
-                       button: bool, drop_weapon: bool, world: bool) -> str:
+    def summary_output(
+        self,
+        kills: bool,
+        warden: bool,
+        warden_death: bool,
+        pass_fire: bool,
+        damage: bool,
+        vents: bool,
+        button: bool,
+        drop_weapon: bool,
+        world: bool,
+    ) -> str:
         output = []
         for action in self.actions:
-            if (kills and isinstance(action, JBDeath)) or (warden and isinstance(action, JBWarden)) or \
-                    (warden_death and isinstance(action, JBWardenDeath)) or \
-                    (pass_fire and isinstance(action, JBWardenPassFire)) or \
-                    (damage and isinstance(action, JBDamage)) or (vents and isinstance(action, JBVents)) or \
-                    (vents and isinstance(action, JBVents)) or (button and isinstance(action, JBButton)) or \
-                    (drop_weapon and isinstance(action, JBWeaponDrop)):
-                if not (not world and hasattr(action, 'attacker') and isinstance(action.attacker, JBWorld)):
+            if (
+                (kills and isinstance(action, JBDeath))
+                or (warden and isinstance(action, JBWarden))
+                or (warden_death and isinstance(action, JBWardenDeath))
+                or (pass_fire and isinstance(action, JBWardenPassFire))
+                or (damage and isinstance(action, JBDamage))
+                or (vents and isinstance(action, JBVents))
+                or (vents and isinstance(action, JBVents))
+                or (button and isinstance(action, JBButton))
+                or (drop_weapon and isinstance(action, JBWeaponDrop))
+            ):
+                if not (
+                    not world
+                    and hasattr(action, "attacker")
+                    and isinstance(action.attacker, JBWorld)
+                ):
                     output.append(repr(action))
 
-        if self.last_guard is not None and (self.last_request is None or
-                                            self.last_request.timestamp_delta > self.last_guard.timestamp_delta):
-            output.append('{} died, activating last guard at {:02}:{:02}'.format(self.last_guard.victim.name,
-                                                                                 *self.last_guard.timestamp))
+        if self.last_guard is not None and (
+            self.last_request is None
+            or self.last_request.timestamp_delta > self.last_guard.timestamp_delta
+        ):
+            output.append(
+                "{} died, activating last guard at {:02}:{:02}".format(
+                    self.last_guard.victim.name, *self.last_guard.timestamp
+                )
+            )
         if self.last_request is not None:
-            output.append('{} died, activating last request at {:02}:{:02}'.format(self.last_request.victim.name,
-                                                                                   *self.last_request.timestamp))
+            output.append(
+                "{} died, activating last request at {:02}:{:02}".format(
+                    self.last_request.victim.name, *self.last_request.timestamp
+                )
+            )
 
-        return '\n'.join(output)
+        return "\n".join(output)
 
     def find_wardenless_fk(self, freeday_delay: int) -> List[JBDeath]:
         warden = False
         fks = []
         for action in self.actions:
             if isinstance(warden, timedelta):
-                if abs(warden - action.timestamp_delta) > timedelta(seconds=freeday_delay):
+                if abs(warden - action.timestamp_delta) > timedelta(
+                    seconds=freeday_delay
+                ):
                     warden = False
             if isinstance(action, JBWarden):
                 warden = True
@@ -178,8 +263,13 @@ class JBLog(Log):
                 warden = False
             elif isinstance(action, JBWardenPassFire):
                 warden = action.timestamp_delta
-            elif not warden and isinstance(action, JBDeath) and action.attacker.is_ct() and action.victim.is_inno(
-                    action) and not self.is_lg_lr(action.timestamp_delta):
+            elif (
+                not warden
+                and isinstance(action, JBDeath)
+                and action.attacker.is_ct()
+                and action.victim.is_inno(action)
+                and not self.is_lg_lr(action.timestamp_delta)
+            ):
                 fks.append(action)
 
         return fks
@@ -190,8 +280,14 @@ class JBLog(Log):
         for action in self.actions:
             if isinstance(action, JBWarden):
                 new_warden = action.timestamp_delta
-            elif new_warden is not None and isinstance(action, JBDeath) and not self.is_lg_lr(action.timestamp_delta):
-                if delta_range(action.timestamp_delta, new_warden, seconds=seconds_limit):
+            elif (
+                new_warden is not None
+                and isinstance(action, JBDeath)
+                and not self.is_lg_lr(action.timestamp_delta)
+            ):
+                if delta_range(
+                    action.timestamp_delta, new_warden, seconds=seconds_limit
+                ):
                     if action.attacker.is_ct() and action.victim.is_inno(action):
                         fks.append(action)
                 else:
@@ -218,15 +314,33 @@ class JBLog(Log):
         gunplants = []
         for action in self.actions:
             if isinstance(action, JBWeaponDrop) and action.player.is_ct():
-                if action.player.death_delta is not None and action.timestamp_delta >= action.player.death_delta:
+                if (
+                    action.player.death_delta is not None
+                    and action.timestamp_delta >= action.player.death_delta
+                ):
                     continue  # Skip gunplants caused by CT's death
-                check_gunplants.append({'weapon': action.weapon, 'delta': action.timestamp_delta,
-                                        'player': action.player})
+                check_gunplants.append(
+                    {
+                        "weapon": action.weapon,
+                        "delta": action.timestamp_delta,
+                        "player": action.player,
+                    }
+                )
             elif isinstance(action, JBDamage) and action.attacker.is_t():
                 pending_remove = []
-                for plant in [i for i in check_gunplants if i['weapon'] == action.weapon]:
-                    if delta_range(plant['delta'], action.timestamp_delta, seconds=gunplant_delay):
-                        gunplants.append({'ct': plant['player'], 't': action.attacker, 'weapon': action.weapon})
+                for plant in [
+                    i for i in check_gunplants if i["weapon"] == action.weapon
+                ]:
+                    if delta_range(
+                        plant["delta"], action.timestamp_delta, seconds=gunplant_delay
+                    ):
+                        gunplants.append(
+                            {
+                                "ct": plant["player"],
+                                "t": action.attacker,
+                                "weapon": action.weapon,
+                            }
+                        )
                     else:
                         pending_remove.append(plant)
                 for remove in pending_remove:
@@ -236,40 +350,63 @@ class JBLog(Log):
 
     def find_button(self, delay: int, threshold: int, ignore_warden: bool) -> dict:
         check_buttons = []
-        griefs = defaultdict(lambda: {'t': [], 'ct': []})
+        griefs = defaultdict(lambda: {"t": [], "ct": []})
         for action in self.actions:
-            if isinstance(action, JBButton) and not action.ignore and not (
-                    ignore_warden and action.player.is_warden(action)):
+            if (
+                isinstance(action, JBButton)
+                and not action.ignore
+                and not (ignore_warden and action.player.is_warden(action))
+            ):
                 check_buttons.append(action)
-            elif isinstance(action, JBDamage) and isinstance(action.attacker, JBWorld) and action.damage >= threshold:
+            elif (
+                isinstance(action, JBDamage)
+                and isinstance(action.attacker, JBWorld)
+                and action.damage >= threshold
+            ):
                 pending_remove = []
                 for button in check_buttons:
-                    if delta_range(button.timestamp_delta, action.timestamp_delta, seconds=delay):
-                        griefs[button][action.victim.general_role.casefold()].append(action.victim)
+                    if delta_range(
+                        button.timestamp_delta, action.timestamp_delta, seconds=delay
+                    ):
+                        griefs[button][action.victim.general_role.casefold()].append(
+                            action.victim
+                        )
                     else:
                         pending_remove.append(button)
                 for remove in pending_remove:
                     check_buttons.remove(remove)
 
-        return {k: {k2: len(set(v2)) for k2, v2 in v.items()} for k, v in griefs.items()}
+        return {
+            k: {k2: len(set(v2)) for k2, v2 in v.items()} for k, v in griefs.items()
+        }
 
     def find_utility(self, delay: int, threshold: int) -> dict:
         check_utility = []
-        griefs = defaultdict(lambda: {'t': [], 'ct': []})
+        griefs = defaultdict(lambda: {"t": [], "ct": []})
         for action in self.actions:
             if isinstance(action, JBUtility):
                 check_utility.append(action)
-            elif isinstance(action, JBDamage) and isinstance(action.attacker, JBWorld) and action.damage >= threshold:
+            elif (
+                isinstance(action, JBDamage)
+                and isinstance(action.attacker, JBWorld)
+                and action.damage >= threshold
+            ):
                 pending_remove = []
                 for util in check_utility:
-                    if delta_range(util.timestamp_delta, action.timestamp_delta, seconds=delay):
-                        griefs[util][action.victim.general_role.casefold()].append(action.victim)
+                    if delta_range(
+                        util.timestamp_delta, action.timestamp_delta, seconds=delay
+                    ):
+                        griefs[util][action.victim.general_role.casefold()].append(
+                            action.victim
+                        )
                     else:
                         pending_remove.append(util)
                 for remove in pending_remove:
                     check_utility.remove(remove)
 
-        return {k: {k2: len(set(v2)) for k2, v2 in v.items()} for k, v in griefs.items()}
+        return {
+            k: {k2: len(set(v2)) for k2, v2 in v.items()} for k, v in griefs.items()
+        }
 
     def find_utility_mfd(self, duration: int, threshold: int, utility: dict) -> dict:
         check_utility = []
@@ -277,13 +414,21 @@ class JBLog(Log):
         for action in self.actions:
             if isinstance(action, JBUtility) and action.player.is_ct():
                 check_utility.append(action)
-            elif isinstance(action, JBDamage) and action.weapon in utility.values() and not self.is_lg_lr(
-                    action.timestamp_delta):
+            elif (
+                isinstance(action, JBDamage)
+                and action.weapon in utility.values()
+                and not self.is_lg_lr(action.timestamp_delta)
+            ):
                 pending_remove = []
                 for util in check_utility:
-                    if delta_range(util.timestamp_delta, action.timestamp_delta, seconds=duration):
+                    if delta_range(
+                        util.timestamp_delta, action.timestamp_delta, seconds=duration
+                    ):
                         try:
-                            if action.attacker == util.player and utility[util.type] == action.weapon:
+                            if (
+                                action.attacker == util.player
+                                and utility[util.type] == action.weapon
+                            ):
                                 mfds[util].append(action.victim)
                         except KeyError:
                             continue
@@ -306,5 +451,8 @@ class JBLog(Log):
         return last_guard, last_request
 
     def is_lg_lr(self, delta):
-        return (self.last_guard is not None and delta >= self.last_guard.timestamp_delta) or \
-               (self.last_request is not None and delta >= self.last_request.timestamp_delta)
+        return (
+            self.last_guard is not None and delta >= self.last_guard.timestamp_delta
+        ) or (
+            self.last_request is not None and delta >= self.last_request.timestamp_delta
+        )

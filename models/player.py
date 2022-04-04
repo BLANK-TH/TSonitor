@@ -17,7 +17,7 @@ class TTTPlayer:
         return self.name
 
     def __repr__(self):
-        return '{} ({})'.format(self.name, self.role)
+        return "{} ({})".format(self.name, self.role)
 
 
 class JBPlayer:
@@ -29,7 +29,9 @@ class JBPlayer:
 
     def add_action(self, action, role):
         self.context[action] = role
-        if action.__class__.__name__ == 'JBDeath':  # Manual comparison due to unavoidable circular import
+        if (
+            action.__class__.__name__ == "JBDeath"
+        ):  # Manual comparison due to unavoidable circular import
             if action.victim == self:
                 self.death_delta = action.timestamp_delta
 
@@ -37,31 +39,31 @@ class JBPlayer:
         return self.name
 
     def __repr__(self):
-        return '{} ({})'.format(self.name, self.general_role)
+        return "{} ({})".format(self.name, self.general_role)
 
     def to_str(self, context=None):
         if context is None:
             return self.__str__()
         else:
-            return '{} ({})'.format(self.name, self.get_role(context))
+            return "{} ({})".format(self.name, self.get_role(context))
 
     def get_role(self, context):
         return self.context[context]
 
     def is_ct(self):
-        return self.general_role == 'CT'
+        return self.general_role == "CT"
 
     def is_t(self):
-        return self.general_role == 'T'
+        return self.general_role == "T"
 
     def is_inno(self, context):
-        return self.context[context] in ['Prisoner', 'ST']
+        return self.context[context] in ["Prisoner", "ST"]
 
     def is_st(self, context):
-        return self.context[context] == 'ST'
+        return self.context[context] == "ST"
 
     def is_warden(self, context):
-        return self.context[context].casefold() == 'warden'
+        return self.context[context].casefold() == "warden"
 
 
 class JBWorld(JBPlayer):
