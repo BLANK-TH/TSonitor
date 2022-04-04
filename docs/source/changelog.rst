@@ -11,6 +11,7 @@ Added
 ^^^^^
 * jb_undertale pictionary draw button to default ignore
 * Various entries regarding JB logging in the known bugs documentation page
+* Using black to standardize code style
 
 Fixed
 ^^^^^
