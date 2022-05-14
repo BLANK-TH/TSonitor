@@ -7,6 +7,7 @@
 from collections import defaultdict
 from typing import Union, Tuple, List
 
+from helpers.gvars import colourify
 from .actions import *
 from .player import JBWorld
 
@@ -67,15 +68,17 @@ class TTTLog(Log):
         output = ""
         for action in self.actions:
             if kills and isinstance(action, TTTDeath):
-                output += "[{:02}:{:02}] {} killed {}\n".format(
-                    *action.timestamp, repr(action.attacker), repr(action.victim)
-                )
-            elif damage and isinstance(action, TTTDamage):
-                output += "[{:02}:{:02}] {} damaged {} for {:,}\n".format(
-                    *action.timestamp,
+                output += "[{}] {} killed {}\n".format(
+                    colourify("time", "{:02}:{:02}".format(*action.timestamp)),
                     repr(action.attacker),
                     repr(action.victim),
-                    action.damage
+                )
+            elif damage and isinstance(action, TTTDamage):
+                output += "[{}] {} damaged {} for {}\n".format(
+                    colourify("time", "{:02}:{:02}".format(*action.timestamp)),
+                    repr(action.attacker),
+                    repr(action.victim),
+                    colourify("damage", ":,".format(action.damage)),
                 )
 
         return output.rstrip()
@@ -235,14 +238,18 @@ class JBLog(Log):
             or self.last_request.timestamp_delta > self.last_guard.timestamp_delta
         ):
             output.append(
-                "{} died, activating last guard at {:02}:{:02}".format(
-                    self.last_guard.victim.name, *self.last_guard.timestamp
+                "{} died, activating last guard at {}".format(
+                    colourify("name", self.last_guard.victim.name),
+                    colourify("time", "{:02}:{:02}".format(*self.last_guard.timestamp)),
                 )
             )
         if self.last_request is not None:
             output.append(
-                "{} died, activating last request at {:02}:{:02}".format(
-                    self.last_request.victim.name, *self.last_request.timestamp
+                "{} died, activating last request at {}".format(
+                    colourify("name", self.last_request.victim.name),
+                    colourify(
+                        "time", "{:02}:{:02}".format(*self.last_request.timestamp)
+                    ),
                 )
             )
 

@@ -6,8 +6,11 @@
 
 import re
 
-from .file import load_constants
+from colorama import Fore
 
+from .file import load_config, load_constants
+
+config = load_config()
 constants = load_constants()
 VERSION = "2.0.1"
 
@@ -29,3 +32,32 @@ JB_NEW_WARDEN_REGEX = re.compile(constants["jb"]["regex"]["newwarden"])
 JB_PASS_FIRE_REGEX = re.compile(constants["jb"]["regex"]["passfire"])
 JB_WEAPON_DROP_REGEX = re.compile(constants["jb"]["regex"]["weapondrop"])
 JB_TIME_REGEX = re.compile(constants["jb"]["regex"]["time"])
+
+colours = {
+    "black": Fore.BLACK,
+    "red": Fore.RED,
+    "green": Fore.GREEN,
+    "yellow": Fore.YELLOW,
+    "blue": Fore.BLUE,
+    "magenta": Fore.MAGENTA,
+    "cyan": Fore.CYAN,
+    "white": Fore.WHITE,
+}
+RESET_COLOUR = Fore.RESET
+
+
+def get_colour(setting_name: str):
+    key, colour = None, None
+    if not config["colours"]["enable"]:
+        return ""
+    try:
+        key = config["colours"][setting_name].lower()
+        return colours[key]
+    except KeyError as e:
+        raise ValueError(
+            "Invalid colour name '{}' for '{}'".format(key, setting_name)
+        ) from e
+
+
+def colourify(setting_name: str, value: any):
+    return "{}{}{}".format(get_colour(setting_name), value, RESET_COLOUR)

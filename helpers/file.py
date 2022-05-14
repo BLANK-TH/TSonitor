@@ -76,6 +76,19 @@ default_settings = {
         "subfeatures": {"csgo_playtime": True, "server_playtime": True},
         "private": {"enabled": True, "tries": 10},
     },
+    "colours": {
+        "enable": True,
+        "time": "cyan",
+        "name": "blue",
+        "button_name": "yellow",
+        "weapon_name": "yellow",
+        "damage": "red",
+        "role": "automatic",
+        "level": "green",
+        "playtime": "cyan",
+        "game_playtime": "cyan",
+        "server_playtime": "cyan",
+    },
 }
 
 constants = {

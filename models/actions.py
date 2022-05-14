@@ -6,6 +6,7 @@
 
 from datetime import timedelta
 
+from helpers.gvars import colourify
 from .player import TTTPlayer, JBPlayer
 
 
@@ -116,8 +117,9 @@ class JBWarden(JBAction):
         self.warden = warden
 
     def __repr__(self):
-        return "[{:02}:{:02}] {} is now warden".format(
-            *self.timestamp, self.warden.name
+        return "[{}] {} is now warden".format(
+            colourify("time", "{:02}:{:02}".format(*self.timestamp)),
+            colourify("name", self.warden.name),
         )
 
 
@@ -129,8 +131,9 @@ class JBVents(JBAction):
         self.player = player
 
     def __repr__(self):
-        return "[{:02}:{:02}] {} broke a vent or wall".format(
-            *self.timestamp, self.player.to_str(self)
+        return "[{}] {} broke a vent or wall".format(
+            colourify("time", "{:02}:{:02}".format(*self.timestamp)),
+            colourify("name", self.player.to_str(self)),
         )
 
 
@@ -153,8 +156,10 @@ class JBButton(JBAction):
         self.ignore = ignore
 
     def __repr__(self):
-        return "[{:02}:{:02}] {} pressed {}".format(
-            *self.timestamp, self.player.to_str(self), self.button_str()
+        return "[{}] {} pressed {}".format(
+            colourify("time", "{:02}:{:02}".format(*self.timestamp)),
+            colourify("name", self.player.to_str(self)),
+            colourify("button_name", self.button_str()),
         )
 
     def button_str(self):
@@ -174,8 +179,10 @@ class JBUtility(JBAction):
         self.type = t
 
     def __repr__(self):
-        return "[{:02}:{:02}] {} threw a {}".format(
-            *self.timestamp, self.player.to_str(self), self.type
+        return "[{}] {} threw a {}".format(
+            colourify("time", "{:02}:{:02}".format(*self.timestamp)),
+            colourify("name", self.player.to_str(self)),
+            colourify("weapon_name", self.type),
         )
 
 
@@ -198,12 +205,12 @@ class JBDamage(JBAction):
         self.weapon = weapon
 
     def __repr__(self):
-        return "[{:02}:{:02}] {} damaged {} for {:,} damage using {}".format(
-            *self.timestamp,
-            self.attacker.to_str(self),
-            self.victim.to_str(self),
-            self.damage,
-            self.weapon
+        return "[{}] {} damaged {} for {} damage using {}".format(
+            colourify("time", "{:02}:{:02}".format(*self.timestamp)),
+            colourify("name", self.attacker.to_str(self)),
+            colourify("name", self.victim.to_str(self)),
+            colourify("damage", "{:,}".format(self.damage)),
+            colourify("weapon_name", self.weapon),
         )
 
 
@@ -218,8 +225,10 @@ class JBDeath(JBAction):
         self.victim = victim
 
     def __repr__(self):
-        return "[{:02}:{:02}] {} killed {}".format(
-            *self.timestamp, self.attacker.to_str(self), self.victim.to_str(self)
+        return "[{}] {} killed {}".format(
+            colourify("time", "{:02}:{:02}".format(*self.timestamp)),
+            colourify("name", self.attacker.to_str(self)),
+            colourify("name", self.victim.to_str(self)),
         )
 
 
@@ -231,8 +240,9 @@ class JBWardenDeath(JBAction):
         self.warden = warden
 
     def __repr__(self):
-        return "[{:02}:{:02}] {} died and is no longer warden".format(
-            *self.timestamp, self.warden.name
+        return "[{}] {} died and is no longer warden".format(
+            colourify("time", "{:02}:{:02}".format(*self.timestamp)),
+            colourify("name", self.warden.name),
         )
 
 
@@ -245,8 +255,10 @@ class JBWeaponDrop(JBAction):
         self.weapon = weapon
 
     def __repr__(self):
-        return "[{:02}:{:02}] {} dropped weapon {}".format(
-            *self.timestamp, self.player.to_str(self), self.weapon
+        return "[{}] {} dropped weapon {}".format(
+            colourify("time", "{:02}:{:02}".format(*self.timestamp)),
+            colourify("name", self.player.to_str(self)),
+            colourify("weapon_name", self.weapon),
         )
 
 
@@ -258,8 +270,7 @@ class JBWardenPassFire(JBAction):
         self.warden = warden
 
     def __repr__(self):
-        return (
-            "[{:02}:{:02}] {} has passed or was fired, and is no longer warden".format(
-                *self.timestamp, self.warden.name
-            )
+        return "[{}] {} has passed or was fired, and is no longer warden".format(
+            colourify("time", "{:02}:{:02}".format(*self.timestamp)),
+            colourify("name", self.warden.name),
         )

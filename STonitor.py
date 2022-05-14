@@ -13,6 +13,7 @@ from tkinter.messagebox import askyesno
 from traceback import format_exception
 from webbrowser import open as wbopen
 
+import colorama
 import requests
 from packaging import version
 from requests.exceptions import HTTPError
@@ -21,7 +22,6 @@ from steam.webapi import WebAPI
 from helpers.file import (
     assert_data,
     check_output,
-    load_config,
     load_age_cache,
     load_buttons,
     save_age_cache,
@@ -344,10 +344,9 @@ if __name__ == "__main__":
             )
         sys.exit()
 
-    from helpers.gvars import constants, VERSION, STATUS_REGEX, CONNECTED_REGEX
+    from helpers.gvars import config, constants, VERSION, STATUS_REGEX, CONNECTED_REGEX
     from helpers.logs import parse_ttt_logs, parse_jb_logs, parse_status
 
-    config = load_config()
     buttons = load_buttons()
     try:
         steam_api = WebAPI(key=config["steamkey"]) if config["steamkey"] != "" else None
@@ -401,6 +400,8 @@ if __name__ == "__main__":
     last_time = time()
     i = 0
 
+    # Initiate colorama and tell user program is ready
+    colorama.init(autoreset=True)
     print("STonitor is ready, waiting for output...\n---")
     while True:
         try:
