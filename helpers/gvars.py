@@ -12,7 +12,7 @@ from .file import load_config, load_constants
 
 config = load_config()
 constants = load_constants()
-VERSION = "2.1.1"
+VERSION = "2.1.2"
 
 TTT_ROUND_REGEX = re.compile(constants["ttt"]["regex"]["round"])
 TTT_TIME_REGEX = re.compile(constants["ttt"]["regex"]["time"])
