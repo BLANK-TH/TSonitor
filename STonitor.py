@@ -303,8 +303,8 @@ def handle_status(logs, server_ip):
                 (
                     float("inf"),
                     "-1",
-                    colorama.Fore.RESET + "Error: " + str(e),
-                    colorama.Fore.RESET + "Error parsing line: " + line,
+                    colorama.Fore.RESET + "Error: {} ({})".format(type(e).__name__, str(e)),
+                    colorama.Fore.RESET + "Error parsing line: " + repr(line),
                     False,
                     None,
                     None,

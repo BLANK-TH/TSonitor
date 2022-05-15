@@ -347,7 +347,8 @@ def parse_status(
         except HTTPError:
             pass
         else:
-            r_lvl = p["response"]["player_level"]
+            if "player_level" in p["response"]:
+                r_lvl = p["response"]["player_level"]
         if check_csgo_playtime:
             try:
                 p = steamapi.call(

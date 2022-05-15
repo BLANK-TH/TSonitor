@@ -13,6 +13,10 @@ Added
 * Various entries regarding JB logging in the known bugs documentation page
 * Coloured output to make wall of text easier to understand
 
+Changed
+^^^^^^^^
+* Better invalid status line logging
+
 Fixed
 ^^^^^
 * Outdated default GameME link for eGO
