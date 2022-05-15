@@ -37,7 +37,7 @@ Early Vents keeps showing despite no CT breaking vents
 ---------------------------------------------------------
 
 There is a bug that occurs on some JB maps in which when a CT opens cells, it gets counted as breaking a vent or wall.
-Adding a feature to catch and ignore this is in the plans but currently doesn't exist.
+There is a feature that attempts to mitigate this by checking if the last action was the CT pressing a button, but this isn't foolproof.
 
 
 Why shouldn't I double click to run STonitor?

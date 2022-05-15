@@ -30,6 +30,7 @@ default_settings = {
                 "early_vent": True,
                 "wardenless_kill": True,
                 "new_warden_kill": True,
+                "st_kill": True,
                 "button_grief": True,
                 "nades": True,
                 "mass_freedamage": True,

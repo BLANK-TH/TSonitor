@@ -302,6 +302,13 @@ class JBLog(Log):
 
         return fks
 
+    def find_st_kills(self) -> List[JBDeath]:
+        fks = []
+        for action in self.actions:
+            if isinstance(action, JBDeath) and action.victim.is_st(action) and action.attacker.is_ct():
+                fks.append(action)
+        return fks
+
     def find_early_vent(self) -> List[JBVents]:
         players = []
         last_action = None

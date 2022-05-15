@@ -18,6 +18,7 @@ Here's a list of all of the currently available settings parameters, and what th
             - **early_vent**: *Notifies when a CT breaks vents before any prisoner does*. Default Value: ``true``
             - **wardenless_kill**: *Notifies when a CT kills a non-rebelling T without a warden*. Default Value: ``true``
             - **new_warden_kill**: *Notifies when a CT kills a non-rebelling T within X seconds of someone becoming warden, X is set in the limits section*. Default Value: ``true``
+            - **st_kill**: *Notifies when a CT kills an ST*. Default Value: ``true``
             - **button_grief**: *Notifies when someone presses a button and players take more than X damage from the world within Y seconds, X and Y are set in limits*. Default Value: ``true``
             - **nades**: *Notifies when someone throws a nade/utility (flash, HE, molotov, etc) and players take more than X damage from the world within Y seconds, X and Y are set in limits.*. Default Value: ``true``
             - **mass_freedamage**: *Notifies when a CT throws a nade and more than X Ts take damage within Y seconds, X and Y are set in limits*. Default Value: ``true``

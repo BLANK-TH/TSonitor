@@ -46,6 +46,7 @@ how to edit this file and what each parameter means, `go here <settings.html>`_.
 * JB Log Analysis
    * **Wardenless Freekill**: *Notifies you when a CT kills a non-rebelling T without warden alive*
    * **New Warden Freekill**: *Notifies you when a CT kills a non-rebelling T within X seconds of a new warden coming on*
+   * **ST Freekill**: *Notifies you when a CT kills an ST*
    * **Mass Freedamage**: *Notifies you when a CT throws an HE grenade or molotov and damages more than X Ts within Y seconds*
    * **Early Vent**: *Notifies you when a CT breaks a vent/wall before any T does*
       .. note:: On certain maps, a player opening cell doors may count as breaking a vent/wall, creating a false-positive

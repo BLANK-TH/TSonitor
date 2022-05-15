@@ -166,6 +166,18 @@ def handle_jb_log(logs, round_number, buttons):
                     )
                 )
             print("")
+    if config["logs"]["jb"]["subfeatures"]["st_kill"]:
+        kills = log.find_st_kills()
+        if len(kills) > 0:
+            print("ST Kills:")
+            for kill in kills:
+                print(
+                    "{} killed {}".format(
+                        repr(kill.attacker),
+                        kill.victim.to_str(kill)
+                    )
+                )
+            print("")
     if config["logs"]["jb"]["subfeatures"]["early_vent"]:
         vents = log.find_early_vent()
         if len(vents) > 0:

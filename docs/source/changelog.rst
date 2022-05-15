@@ -12,6 +12,7 @@ Added
 * jb_undertale pictionary draw button to default ignore
 * Various entries regarding JB logging in the known bugs documentation page
 * Coloured output to make wall of text easier to understand
+* ST kill detection
 
 Changed
 ^^^^^^^^
