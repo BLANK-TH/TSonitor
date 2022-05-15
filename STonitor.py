@@ -187,15 +187,15 @@ def handle_jb_log(logs, round_number, buttons):
                 )
             print("")
     if config["logs"]["jb"]["subfeatures"]["gunplant"]:
-        gunplants = log.find_gunplant(config["logs"]["jb"]["limits"]["gunplant"])
+        gunplants = log.find_gunplant(constants["jb"]["utility_names"])
         if len(gunplants) > 0:
             print("Potential Gunplants:")
             for gunplant in gunplants:
                 print(
-                    "{} dropped a(n) {} and {} used one shortly after".format(
-                        repr(gunplant["ct"]),
-                        colourify("weapon_name", gunplant["weapon"]),
+                    "{} picked up a(n) {} dropped by {}".format(
                         repr(gunplant["t"]),
+                        colourify("weapon_name", gunplant["weapon"]),
+                        repr(gunplant["ct"]),
                     )
                 )
             print("")

@@ -56,7 +56,7 @@ how to edit this file and what each parameter means, `go here <settings.html>`_.
       * Buttons can be ignored or renamed using a Button Configuration file
    * **Nade Disruption**: *Notifies you when a prisoner throws utility and players take damage from the world within X seconds*
       * The damage threshold before a warning is triggered is configurable in settings
-   * **Gunplant**: *Notifies you when a CT drops a weapon and a T uses that same weapon within X seconds*
+   * **Gunplant**: *Notifies you when a T picks up a CT's weapon before that CT dies*
 * TTT Log Analysis
    * **RDM**: *Notifies you if there may have been a potential RDM*
       * The program can attempt to detect reasoning and eliminate reasonable bad kills. This is done by going back through logs to check if the 'victim' of the RDM attacked the potential RDMer first.

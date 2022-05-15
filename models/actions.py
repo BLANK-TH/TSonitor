@@ -133,7 +133,7 @@ class JBVents(JBAction):
     def __repr__(self):
         return "[{}] {} broke a vent or wall".format(
             colourify("time", "{:02}:{:02}".format(*self.timestamp)),
-            colourify("name", self.player.to_str(self)),
+            self.player.to_str(self),
         )
 
 
@@ -158,7 +158,7 @@ class JBButton(JBAction):
     def __repr__(self):
         return "[{}] {} pressed {}".format(
             colourify("time", "{:02}:{:02}".format(*self.timestamp)),
-            colourify("name", self.player.to_str(self)),
+            self.player.to_str(self),
             colourify("button_name", self.button_str()),
         )
 
@@ -181,7 +181,7 @@ class JBUtility(JBAction):
     def __repr__(self):
         return "[{}] {} threw a {}".format(
             colourify("time", "{:02}:{:02}".format(*self.timestamp)),
-            colourify("name", self.player.to_str(self)),
+            self.player.to_str(self),
             colourify("weapon_name", self.type),
         )
 
@@ -207,8 +207,8 @@ class JBDamage(JBAction):
     def __repr__(self):
         return "[{}] {} damaged {} for {} damage using {}".format(
             colourify("time", "{:02}:{:02}".format(*self.timestamp)),
-            colourify("name", self.attacker.to_str(self)),
-            colourify("name", self.victim.to_str(self)),
+            self.attacker.to_str(self),
+            self.victim.to_str(self),
             colourify("damage", "{:,}".format(self.damage)),
             colourify("weapon_name", self.weapon),
         )
@@ -227,8 +227,8 @@ class JBDeath(JBAction):
     def __repr__(self):
         return "[{}] {} killed {}".format(
             colourify("time", "{:02}:{:02}".format(*self.timestamp)),
-            colourify("name", self.attacker.to_str(self)),
-            colourify("name", self.victim.to_str(self)),
+            self.attacker.to_str(self),
+            self.victim.to_str(self),
         )
 
 
@@ -257,7 +257,32 @@ class JBWeaponDrop(JBAction):
     def __repr__(self):
         return "[{}] {} dropped weapon {}".format(
             colourify("time", "{:02}:{:02}".format(*self.timestamp)),
-            colourify("name", self.player.to_str(self)),
+            self.player.to_str(self),
+            colourify("weapon_name", self.weapon),
+        )
+
+
+class JBWeaponPickup(JBAction):
+    """Class representing a weapon being picked up in JB logs"""
+
+    def __init__(
+        self,
+        raw_line: str,
+        timestamp: str,
+        picker: JBPlayer,
+        dropper: JBPlayer,
+        weapon: str,
+    ):
+        super().__init__(raw_line, timestamp)
+        self.picker = picker
+        self.dropper = dropper
+        self.weapon = weapon
+
+    def __repr__(self):
+        return "[{}] {} picked up {}'s {}".format(
+            colourify("time", "{:02}:{:02}".format(*self.timestamp)),
+            self.picker.to_str(self),
+            self.dropper.to_str(self),
             colourify("weapon_name", self.weapon),
         )
 

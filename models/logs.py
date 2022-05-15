@@ -211,6 +211,7 @@ class JBLog(Log):
         vents: bool,
         button: bool,
         drop_weapon: bool,
+        pickup_weapon: bool,
         world: bool,
     ) -> str:
         output = []
@@ -225,6 +226,7 @@ class JBLog(Log):
                 or (vents and isinstance(action, JBVents))
                 or (button and isinstance(action, JBButton))
                 or (drop_weapon and isinstance(action, JBWeaponDrop))
+                or (pickup_weapon and isinstance(action, JBWeaponPickup))
             ):
                 if not (
                     not world
@@ -327,42 +329,23 @@ class JBLog(Log):
 
         return players
 
-    def find_gunplant(self, gunplant_delay: int) -> List[dict]:
-        check_gunplants = []
+    def find_gunplant(self, utility_names: list) -> List[dict]:
         gunplants = []
         for action in self.actions:
-            if isinstance(action, JBWeaponDrop) and action.player.is_ct():
+            if (
+                isinstance(action, JBWeaponPickup)
+                and action.picker.is_t()
+                and action.dropper.is_ct()
+                and action.weapon not in utility_names
+            ):
                 if (
-                    action.player.death_delta is not None
-                    and action.timestamp_delta >= action.player.death_delta
+                    action.dropper.death_delta is not None
+                    and action.timestamp_delta >= action.dropper.death_delta
                 ):
-                    continue  # Skip gunplants caused by CT's death
-                check_gunplants.append(
-                    {
-                        "weapon": action.weapon,
-                        "delta": action.timestamp_delta,
-                        "player": action.player,
-                    }
+                    continue
+                gunplants.append(
+                    {"ct": action.dropper, "t": action.picker, "weapon": action.weapon}
                 )
-            elif isinstance(action, JBDamage) and action.attacker.is_t():
-                pending_remove = []
-                for plant in [
-                    i for i in check_gunplants if i["weapon"] == action.weapon
-                ]:
-                    if delta_range(
-                        plant["delta"], action.timestamp_delta, seconds=gunplant_delay
-                    ):
-                        gunplants.append(
-                            {
-                                "ct": plant["player"],
-                                "t": action.attacker,
-                                "weapon": action.weapon,
-                            }
-                        )
-                    else:
-                        pending_remove.append(plant)
-                for remove in pending_remove:
-                    check_gunplants.remove(remove)
 
         return gunplants
 

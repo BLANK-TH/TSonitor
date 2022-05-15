@@ -258,6 +258,21 @@ def parse_jb_logs(
             player.add_action(actions[-1], r.group("player_role"))
             continue
 
+        r = handle_named_regex(JB_WEAPON_PICKUP_REGEX, line)
+        if r is not None:
+            picker = get_jb_player(players, r.group("picker"), r.group("picker_role"))
+            dropper = get_jb_player(
+                players, r.group("dropper"), r.group("dropper_role")
+            )
+            actions.append(
+                JBWeaponPickup(
+                    line, r.group("time"), picker, dropper, r.group("weapon")
+                )
+            )
+            picker.add_action(actions[-1], r.group("picker_role"))
+            dropper.add_action(actions[-1], r.group("dropper_role"))
+            continue
+
         r = handle_named_regex(JB_TIME_REGEX, line)
         if r is not None:
             actions.append(JBAction(line, r.group("time")))

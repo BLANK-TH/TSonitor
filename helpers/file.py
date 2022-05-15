@@ -37,7 +37,6 @@ default_settings = {
                 "gunplant": True,
             },
             "limits": {
-                "gunplant": 20,
                 "button": 10,
                 "nade": 10,
                 "warden": 5,
@@ -56,6 +55,7 @@ default_settings = {
                 "vents": False,
                 "button": False,
                 "drop_weapon": False,
+                "pickup_weapon": False,
                 "world": True,
             },
         },
@@ -116,6 +116,7 @@ constants = {
             "newwarden": r"^\[(?P<time>\d{1,2}:\d{1,2})] (?P<player>.*) \(WARDEN\) is now warden$",
             "passfire": r"^\[(?P<time>\d{1,2}:\d{1,2})] (?P<player>.*) \(WARDEN\) (?:has passed warden|has disconnected, passing warden|has been fired by an admin)$",
             "weapondrop": r"^\[(?P<time>\d{1,2}:\d{1,2})] (?P<player>.*) \((?P<player_role>Prisoner|Rebel|Guard|Warden|ST)\) dropped the weapon (?P<weapon>.*)\.$",
+            "weaponpickup": r"^\[(?P<time>\d{1,2}:\d{1,2})] (?P<picker>.*) \((?P<picker_role>Prisoner|Rebel|Guard|Warden|ST)\) picked up (?P<dropper>.*)'s \((?P<dropper_role>Prisoner|Rebel|Guard|Warden|ST)\) (?P<weapon>.*)\.$",
             "time": r"^\[(?P<time>\d{1,2}:\d{1,2})].*$",
         },
         "log_header": [
@@ -129,6 +130,13 @@ constants = {
             "--------------------------------------------------",
         ],
         "utility_weapon_names": {"molotov": "inferno", "grenade": "hegrenade"},
+        "utility_names": [
+            "hegrenade",
+            "smokegrenade",
+            "incgrenade",
+            "molotov",
+            "flashbang",
+        ],
     },
     "age": {
         "regex": r"^# *(?P<user_id>\d*) *\d* *\"(?P<name>.*)\" *(?P<steam_id>STEAM_\d:\d:\d*).+$",

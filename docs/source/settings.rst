@@ -22,9 +22,8 @@ Here's a list of all of the currently available settings parameters, and what th
             - **button_grief**: *Notifies when someone presses a button and players take more than X damage from the world within Y seconds, X and Y are set in limits*. Default Value: ``true``
             - **nades**: *Notifies when someone throws a nade/utility (flash, HE, molotov, etc) and players take more than X damage from the world within Y seconds, X and Y are set in limits.*. Default Value: ``true``
             - **mass_freedamage**: *Notifies when a CT throws a nade and more than X Ts take damage within Y seconds, X and Y are set in limits*. Default Value: ``true``
-            - **gunplant**: *Notifies when a CT drops a gun and a T uses that same gun to damage someone within X seconds, X is set in limits*. Default Value: ``true``
+            - **gunplant**: *Notifies when a T picks up a CT's weapon before that CT dies*. Default Value: ``true``
         - *limits*: :sup:`Various configuration values for the sub-features above`\
-            - **gunplant**: *Number of seconds after a CT drops a gun that gunplant detection is active for that CT (if a T uses that gun within this number of seconds after it being dropped)*. Default Value: ``20``
             - **button**: *Number of seconds after someone presses a button that the program will be looking for damage from the world*. Default Value: ``10``
             - **nade**: *Number of seconds after someone throws utility that the program will be looking for damage from the world*. Default Value: ``10``
             - **warden**: *Number of seconds after someone becomes warden that the program will be looking for potential freekills*. Default Value: ``5``
@@ -42,6 +41,7 @@ Here's a list of all of the currently available settings parameters, and what th
             - **vents**: *Whether someone breaking vents is shown in the JB summary output*. Default Value: ``false``
             - **button**: *Whether someone pressing a button is shown in the JB summary output*. Default Value: ``false``
             - **drop_weapon**: *Whether someone dropping a weapon is shown in the JB summary output, note that CTs dying counts as them dropping their weapons (don't worry, gunplant detection handles this)*. Default Value: ``false``
+            - **pickup_weapon**: *Whether someone picking up a weapon is shown in the JB summary output*. Default Value: ``false``
             - **world**: *Whether to show an action if the attacker is the world (game deaths/fall damage deaths)*. Default Value: ``true``
     - *ttt*:
         - **enable**: *Boolean (true/false) of whether TTT log analysis should be enabled*. Default Value: ``true``

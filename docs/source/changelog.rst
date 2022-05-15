@@ -18,6 +18,7 @@ Changed
 ^^^^^^^^
 * Better invalid status line logging
 * Version number now shows in ready message
+* Gunplant detection now simply checks if a T picks up a CT's weapon before that CT dies
 
 Fixed
 ^^^^^

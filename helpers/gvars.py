@@ -31,6 +31,7 @@ JB_WARDEN_DEATH_REGEX = re.compile(constants["jb"]["regex"]["wardendeath"])
 JB_NEW_WARDEN_REGEX = re.compile(constants["jb"]["regex"]["newwarden"])
 JB_PASS_FIRE_REGEX = re.compile(constants["jb"]["regex"]["passfire"])
 JB_WEAPON_DROP_REGEX = re.compile(constants["jb"]["regex"]["weapondrop"])
+JB_WEAPON_PICKUP_REGEX = re.compile(constants["jb"]["regex"]["weaponpickup"])
 JB_TIME_REGEX = re.compile(constants["jb"]["regex"]["time"])
 
 colours = {
