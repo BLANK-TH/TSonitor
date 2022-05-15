@@ -76,7 +76,6 @@ Here's a list of all of the currently available settings parameters, and what th
     - **role**: *Colour for player role names. This setting can be set to "automatic", in which the colour will be based off of their role. This can cause overlap of colours*. Default Value: ``automatic``
     - **age**: *Colour for player steam account age in Steam Age output*. Default Value: ``magenta``
     - **level**: *Colour for player level in Steam Age output*. Default Value: ``green``
-    - **playtime**: *Colour for playtime in Steam Age output*. Default Value: ``cyan``
     - **game_playtime**: *Colour for playtime of game in Steam Age output*. Default Value: ``cyan``
     - **server_playtime**: *Colour for playtime on the server in Steam Age output*. Default Value: ``cyan``
 

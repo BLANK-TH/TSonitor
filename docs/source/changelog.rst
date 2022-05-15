@@ -7,6 +7,13 @@ and this project adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0
 
 [Unreleased]
 --------------
+Changed
+^^^^^^^^
+* Default colours so that they're more readable with default Command Prompt
+
+Removed
+^^^^^^^^
+* Unused colour ``playtime``
 
 [2.1.1] - 2022-05-15
 ------------------------

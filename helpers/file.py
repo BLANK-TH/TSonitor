@@ -80,16 +80,15 @@ default_settings = {
     "colours": {
         "enable": True,
         "time": "cyan",
-        "name": "blue",
+        "name": "magenta",
         "button_name": "yellow",
         "weapon_name": "yellow",
         "damage": "red",
         "role": "automatic",
-        "age": "magenta",
-        "level": "green",
-        "playtime": "cyan",
-        "game_playtime": "cyan",
-        "server_playtime": "cyan",
+        "age": "cyan",
+        "level": "red",
+        "game_playtime": "yellow",
+        "server_playtime": "green",
     },
 }
 
