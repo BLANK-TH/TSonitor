@@ -13,6 +13,7 @@ Added
 * Various entries regarding JB logging in the known bugs documentation page
 * Coloured output to make wall of text easier to understand
 * ST kill detection
+* Summary output for weapon pickup
 
 Changed
 ^^^^^^^^
