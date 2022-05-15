@@ -7,6 +7,9 @@ and this project adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0
 
 [Unreleased]
 --------------
+
+[2.1.1] - 2022-05-15
+------------------------
 Added
 ^^^^^
 * jb_undertale pictionary draw button to default ignore
