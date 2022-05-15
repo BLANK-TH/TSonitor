@@ -80,5 +80,8 @@ Here's a list of all of the currently available settings parameters, and what th
     - **game_playtime**: *Colour for playtime of game in Steam Age output*. Default Value: ``cyan``
     - **server_playtime**: *Colour for playtime on the server in Steam Age output*. Default Value: ``cyan``
 
+.. versionchanged:: 2.1.1
+    Removed ``jb``/``limits``/``gunplant`` as new gunplant detection system no longer uses it
+
 .. versionchanged:: 1.0.1
     Removed ``min_session_save_interval`` as session is no longer used
