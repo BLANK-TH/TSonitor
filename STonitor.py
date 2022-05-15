@@ -172,10 +172,7 @@ def handle_jb_log(logs, round_number, buttons):
             print("ST Kills:")
             for kill in kills:
                 print(
-                    "{} killed {}".format(
-                        repr(kill.attacker),
-                        kill.victim.to_str(kill)
-                    )
+                    "{} killed {}".format(repr(kill.attacker), kill.victim.to_str(kill))
                 )
             print("")
     if config["logs"]["jb"]["subfeatures"]["early_vent"]:

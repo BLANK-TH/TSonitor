@@ -305,7 +305,11 @@ class JBLog(Log):
     def find_st_kills(self) -> List[JBDeath]:
         fks = []
         for action in self.actions:
-            if isinstance(action, JBDeath) and action.victim.is_st(action) and action.attacker.is_ct():
+            if (
+                isinstance(action, JBDeath)
+                and action.victim.is_st(action)
+                and action.attacker.is_ct()
+            ):
                 fks.append(action)
         return fks
 
