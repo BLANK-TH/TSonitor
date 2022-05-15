@@ -17,6 +17,7 @@ Fixed
 * Outdated default GameME link for eGO
 * Space padding incorrect on button grief output
 * Fix odd invalid status line error
+* Typo in documentation index page
 
 [2.0.1] - 2022-01-20
 ------------------------

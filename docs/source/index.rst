@@ -63,7 +63,7 @@ how to edit this file and what each parameter means, `go here <settings.html>`_.
       * Similarly to RDM detection, Mass RDM detection can also attempt to detect reasoning, however this is disabled by default for Mass RDM
    * **Inno Utility**: *Notifies you when an innocent or detective damages someone with utility*
 * **Log Summary Output**: *Creates a customizable summary of each round log, so that if you want to take a quick glance, its not as cluttered*
-* **Automatic Log Saving**: *Automatically saves TTT & JB logs ony our computer as .txt files, so that you can access them whenever*
+* **Automatic Log Saving**: *Automatically saves TTT & JB logs on your computer as .txt files, so that you can access them whenever*
    * TTT logs are saved in the format: ``TTT_round-number-here.txt`` with ``round-number-here`` being the TTT round number. E.g. ``TTT_12345.txt``
    * JB logs are saved in the format: ``JB_datetime-here.txt`` with ``datetime-here`` being the date and time down to the millisecond in which the log was initially processed. E.g. ``JB_Dec-28-2021_19-28-06_372498.txt``
 
