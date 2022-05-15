@@ -25,6 +25,10 @@ Fixed
 * Fix odd invalid status line error
 * Typo in documentation index page
 
+Removed
+^^^^^^^
+* Feature list is no longer shown in README
+
 [2.0.1] - 2022-01-20
 ------------------------
 Fixed
