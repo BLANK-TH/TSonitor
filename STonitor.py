@@ -312,8 +312,8 @@ def handle_status(logs, server_ip):
                 )
             )
     results.sort()
-    pad_age = str(len(max(results, key=lambda x: len(x[3]))[3]) + 2)
-    pad_name = str(len(max(results, key=lambda x: len(x[2]))[2]) + 2)
+    pad_age = str(len(colourify("age", max(results, key=lambda x: len(colourify("age", x[3])))[3])) + 2)
+    pad_name = str(len(colourify("name", max(results, key=lambda x: len(colourify("name", x[2])))[2])) + 2)
     pad_num = str(len(max(results, key=lambda x: len(x[1]))[1]))
     for result in results:
         print(
