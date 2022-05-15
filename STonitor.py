@@ -303,8 +303,8 @@ def handle_status(logs, server_ip):
                 (
                     float("inf"),
                     "-1",
-                    "Error: " + str(e),
-                    "Error parsing line: " + line,
+                    colorama.Fore.RESET + "Error: " + str(e),
+                    colorama.Fore.RESET + "Error parsing line: " + line,
                     False,
                     None,
                     None,
@@ -328,12 +328,18 @@ def handle_status(logs, server_ip):
             )
             .format(
                 result[1],
-                result[2],
+                colourify("name", result[2]),
                 "~" if result[4] else "",
-                result[3],
-                "(LVL: {}) ".format(result[5]) if result[5] is not None else "",
-                "(GPT: {}) ".format(result[6]) if result[6] is not None else "",
-                "(SPT: {}) ".format(result[7]) if result[7] is not None else "",
+                colourify("age", result[3]),
+                "(LVL: {}) ".format(colourify("level", result[5]))
+                if result[5] is not None
+                else "",
+                "(GPT: {}) ".format(colourify("game_playtime", result[6]))
+                if result[6] is not None
+                else "",
+                "(SPT: {}) ".format(colourify("server_playtime", result[7]))
+                if result[7] is not None
+                else "",
             )
             .rstrip()
         )

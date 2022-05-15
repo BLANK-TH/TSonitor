@@ -84,6 +84,7 @@ default_settings = {
         "weapon_name": "yellow",
         "damage": "red",
         "role": "automatic",
+        "age": "magenta",
         "level": "green",
         "playtime": "cyan",
         "game_playtime": "cyan",
