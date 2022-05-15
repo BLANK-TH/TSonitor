@@ -65,6 +65,18 @@ Here's a list of all of the currently available settings parameters, and what th
     - *private*: :sup:`Configuration options specifically for `\
         - **enabled**: *Boolean (true/false) of whether private account age guessing is enabled. This is done by checking the account ages of accounts made immediately after the private account to estimate the age of the private account*. Default Value: ``true``
         - **tries**: *Number of tries for private account age detection (number of accounts after private account) to try before giving up*. Default Value: ``10``
+- *colours*: :sup:`Settings regarding coloured output of STonitor. Valid colours are black, red, green, yellow, blue, magenta, cyan, and white`\
+    - **enable**: *Boolean (true/false) of whether output should be coloured*. Default Value: ``true``
+    - **time**: *Colour for outputs related to time*. Default Value: ``cyan``
+    - **name**: *Colour for player names*. Default Value: ``blue``
+    - **button_name**: *Colour for names of buttons*. Default Value: ``yellow``
+    - **weapon_name**: *Colour for names of weapons*. Default Value: ``yellow``
+    - **damage**: *Colour for damage numbers*. Default Value: ``red``
+    - **role**: *Colour for player role names. This setting can be set to "automatic", in which the colour will be based off of their role. This can cause overlap of colours*. Default Value: ``automatic``
+    - **level**: *Colour for player level in Steam Age output*. Default Value: ``green``
+    - **playtime**: *Colour for playtime in Steam Age output*. Default Value: ``cyan``
+    - **game_playtime**: *Colour for playtime of game in Steam Age output*. Default Value: ``cyan``
+    - **server_playtime**: *Colour for playtime on the server in Steam Age output*. Default Value: ``cyan``
 
 .. versionchanged:: 1.0.1
     Removed ``min_session_save_interval`` as session is no longer used
