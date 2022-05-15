@@ -446,7 +446,7 @@ if __name__ == "__main__":
 
     # Initiate colorama and tell user program is ready
     colorama.init(autoreset=True)
-    print("STonitor is ready, waiting for output...\n---")
+    print("STonitor v{} is ready, waiting for output...\n---".format(VERSION))
     while True:
         try:
             # Open output file and read all contents line by line

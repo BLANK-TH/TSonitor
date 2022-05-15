@@ -16,6 +16,7 @@ Added
 Changed
 ^^^^^^^^
 * Better invalid status line logging
+* Version number now shows in ready message
 
 Fixed
 ^^^^^
