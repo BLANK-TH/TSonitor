@@ -70,8 +70,8 @@ Here's a list of all of the currently available settings parameters, and what th
     - **time**: *Colour for outputs related to time*. Default Value: ``cyan``
     - **name**: *Colour for player names*. Default Value: ``blue``
     - **button_name**: *Colour for names of buttons*. Default Value: ``yellow``
-    - **weapon_name**: *Colour for names of weapons*. Default Value: ``yellow``
-    - **damage**: *Colour for damage numbers*. Default Value: ``red``
+    - **weapon_name**: *Colour for names and types of weapons*. Default Value: ``yellow``
+    - **damage**: *Colour for damage numbers (points of damage, number of players damaged/killed, etc)*. Default Value: ``red``
     - **role**: *Colour for player role names. This setting can be set to "automatic", in which the colour will be based off of their role. This can cause overlap of colours*. Default Value: ``automatic``
     - **level**: *Colour for player level in Steam Age output*. Default Value: ``green``
     - **playtime**: *Colour for playtime in Steam Age output*. Default Value: ``cyan``

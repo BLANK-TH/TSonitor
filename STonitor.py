@@ -95,7 +95,11 @@ def handle_ttt_log(logs):
         if len(mass_rdms) > 0:
             print("Potential Mass RDM(s):")
             for player, count in mass_rdms.items():
-                print("{} may have RDMed {:,} people".format(repr(player), count))
+                print(
+                    "{} may have RDMed {} people".format(
+                        repr(player), colourify("damage", f"{count:,}")
+                    )
+                )
             print("")
     if config["logs"]["ttt"]["subfeatures"]["inno_utility"]:
         inno_utility = log.find_innocent_utility(
@@ -106,10 +110,13 @@ def handle_ttt_log(logs):
             print("Innocent Utility Damage:")
             for player, counts in inno_utility.items():
                 print(
-                    "{} damaged {:,} Innocent(s), {:,} Detective(s), and {:,} Traitor(s) for a total of {:,} {}damage "
+                    "{} damaged {} Innocent(s), {} Detective(s), and {} Traitor(s) for a total of {} {}damage "
                     "using utility".format(
                         repr(player),
-                        *counts,
+                        colourify("damage", "{:,}".format(counts[0])),
+                        colourify("damage", "{:,}".format(counts[1])),
+                        colourify("damage", "{:,}".format(counts[2])),
+                        colourify("damage", "{:,}".format(counts[3])),
                         "bad "
                         if config["logs"]["ttt"]["limits"]["utility_bad_only"]
                         else "",
@@ -177,7 +184,9 @@ def handle_jb_log(logs, round_number, buttons):
             for gunplant in gunplants:
                 print(
                     "{} dropped a(n) {} and {} used one shortly after".format(
-                        repr(gunplant["ct"]), gunplant["weapon"], repr(gunplant["t"])
+                        repr(gunplant["ct"]),
+                        colourify("weapon_name", gunplant["weapon"]),
+                        repr(gunplant["t"]),
                     )
                 )
             print("")
@@ -209,13 +218,13 @@ def handle_jb_log(logs, round_number, buttons):
                         + longest_name
                         + "s} pressed {:"
                         + longest_button
-                        + "s} and {:,} T(s) and {:,} CT(s) "
+                        + "s} and {} T(s) and {} CT(s) "
                         "might've been harmed"
                     ).format(
                         repr(button.player),
-                        button.button_str(),
-                        grief["t"],
-                        grief["ct"],
+                        colourify("button_name", button.button_str()),
+                        colourify("damage", f"{grief['t']:,}"),
+                        colourify("damage", f"{grief['ct']:,}"),
                     )
                 )
             print("")
@@ -235,8 +244,13 @@ def handle_jb_log(logs, round_number, buttons):
                     (
                         "{:"
                         + longest_name
-                        + "s} threw a {} which could've disrupted {:,} T(s) and {:,} CT(s)"
-                    ).format(repr(util.player), util.type, grief["t"], grief["ct"])
+                        + "s} threw a {} which could've disrupted {} T(s) and {} CT(s)"
+                    ).format(
+                        repr(util.player),
+                        colourify("weapon_name", util.type),
+                        colourify("damage", f"{grief['t']:,}"),
+                        colourify("damage", f"{grief['ct']:,}"),
+                    )
                 )
             print("")
     if config["logs"]["jb"]["subfeatures"]["mass_freedamage"]:
@@ -249,8 +263,10 @@ def handle_jb_log(logs, round_number, buttons):
             print("Potential Nade Mass Freedamages:")
             for util, mfd in mfds.items():
                 print(
-                    "{} threw a {} which could've mass freedamaged {:,} T(s)".format(
-                        repr(util.player), util.type, mfd
+                    "{} threw a {} which could've mass freedamaged {} T(s)".format(
+                        repr(util.player),
+                        colourify("weapon_name", util.type),
+                        colourify("damage", f"{mfd:,}"),
                     )
                 )
             print("")
@@ -344,7 +360,14 @@ if __name__ == "__main__":
             )
         sys.exit()
 
-    from helpers.gvars import config, constants, VERSION, STATUS_REGEX, CONNECTED_REGEX
+    from helpers.gvars import (
+        config,
+        constants,
+        colourify,
+        VERSION,
+        STATUS_REGEX,
+        CONNECTED_REGEX,
+    )
     from helpers.logs import parse_ttt_logs, parse_jb_logs, parse_status
 
     buttons = load_buttons()
