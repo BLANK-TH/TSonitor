@@ -204,10 +204,12 @@ def handle_jb_log(logs, round_number, buttons):
             )
             longest_button = str(
                 len(
-                    repr(
+                    colourify(
+                        "button_name",
                         max(
-                            griefs.keys(), key=lambda x: len(x.button_str())
-                        ).button_str()
+                            griefs.keys(),
+                            key=lambda x: len(colourify("button_name", x.button_str())),
+                        ).button_str(),
                     )
                 )
             )
@@ -303,7 +305,8 @@ def handle_status(logs, server_ip):
                 (
                     float("inf"),
                     "-1",
-                    colorama.Fore.RESET + "Error: {} ({})".format(type(e).__name__, str(e)),
+                    colorama.Fore.RESET
+                    + "Error: {} ({})".format(type(e).__name__, str(e)),
                     colorama.Fore.RESET + "Error parsing line: " + repr(line),
                     False,
                     None,
@@ -312,8 +315,20 @@ def handle_status(logs, server_ip):
                 )
             )
     results.sort()
-    pad_age = str(len(colourify("age", max(results, key=lambda x: len(colourify("age", x[3])))[3])) + 2)
-    pad_name = str(len(colourify("name", max(results, key=lambda x: len(colourify("name", x[2])))[2])) + 2)
+    pad_age = str(
+        len(
+            colourify("age", max(results, key=lambda x: len(colourify("age", x[3])))[3])
+        )
+        + 2
+    )
+    pad_name = str(
+        len(
+            colourify(
+                "name", max(results, key=lambda x: len(colourify("name", x[2])))[2]
+            )
+        )
+        + 2
+    )
     pad_num = str(len(max(results, key=lambda x: len(x[1]))[1]))
     for result in results:
         print(
