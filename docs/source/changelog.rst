@@ -11,6 +11,10 @@ Added
 ^^^^^^^
 * Shows disclaimer on startup
 
+Changed
+^^^^^^^
+* Added healthshot to gunplant ignore
+
 Fixed
 ^^^^^^^
 * Incorrect default colours listed in settings documentation

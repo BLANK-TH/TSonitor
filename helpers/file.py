@@ -136,6 +136,7 @@ constants = {
             "incgrenade",
             "molotov",
             "flashbang",
+            "healthshot",
         ],
     },
     "age": {
