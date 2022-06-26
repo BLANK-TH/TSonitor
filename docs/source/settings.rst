@@ -69,15 +69,15 @@ Here's a list of all of the currently available settings parameters, and what th
 - *colours*: :sup:`Settings regarding coloured output of STonitor. Valid colours are black, red, green, yellow, blue, magenta, cyan, and white`\
     - **enable**: *Boolean (true/false) of whether output should be coloured*. Default Value: ``true``
     - **time**: *Colour for outputs related to time*. Default Value: ``cyan``
-    - **name**: *Colour for player names*. Default Value: ``blue``
+    - **name**: *Colour for player names*. Default Value: ``magenta``
     - **button_name**: *Colour for names of buttons*. Default Value: ``yellow``
     - **weapon_name**: *Colour for names and types of weapons*. Default Value: ``yellow``
     - **damage**: *Colour for damage numbers (points of damage, number of players damaged/killed, etc)*. Default Value: ``red``
     - **role**: *Colour for player role names. This setting can be set to "automatic", in which the colour will be based off of their role. This can cause overlap of colours*. Default Value: ``automatic``
-    - **age**: *Colour for player steam account age in Steam Age output*. Default Value: ``magenta``
-    - **level**: *Colour for player level in Steam Age output*. Default Value: ``green``
-    - **game_playtime**: *Colour for playtime of game in Steam Age output*. Default Value: ``cyan``
-    - **server_playtime**: *Colour for playtime on the server in Steam Age output*. Default Value: ``cyan``
+    - **age**: *Colour for player steam account age in Steam Age output*. Default Value: ``cyan``
+    - **level**: *Colour for player level in Steam Age output*. Default Value: ``red``
+    - **game_playtime**: *Colour for playtime of game in Steam Age output*. Default Value: ``yellow``
+    - **server_playtime**: *Colour for playtime on the server in Steam Age output*. Default Value: ``green``
 
 .. versionchanged:: 2.1.1
     Removed ``jb``/``limits``/``gunplant`` as new gunplant detection system no longer uses it

@@ -7,6 +7,9 @@ and this project adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0
 
 [Unreleased]
 --------------
+Fixed
+^^^^^^^
+* Incorrect default colours listed in settings documentation
 
 [2.1.2] - 2022-05-15
 ------------------------
