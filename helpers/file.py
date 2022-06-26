@@ -161,7 +161,7 @@ button_alias = {
         "slthm_2_lever": {"ignore": True, "alias": None},
         "celldoors": {"ignore": True, "alias": "Cell Button"},
         "cellbutton": {"ignore": True, "alias": "Cell Button"},
-        "deathcreate_stop": {"ignore": True, "alias": "Deathcrate Stop"},
+        "deathcrate_stop": {"ignore": True, "alias": "Deathcrate Stop"},
     },
     "regex": {
         r"piano_key_\ws?": {"ignore": True, "alias": "Piano Key"},

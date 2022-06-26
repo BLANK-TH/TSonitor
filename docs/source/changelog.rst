@@ -14,6 +14,7 @@ Added
 Fixed
 ^^^^^^^
 * Incorrect default colours listed in settings documentation
+* Typo in default button config
 
 [2.1.2] - 2022-05-15
 ------------------------
