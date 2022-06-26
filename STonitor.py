@@ -456,6 +456,12 @@ if __name__ == "__main__":
     # Initiate colorama and tell user program is ready
     colorama.init(autoreset=True)
     print("STonitor v{} is ready, waiting for output...\n---".format(VERSION))
+    if config["show_disclaimer"]:
+        print(
+            "DISCLAIMER: Do not take any information provided by this program as absolute, do not replace your own "
+            "decision making with it. This is designed to assist a human in admining, not replace them. Use your "
+            "common sense, context, and remember that bugs may occur."
+        )
     while True:
         try:
             # Open output file and read all contents line by line

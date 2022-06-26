@@ -21,6 +21,7 @@ default_settings = {
     "clear_on_error": True,
     "confirm_exit": True,
     "update_check": True,
+    "show_disclaimer": True,
     "header": "\n\n\n=================================",
     "logs": {
         "save_logs": True,
