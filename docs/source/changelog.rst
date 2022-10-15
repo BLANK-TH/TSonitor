@@ -14,6 +14,7 @@ Added
 Changed
 ^^^^^^^
 * Added healthshot to gunplant ignore
+* Updated GitHub update checking URL to new one
 
 Fixed
 ^^^^^^^
