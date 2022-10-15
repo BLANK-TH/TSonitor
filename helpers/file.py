@@ -153,7 +153,7 @@ constants = {
     },
     "connected_regex": r"^Connected to ([0-9\.:]*)$",
     "error_threshold": 10,
-    "github_release_latest": "https://github.com/BLANK-TH/STonitor/releases/latest",
+    "github_release_latest": "https://github.com/blankdvth/STonitor/releases/latest",
 }
 
 button_alias = {
