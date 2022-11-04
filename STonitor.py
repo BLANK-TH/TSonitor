@@ -387,7 +387,7 @@ if __name__ == "__main__":
             )
         if (
             input(
-                "The program will need to be restarted to resume normal operation. Enter Y then press enter to open the data folder, or press enter to continue."
+                "The program will need to be restarted to resume normal operation. Enter Y then press enter to open the data folder, or press enter to exit immediately... "
             ).casefold()
             == "y"
         ):
