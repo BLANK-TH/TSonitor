@@ -1,16 +1,48 @@
 Installation
 ==============
 
-STonitor's installation is neither streamlined or easy, depending on how experienced you are with things like this,
-things may go wrong (solutions to some common issues may be available in the `FAQ <faq.html>`_). If you want an easy to
-install version, check out `Sonitor <https://github.com/MSWS/Sonitor>`_ by *MSWS*.
+There are two ways to install STonitor, you can use the provided Installer for Windows, or you can install it manually.
+The Installer is not guaranteed to work, and may potentially cause a false-positive in your antivirus software.
+If you are concerned about this, you can install it manually.
+
+Installer
+---------
+
+As of version 2.2.0, STonitor has an installer for Windows. This is the easiest way to install STonitor,
+although less stable than the manual installation (if you know what you're doing when performing the manual
+installation).
+
+Downloading the Installer
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+1. Head over to the releases page and grab the latest version. This `link <https://github.com/blankdvth/STonitor/releases/latest>`_ also brings you there.
+2. Once you've found a proper release, check the assets section near the bottom and download the Installer (``STonitor_Setup.exe``).
+
+Running the Installer
+^^^^^^^^^^^^^^^^^^^^^
+
+Once you have the Installer downloaded, you'll need to run it. In order to do this, head over to the location where you
+downloaded the Installer, and double-click it. Windows SmartScreen may pop up, warning you about the Installer being
+potentially unsafe, this is because the Installer is not signed. You can safely ignore this warning and continue with
+the installation by clicking ``More info``, then ``Run Anyway``.
+
+Continue through the installation process, and you should be good to go! Once the installation is complete, you can
+get started on the `Setup <setup.html>`_.
+
+Manual Installation
+-------------------
+
+STonitor's manual installation is neither streamlined or easy, depending on how experienced you are with things like
+this, things may go wrong (solutions to some common issues may be available in the `FAQ <faq.html>`_). If you want
+something easy to install, you can use the :ref:`Installer<Installer>` or check out
+`Sonitor <https://github.com/MSWS/Sonitor>`_ by *MSWS*.
 
 Emphasis and warnings aside, the installation instructions below are fairly detailed, as long as you follow them, you
 should be fine. This installation process is also fairly standard, if you encounter an issue not covered in the FAQ,
 you'll likely be able to find a solution fairly fast by Googling it.
 
 Installing Python
-------------------
+^^^^^^^^^^^^^^^^^
 STonitor is made using Python, and needs Python to run. If you've already installed a 3.X version, great, you can skip
 this part. If not, follow the steps below:
 
@@ -26,15 +58,15 @@ this part. If not, follow the steps below:
     * If the version number is wrong, you may already have a version installed, as long as it's 3.X, you can use it.
 
 Downloading STonitor
------------------------
+^^^^^^^^^^^^^^^^^^^^
 Congrats on installing Python. The next part is fairly straightforward, download the most recent version of STonitor.
 
-1. Head over to the releases page and grab the latest version. This `link <https://github.com/BLANK-TH/STonitor/releases/latest>`_ also brings you there.
+1. Head over to the releases page and grab the latest version. This `link <https://github.com/blankdvth/STonitor/releases/latest>`_ also brings you there.
 2. Once you've found a proper release, check the assets section near the bottom and download the one labeled ``Source code (zip)``.
 3. When the download has finished, extract the ZIP file to your location of choice. This is where the program will reside, so it's recommended not to leave it in Downloads and rather someplace accessible and memorable.
 
 Installing Requirements
--------------------------
+^^^^^^^^^^^^^^^^^^^^^^^
 That was easy, wasn't it? This one's slightly harder, but still not horrible. We're going to be installing the packages
 (requirements) that are needed for STonitor to operate properly.
 
@@ -47,5 +79,5 @@ That was easy, wasn't it? This one's slightly harder, but still not horrible. We
 3. Make sure that everything has been properly installed (you should see ``Successfully installed`` then a lot of names)
 
 Done
------
-Congrats! You've finished the installation portion, now get started on the `Setup <setup.html>`_
+^^^^
+Congrats! You've finished the installation portion, now get started on the `Setup <setup.html>`_.

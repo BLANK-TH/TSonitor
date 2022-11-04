@@ -10,12 +10,14 @@ and this project adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0
 Added
 ^^^^^^^
 * Shows disclaimer on startup
+* Created installer for Windows
 
 Changed
 ^^^^^^^
 * Added healthshot to gunplant ignore
 * Updated GitHub update checking URL to new one
 * Moved data folder to native data location (APPDATA, .config)
+* Documentation updated to reference Windows installer
 
 Fixed
 ^^^^^^^

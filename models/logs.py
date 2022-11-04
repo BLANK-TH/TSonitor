@@ -40,9 +40,9 @@ class Log:
         self.header = header + "\n" if header != "" else ""
         self.footer = footer + "\n" if header != "" else ""
 
-    def save_log(self):
+    def save_log(self, DATA_PATH: str):
         with open(
-            "data/logs/{}_{}.txt".format(self.type, self.id), "w", encoding="utf-8"
+            DATA_PATH + "/logs/{}_{}.txt".format(self.type, self.id), "w", encoding="utf-8"
         ) as f:
             try:
                 f.write(self.header + self.raw_log + self.footer)

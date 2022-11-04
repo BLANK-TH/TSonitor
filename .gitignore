@@ -231,3 +231,4 @@ output/
 hooks/
 exe-compile-config.json
 innosetup_config.iss
+post_install_notice.txt

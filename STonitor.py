@@ -24,6 +24,7 @@ from helpers.file import (
     load_age_cache,
     load_buttons,
     save_age_cache,
+    DATA_PATH,
 )
 
 
@@ -40,7 +41,7 @@ def except_hook(exc_class, message, traceback):
                 exc_class.__name__, message, formatted
             )
         )
-        with open("data/errors.txt", "a") as f:
+        with open(DATA_PATH + "/errors.txt", "a") as f:
             f.write(
                 "=====\n{}\n---\n{}\n=====".format(
                     datetime.utcnow().strftime("%b %d, %Y %H:%M:%S UTC"), formatted
@@ -123,7 +124,7 @@ def handle_ttt_log(logs):
                 )
             print("")
     if config["logs"]["save_logs"]:
-        log.save_log()
+        log.save_log(DATA_PATH)
 
 
 def handle_jb_log(logs, round_number, buttons):
@@ -281,7 +282,7 @@ def handle_jb_log(logs, round_number, buttons):
                 )
             print("")
     if config["logs"]["save_logs"]:
-        log.save_log()
+        log.save_log(DATA_PATH)
 
 
 def handle_status(logs, server_ip):
