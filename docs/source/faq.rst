@@ -68,6 +68,10 @@ On versions 2.2.0 and above, all data is in the standard config directory for yo
 named "STonitor". On Windows, this is ``C:\Users\Username\AppData\Roaming\STonitor``.
 On Linux and Mac, this is ``~/.config/STonitor``.
 
+.. note::
+    You can get to the data folder quickly on Windows by opening your File Explorer, clicking the address bar, then
+    entering ``%APPDATA%\STonitor``, and pressing enter.
+
 .. deprecated:: 2.2.0
     Prior to version 2.2.0, the data folder was in the same directory as the executable. This is no longer the case (see above).
 
