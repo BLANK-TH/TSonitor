@@ -16,7 +16,7 @@ Downloading the Installer
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
 1. Head over to the releases page and grab the latest version. This `link <https://github.com/blankdvth/STonitor/releases/latest>`_ also brings you there.
-2. Once you've found a proper release, check the assets section near the bottom and download the Installer (``STonitor_Setup.exe``).
+2. Once you've found a proper release, check the assets section near the bottom and download the Installer (``STonitor_Setup_X.X.X.exe``, the Xs are version numbers).
 
 Running the Installer
 ^^^^^^^^^^^^^^^^^^^^^
