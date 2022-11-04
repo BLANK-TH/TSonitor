@@ -18,6 +18,7 @@ Changed
 * Updated GitHub update checking URL to new one
 * Moved data folder to native data location (APPDATA, .config)
 * Documentation updated to reference Windows installer
+* The program now asks if you want to open the data folder if it generates it
 
 Fixed
 ^^^^^^^

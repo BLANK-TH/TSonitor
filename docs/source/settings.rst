@@ -3,7 +3,7 @@ Settings
 Here's a list of all of the currently available settings parameters, and what they do
 
 - **output_file**: *Full path to where the CS:GO output.log file is located, the prefilled value is the default for most people*. Default Value: ``C:/Program Files (x86)/Steam/steamapps/common/Counter-Strike Global Offensive/csgo/output.log``
-- **steamkey**: *Your steam API key, needed to use the account age and CS:GO playtime features*. Example Value: ``A=12345A789101234FJ32U``
+- **steamkey**: *Your steam API key, needed to use the account age and CS:GO playtime features*. Example Value: ``12345A789101234FJ32U``
 - **check_delay**: *The delay in between the program checking the output.log file for new contents, in seconds. The lower it is the faster you get results but the more resources the program uses.*. Default Value: ``5``
 - **clear_output_log**: *Boolean (true/false) of whether output.log should be cleared once STonitor is done with it, this prevents repeat output (a runtime caching solution is implemented for JB & Status and a round number session solution for TTT in the case that you turn this off)*. Default Value: ``true``
 - **clear_on_error**: *Boolean (true/false) of whether output.log is automatically cleared on error to attempt to fix corrupted log issues. Upside is less crashes, downside is potential lost log.*. Default Value: ``true``
