@@ -63,7 +63,7 @@ On versions 2.2.0 and above, all data is in the standard config directory for yo
 named "STonitor". On Windows, this is ``C:\Users\Username\AppData\Roaming\STonitor``.
 On Linux and Mac, this is ``~/.config/STonitor``.
 
-..deprecated:: 2.2.0
+.. deprecated:: 2.2.0
     Prior to version 2.2.0, the data folder was in the same directory as the executable. This is no longer the case (see above).
 
 How do I update STonitor?
