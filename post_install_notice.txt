@@ -1,1 +1,4 @@
-Test
+STonitor has finished installing!
+
+Before you can start using the software however, you will need to configure it (or it won't work!).
+Instructions on how to setup STonitor can be found on the Setup page on Read the Docs. This installer will help you open the setup page in your browser on the next screen, if you wish.
