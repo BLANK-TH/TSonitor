@@ -392,7 +392,7 @@ def parse_status(
             r_server_playtime = "Invalid Server"
 
     return (
-        r_created if r_created is not None else float('inf'),
+        r_created if r_created is not None else float("inf"),
         r_uid,
         r_name,
         human_readable.precise_delta(r_age_td, suppress=find_human_suppress(r_age_td))
