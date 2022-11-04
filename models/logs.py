@@ -80,7 +80,7 @@ class TTTLog(Log):
                     colourify("time", "{:02}:{:02}".format(*action.timestamp)),
                     repr(action.attacker),
                     repr(action.victim),
-                    colourify("damage", ":,".format(action.damage)),
+                    colourify("damage", "{:,}".format(action.damage)),
                 )
 
         return output.rstrip()

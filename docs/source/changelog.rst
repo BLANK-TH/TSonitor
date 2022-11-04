@@ -25,6 +25,7 @@ Fixed
 ^^^^^^^
 * Incorrect default colours listed in settings documentation
 * Typo in default button config
+* TTT summary output not showing damage dealt
 
 [2.1.2] - 2022-05-15
 ------------------------
