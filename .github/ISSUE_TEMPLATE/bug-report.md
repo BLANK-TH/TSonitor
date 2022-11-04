@@ -30,9 +30,10 @@ If an error occurred while handling logs, please attach or paste the contents of
 If applicable, add screenshots to help explain your problem.
 
 **Desktop (please complete the following information):**
- - OS: [e.g. iOS]
- - Version [e.g. 22]
+ - OS: [e.g. Windows]
+ - Version [e.g. 2.0.0]
  - Python Version [e.g. 3.8]
+ - Installation Method [manual/installer]
 
 **Additional context**
 Add any other context about the problem here.
