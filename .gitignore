@@ -229,3 +229,4 @@ cython_debug/
 data/
 output/
 hooks/
+exe-compile-config.json

@@ -6,9 +6,10 @@
 
 from copy import deepcopy
 from json import load, dump
-from os import mkdir
-from os.path import isfile, isdir
+from os import mkdir, environ, rename
+from os.path import isfile, isdir, expanduser
 from re import compile as rcompile, error as rerror
+from sys import platform as sysplatform
 from typing import Union
 
 import yaml
@@ -171,6 +172,22 @@ button_alias = {
     },
 }
 
+home = expanduser("~")
+platform_locations = {"linux": ".config", "darwin": ".config"}
+if "use_platform_dir" in environ and environ["use_platform_dir"] == "1":
+    DATA_PATH = "data"
+elif sysplatform.startswith("win"):
+    DATA_PATH = environ["APPDATA"] + "\\STonitor"
+else:
+    if sysplatform.startswith("linux"):
+        OS = "Linux"
+    elif sysplatform == "darwin":
+        OS = "Mac"
+    else:
+        print("Unsupported OS")
+        exit(1)
+    DATA_PATH = home + "/" + platform_locations[sysplatform] + "/STonitor"
+
 
 def check_dict(d: dict, expected: dict, fixed_dict=None) -> Union[bool, dict]:
     """Goes through each dict and subdict to check if the keys in expected are in d, if not, they're filled in with the
@@ -214,30 +231,35 @@ def assert_data() -> Union[bool, str]:
     """
     success = True
 
-    if not isdir("data"):
-        mkdir("data")
-    if not isdir("data/logs"):
-        mkdir("data/logs")
-    if not isfile("data/settings.yaml"):
-        with open("data/settings.yaml", "w") as f:
+    # Move old data folder to new location (for those updating from v2.1.2)
+    if DATA_PATH != "data" and isdir("data"):
+        rename("data", DATA_PATH)
+        print("NOTICE: The STonitor data folder has moved to {}.".format(DATA_PATH))
+
+    if not isdir(DATA_PATH):
+        mkdir(DATA_PATH)
+    if not isdir(DATA_PATH + "/logs"):
+        mkdir(DATA_PATH + "/logs")
+    if not isfile(DATA_PATH + "/settings.yaml"):
+        with open(DATA_PATH + "/settings.yaml", "w") as f:
             f.write(yaml.dump(default_settings, sort_keys=False))
         success = False
     else:
         r = check_dict(load_config(), default_settings)
         if isinstance(r, dict):
-            with open("data/settings.yaml", "w") as f:
+            with open(DATA_PATH + "/settings.yaml", "w") as f:
                 f.write(yaml.dump(r, sort_keys=False))
             success = False
-    if not isfile("data/constants.yaml"):
-        with open("data/constants.yaml", "w") as f:
+    if not isfile(DATA_PATH + "/constants.yaml"):
+        with open(DATA_PATH + "/constants.yaml", "w") as f:
             f.write(yaml.dump(constants, sort_keys=False, width=float("inf")))
     else:
         r = check_dict(load_constants(), constants)
         if isinstance(r, dict):
-            with open("data/constants.yaml", "w") as f:
+            with open(DATA_PATH + "/constants.yaml", "w") as f:
                 f.write(yaml.dump(r, sort_keys=False, width=float("inf")))
-    if not isfile("data/buttons.yaml"):
-        with open("data/buttons.yaml", "w") as f:
+    if not isfile(DATA_PATH + "/buttons.yaml"):
+        with open(DATA_PATH + "/buttons.yaml", "w") as f:
             f.write(yaml.dump(button_alias, sort_keys=False, width=float("inf")))
     else:
         btns = load_buttons()
@@ -258,13 +280,13 @@ def assert_data() -> Union[bool, str]:
                 btns_working["regex"][k]["alias"] = None
 
         if btns != btns_working:
-            with open("data/buttons.yaml", "w") as f:
+            with open(DATA_PATH + "/buttons.yaml", "w") as f:
                 f.write(yaml.dump(btns_working, sort_keys=False, width=float("inf")))
-    if not isfile("data/age_cache.json"):
-        with open("data/age_cache.json", "w") as f:
+    if not isfile(DATA_PATH + "/age_cache.json"):
+        with open(DATA_PATH + "/age_cache.json", "w") as f:
             dump({}, f, indent=2)
-    if not isfile("data/errors.txt"):
-        with open("data/errors.txt", "w") as f:
+    if not isfile(DATA_PATH + "/errors.txt"):
+        with open(DATA_PATH + "/errors.txt", "w") as f:
             f.write("")
 
     return success
@@ -283,7 +305,7 @@ def load_config() -> dict:
 
     :return: Config loaded from file
     """
-    with open("data/settings.yaml", "r") as f:
+    with open(DATA_PATH + "/settings.yaml", "r") as f:
         return yaml.load(f.read(), Loader=yaml.FullLoader)
 
 
@@ -292,7 +314,7 @@ def load_constants() -> dict:
 
     :return: Constants loaded from file
     """
-    with open("data/constants.yaml", "r") as f:
+    with open(DATA_PATH + "/constants.yaml", "r") as f:
         return yaml.load(f.read(), Loader=yaml.FullLoader)
 
 
@@ -301,7 +323,7 @@ def load_buttons() -> dict:
 
     :return: Button config loaded from file
     """
-    with open("data/buttons.yaml", "r") as f:
+    with open(DATA_PATH + "/buttons.yaml", "r") as f:
         return yaml.load(f.read(), Loader=yaml.FullLoader)
 
 
@@ -310,11 +332,11 @@ def load_age_cache() -> dict:
 
     :return: Age cache loaded from file
     """
-    with open("data/age_cache.json", "r") as f:
+    with open(DATA_PATH + "/age_cache.json", "r") as f:
         return load(f)
 
 
 def save_age_cache(cache):
     """Updates the age cache JSON file"""
-    with open("data/age_cache.json", "w") as f:
+    with open(DATA_PATH + "/age_cache.json", "w") as f:
         dump(cache, f, indent=2)
