@@ -383,8 +383,15 @@ if __name__ == "__main__":
             print("File integrity check failed, user input needed: " + asrep)
         else:
             print(
-                "Missing or invalid data files found, an automatic creation/fix was attempted"
+                "Missing or invalid data files found, an automatic creation/fix was attempted. You may want to check and update your data files manually if needed."
             )
+        if (
+            input(
+                "The program will need to be restarted to resume normal operation. Enter Y then press enter to open the data folder, or press enter to continue."
+            ).casefold()
+            == "y"
+        ):
+            wbopen(DATA_PATH)
         sys.exit()
 
     from helpers.gvars import (
