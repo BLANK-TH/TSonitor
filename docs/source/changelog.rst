@@ -6,7 +6,10 @@ The format is based on `Keep a Changelog <https://keepachangelog.com/en/1.0.0/>`
 and this project adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`_.
 
 [Unreleased]
---------------
+------------
+
+[2.2.0] - 2022-11-04
+---------------------
 Added
 ^^^^^^^
 * Shows disclaimer on startup
@@ -26,6 +29,7 @@ Fixed
 * Incorrect default colours listed in settings documentation
 * Typo in default button config
 * TTT summary output not showing damage dealt
+* Edge case in which the program would crash if there was a specific issue retrieving account age
 
 [2.1.2] - 2022-05-15
 ------------------------
