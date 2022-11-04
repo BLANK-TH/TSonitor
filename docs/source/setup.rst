@@ -59,10 +59,11 @@ you run it (if you're on Linux, use bash, it's fairly similar and you probably a
 fairly easy, follow the below instructions:
 
 1. Find the location want the Batch file to be. Right click, hover over new, then click Text Document.
-2. When it asks you for a name (this step is important), press Ctrl + A (select all text), and enter ``STonitor.bat``. It doesn't have to start with STonitor, it can be whatever you like as long as it ends with ``.bat``.
-3. It'll tell you that changing a file's extension can make it unusable, it'll be perfectly fine, click Yes.
-4. Right click the file that it's created, then click Edit
-5. Paste the following code into the file and save it, replace the path in the example with the full path to where you installed STonitor.
+2. Make sure ``File name extensions`` is checked in the ``View`` tab of Windows Explorer.
+3. When it asks you for a name (this step is important), press Ctrl + A (select all text), and enter ``STonitor.bat``. It doesn't have to start with STonitor, it can be whatever you like as long as it ends with ``.bat``.
+4. It'll tell you that changing a file's extension can make it unusable, it'll be perfectly fine, click Yes.
+5. Right click the file that it's created, then click Edit
+6. Paste the following code into the file and save it, replace the path in the example with the full path to where you installed STonitor.
 
 .. code-block:: bash
 
