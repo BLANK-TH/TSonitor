@@ -174,7 +174,7 @@ button_alias = {
 
 home = expanduser("~")
 platform_locations = {"linux": ".config", "darwin": ".config"}
-if "use_project_dir" in environ and environ["use_platform_dir"] == "1":
+if "use_project_dir" in environ and environ["use_project_dir"] == "1":
     DATA_PATH = "data"
 elif sysplatform.startswith("win"):
     DATA_PATH = environ["APPDATA"] + "\\STonitor"
