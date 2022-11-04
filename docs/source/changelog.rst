@@ -15,6 +15,7 @@ Changed
 ^^^^^^^
 * Added healthshot to gunplant ignore
 * Updated GitHub update checking URL to new one
+* Moved data folder to native data location (APPDATA, .config)
 
 Fixed
 ^^^^^^^
