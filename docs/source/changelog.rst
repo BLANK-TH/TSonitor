@@ -30,6 +30,7 @@ Fixed
 * Typo in default button config
 * TTT summary output not showing damage dealt
 * Edge case in which the program would crash if there was a specific issue retrieving account age
+* Broken update checking as a result of repo URL change
 
 [2.1.2] - 2022-05-15
 ------------------------

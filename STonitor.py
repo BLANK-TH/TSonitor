@@ -6,6 +6,7 @@
 
 import sys
 from datetime import datetime
+from re import sub as rsub
 from time import sleep, time
 from tkinter import Tk
 from tkinter.messagebox import askyesno
@@ -426,7 +427,7 @@ if __name__ == "__main__":
         # Check GitHub API endpoint
         resp = requests.get(
             "https://api.github.com/repos/"
-            + constants["github_release_latest"].lstrip("https://github.com/")
+            + rsub(r"^https?://github\.com/", "", constants["github_release_latest"])
         )
         # Check whether response is a success
         if resp.status_code == 200:
