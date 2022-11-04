@@ -376,9 +376,6 @@ def get_bool_status(*args):
 
 
 if __name__ == "__main__":
-    os.chdir(
-        sys.path[0]
-    )  # Set CWD to this file in case clueless users run wo/ a proper working directory
     sys.excepthook = except_hook  # Setup custom exception handler
     asrep = assert_data()
     if asrep is not True:
