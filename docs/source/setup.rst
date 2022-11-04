@@ -28,7 +28,7 @@ first time setup. It will also ask you whether you want to open the data folder,
 Fill in Settings
 -----------------
 Open the ``data`` folder (the program should have automatically opened it for you if you asked it to, if you didn't,
-see the FAQ entry on the `location of the data folder<faq.html#where-is-the-data-folder>`_). Inside this data folder,
+see the FAQ entry on the `location of the data folder <faq.html#where-is-the-data-folder>`_). Inside this data folder,
 you'll find a file named ``settings.yaml``. The majority of parameters will already have a default value set, you can
 change them as needed to your preferences however. `This documentation page <settings.html>`_ tells you what each of
 the parameters in the file mean. You can open this file in most file editors, Notepad (or Notepad++ for the more
