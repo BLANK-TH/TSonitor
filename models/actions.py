@@ -46,9 +46,9 @@ class TTTAction(Action):
 
     def involves_player(self, player):
         if isinstance(player, str):
-            return self.attacker.name == player or self.victim.name == player
+            return player in (self.attacker.name, self.victim.name)
         elif isinstance(player, TTTPlayer):
-            return self.attacker == player or self.victim == player
+            return player in (self.attacker, self.victim)
         else:
             raise ValueError("Player needs to be either str or TTTPlayer")
 
