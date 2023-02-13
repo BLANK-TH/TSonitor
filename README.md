@@ -13,8 +13,5 @@ information provided to it.*
 Documentation on how to install, configure, and use STonitor is available on 
 [Read the Docs](https://stonitor.blankdvth.com).
 
-**Note**: Installing STonitor is not an easy task, mostly because I was too lazy to do it in a compiled language. If you
-want a similar program that's much easier to install, use [Sonitor](https://github.com/MSWS/Sonitor).
-
 ## Features
 View the full feature list on the [documentation](https://stonitor.blankdvth.com/en/stable/#features).
