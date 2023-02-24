@@ -19,6 +19,7 @@ default_settings = {
     "steamkey": "",
     "check_delay": 5,
     "clear_output_log": True,
+    "clear_on_start": False,
     "clear_on_error": True,
     "confirm_exit": True,
     "update_check": True,
@@ -196,7 +197,7 @@ def check_dict(d: dict, expected: dict, fixed_dict=None) -> Union[bool, dict]:
     :param d: Dict to check
     :param expected: Dict with expected keys
     :param fixed_dict: Patched version of d
-    :return: True if check succeeded, list of missing keys if check failed
+    :return: True if check succeeded, corrected dict otherwise
     """
     if d is None:
         d = (

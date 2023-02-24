@@ -7,6 +7,10 @@ and this project adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0
 
 [Unreleased]
 ------------
+Changed
+^^^^^^^
+* Added option to clear output.log on program start
+
 Fixed
 ^^^^^^^
 * Outdated default GameME link for eGO

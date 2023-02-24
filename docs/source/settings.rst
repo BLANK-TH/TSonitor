@@ -6,6 +6,7 @@ Here's a list of all of the currently available settings parameters, and what th
 - **steamkey**: *Your steam API key, needed to use the account age and CS:GO playtime features*. Example Value: ``12345A789101234FJ32U``
 - **check_delay**: *The delay in between the program checking the output.log file for new contents, in seconds. The lower it is the faster you get results but the more resources the program uses.*. Default Value: ``5``
 - **clear_output_log**: *Boolean (true/false) of whether output.log should be cleared once STonitor is done with it, this prevents repeat output (a runtime caching solution is implemented for JB & Status and a round number session solution for TTT in the case that you turn this off)*. Default Value: ``true``
+- **clear_on_start**: *Boolean (true/false) of whether output.log should be cleared when STonitor starts.* Default Value: ``false``
 - **clear_on_error**: *Boolean (true/false) of whether output.log is automatically cleared on error to attempt to fix corrupted log issues. Upside is less crashes, downside is potential lost log.*. Default Value: ``true``
 - **confirm_exit**: *Boolean (true/false) of whether the program will ask you to confirm exiting by pressing enter. This may not work in all cases (certain errors at certain locations will bypass this)*. Default Value: ``true``
 - **update_check**: *Boolean (true/false) of whether the program will check for newer versions on run*. Default Value: ``true``
