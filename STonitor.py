@@ -445,7 +445,7 @@ if __name__ == "__main__":
                 )
                 if yn_resp:
                     wbopen(constants["github_release_latest"])
-    
+
     if config["clear_on_start"]:
         with open(config["output_file"], "w") as f:
             f.write("")
