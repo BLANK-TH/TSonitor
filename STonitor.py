@@ -421,6 +421,7 @@ if __name__ == "__main__":
                 type(pe).__name__
             )
         )
+        input("Press enter to exit...")
         sys.exit()
 
     if config["update_check"]:

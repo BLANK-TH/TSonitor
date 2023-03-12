@@ -14,6 +14,7 @@ Changed
 Fixed
 ^^^^^^^
 * Outdated default GameME link for eGO
+* Ensured that users can see the FileNotFound error when searching for output.log
 
 [2.2.0] - 2022-11-04
 ---------------------
