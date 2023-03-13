@@ -7,7 +7,6 @@
 from collections import defaultdict
 from typing import Union, Tuple, List
 
-from helpers.gvars import colourify
 from .actions import *
 from .player import JBWorld
 
@@ -25,7 +24,7 @@ class Log:
         self,
         raw_log: str,
         actions: list,
-        id: int,
+        id_: int,
         ty: str = "Unknown",
         header: str = "",
         footer: str = "",
@@ -35,7 +34,7 @@ class Log:
             if line.startswith("[") and not line.startswith("[DS]"):
                 self.raw_log += line + "\n"
         self.actions = actions
-        self.id = id
+        self.id = id_
         self.type = ty
         self.header = header + "\n" if header != "" else ""
         self.footer = footer + "\n" if header != "" else ""
@@ -62,9 +61,9 @@ class TTTLog(Log):
     """Class representing TTT logs"""
 
     def __init__(
-        self, raw_log: str, actions: list, id: int, header: str = "", footer: str = ""
+        self, raw_log: str, actions: list, id_: int, header: str = "", footer: str = ""
     ):
-        super().__init__(raw_log, actions, id, "TTT", header, footer)
+        super().__init__(raw_log, actions, id_, "TTT", header, footer)
 
     def summary_output(self, kills: bool, damage: bool):
         output = ""
@@ -177,12 +176,12 @@ class JBLog(Log):
         self,
         raw_log: str,
         actions: list,
-        id: int,
+        id_: int,
         players: List[JBPlayer],
         header: str = "",
         footer: str = "",
     ):
-        super().__init__(raw_log, actions, id, "JB", header, footer)
+        super().__init__(raw_log, actions, id_, "JB", header, footer)
         self.players = players
         self.deaths = [action for action in self.actions if isinstance(action, JBDeath)]
         self.ts = []
@@ -317,7 +316,7 @@ class JBLog(Log):
                 fks.append(action)
         return fks
 
-    def find_early_vent(self) -> List[JBVents]:
+    def find_early_vent(self) -> List[JBPlayer]:
         players = []
         last_action = None
         for action in self.actions:
