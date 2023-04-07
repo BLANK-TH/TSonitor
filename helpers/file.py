@@ -23,6 +23,7 @@ default_settings = {
     "clear_on_error": True,
     "confirm_exit": True,
     "update_check": True,
+    "constants_check": True,
     "show_disclaimer": True,
     "header": "\n\n\n=================================",
     "logs": {
@@ -234,6 +235,24 @@ def check_dict(d: dict, expected: dict, fixed_dict=None) -> Union[bool, dict]:
     )  # Hacky way to sort & remove unused keys
 
 
+def check_dict_match(d, expected) -> bool:
+    """Goes through each dict and checks that each entry matches the one in another dict
+
+    :param d: Dict or value to check
+    :param expected: Dict with the expected values or expected value
+    :return: True if everything matches, false otherwise
+    """
+    if isinstance(d, dict) and isinstance(expected, dict):
+        if set(d.keys()) != set(expected.keys()):
+            return False
+
+        for key in d:
+            if not check_dict_match(d[key], expected[key]):
+                return False
+        return True
+    return d == expected
+
+
 def assert_data() -> Union[bool, str]:
     """Checks if the data folder and required files exist, if not, create them
 
@@ -310,6 +329,10 @@ def check_output(path) -> Union[Exception, type(None)]:
         return e
 
 
+def check_constants(cur_constants) -> bool:
+    return check_dict_match(cur_constants, constants)
+
+
 def load_config() -> dict:
     """Loads and parses the YAML config file
 
@@ -344,6 +367,11 @@ def load_age_cache() -> dict:
     """
     with open(DATA_PATH + "/age_cache.json", "r") as f:
         return load(f)
+
+
+def overwrite_constants():
+    with open(DATA_PATH + "/constants.yaml", "w") as f:
+        f.write(yaml.dump(constants, sort_keys=False, width=float("inf")))
 
 
 def save_age_cache(cache):

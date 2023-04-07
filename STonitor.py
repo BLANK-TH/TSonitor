@@ -22,8 +22,11 @@ from steam.webapi import WebAPI
 from helpers.file import (
     assert_data,
     check_output,
+    check_constants,
     load_age_cache,
     load_buttons,
+    load_constants,
+    overwrite_constants,
     save_age_cache,
     DATA_PATH,
 )
@@ -424,6 +427,18 @@ if __name__ == "__main__":
         input("Press enter to exit...")
         sys.exit()
 
+    if config["constants_check"] and not check_constants(constants):
+        Tk().withdraw()
+        if askyesno(
+            "Update Constants",
+            "The constants file appears to be different from the default, do you want to overwrite it?\n"
+            "The program will exit when Yes is clicked to apply the changes, feel free to restart immediately.\n\n"
+            "This most commonly occurs when the program is updated, clicking Yes is heavily recommended.\nIf you "
+            "have custom constant values and know what you're doing, you can disable this check in the config.",
+        ):
+            overwrite_constants()
+            constants = load_constants()
+
     if config["update_check"]:
         # Check GitHub API endpoint
         resp = requests.get(
@@ -440,7 +455,7 @@ if __name__ == "__main__":
                 yn_resp = askyesno(
                     "New Version",
                     "A new version ({}) is available.\n\nPress yes to open page and no to ignore.\n"
-                    "Update checking can be disabled in config.".format(
+                    "Update checking can be disabled in the config.".format(
                         resp_js["tag_name"]
                     ),
                 )

@@ -15,6 +15,8 @@ Added
     * Detective DNA Scans
     * Tasing
 
+* Automatic checking for updated constants
+
 Changed
 ^^^^^^^
 * Added option to clear output.log on program start

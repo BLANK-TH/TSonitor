@@ -10,6 +10,7 @@ Here's a list of all of the currently available settings parameters, and what th
 - **clear_on_error**: *Boolean (true/false) of whether output.log is automatically cleared on error to attempt to fix corrupted log issues. Upside is less crashes, downside is potential lost log.*. Default Value: ``true``
 - **confirm_exit**: *Boolean (true/false) of whether the program will ask you to confirm exiting by pressing enter. This may not work in all cases (certain errors at certain locations will bypass this)*. Default Value: ``true``
 - **update_check**: *Boolean (true/false) of whether the program will check for newer versions on run*. Default Value: ``true``
+- **constants_check**: *Boolean (true/false) of whether the program will check for non-expected constants on run*. Default Value: ``true``
 - **show_disclaimer**: *Boolean (true/false) of whether the program will show a disclaimer when it starts*. Default Value: ``true``
 - **header**: *The header that gets outputted before each program output session/log analysis. In order to create new lines, just press enter to make a new line as you would in any other file. This value must be in single quotes (')*. Example Value: ``====================``
 - *logs*:
