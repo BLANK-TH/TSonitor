@@ -59,13 +59,16 @@ Here's a list of all of the currently available settings parameters, and what th
         - *summary_output*: :sup:`Boolean (true/false) to enable various types of actions to be shown in the TTT summary output`\
             - **kills**: *Whether kills are shown in the TTT summary output*. Default Value: ``true``
             - **damage**: *Whether damage is shown in the TTT summary output*. Default Value: ``false``
-- *age*: :sup:`Steam account age, CS:GO playtime, and (hopefully) soon to be server playtime`\
+            - **id**: *Whether body IDing is shown in the TTT summary output*. Default Value: ``false``
+            - **dna_scan**: *Whether Detective DNA scans are shown in the TTT summary output*. Default Value: ``false``
+            - **tase**: *Whether tasing is shown in the TTT summary output*. Default Value: ``true``
+- *age*: :sup:`Steam account age, CS:GO playtime, and server playtime`\
     - **enable**: *Boolean (true/false) of whether status/age detection should be enabled*. Default Value: ``true``
     - **cache**: *Boolean (true/false) of whether to cache account ages (this significantly minimizes the number of API calls, speeding the program up significantly)*. Default Value: ``true``
     - *subfeatures*: :sup:`Boolean (true/false) toggles for whether each subfeature in TTT log analysis is enabled`\
         - **csgo_playtime**: *Whether CS:GO playtime for accounts is retrieved (when available)*. Default Value: ``true``
         - **server_playtime**: *Whether server playtime for accounts is retrieved*. Default Value: ``true``
-    - *private*: :sup:`Configuration options specifically for `\
+    - *private*: :sup:`Configuration options specifically for private accounts`\
         - **enabled**: *Boolean (true/false) of whether private account age guessing is enabled. This is done by checking the account ages of accounts made immediately after the private account to estimate the age of the private account*. Default Value: ``true``
         - **tries**: *Number of tries for private account age detection (number of accounts after private account) to try before giving up*. Default Value: ``10``
 - *colours*: :sup:`Settings regarding coloured output of STonitor. Valid colours are black, red, green, yellow, blue, magenta, cyan, and white`\

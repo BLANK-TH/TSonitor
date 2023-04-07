@@ -64,7 +64,13 @@ def get_playtime(steam_id: str, game_id: str, playerinfo: str) -> str:
         return "Not Found"
 
 
-def get_jb_player(players: dict, name: str, role: str):
+def get_ttt_player(players: dict, name: str, role: str) -> TTTPlayer:
+    if name not in players:
+        players[name] = TTTPlayer(name, role)
+    return players[name]
+
+
+def get_jb_player(players: dict, name: str, role: str) -> JBPlayer:
     if name not in players:
         if role in ["Prisoner", "Rebel", "ST"]:
             role = "T"
@@ -85,41 +91,76 @@ def parse_ttt_logs(lines: list, header: str = "", footer: str = "") -> TTTLog:
             round_number = int(rr[0])
             continue
 
-        rd = handle_named_regex(TTT_DAMAGE_REGEX, line)
-        if rd is not None:
-            attacker = rd.group("attacker")
-            victim = rd.group("victim")
-            if attacker not in players:
-                players[attacker] = TTTPlayer(attacker, rd.group("attacker_role"))
-            if victim not in players:
-                players[victim] = TTTPlayer(victim, rd.group("victim_role"))
-            attacker = players[attacker]
-            victim = players[victim]
+        r = handle_named_regex(TTT_DAMAGE_REGEX, line)
+        if r is not None:
             actions.append(
                 TTTDamage(
                     line,
-                    rd.group("time"),
-                    attacker,
-                    victim,
-                    int(rd.group("damage")),
-                    rd.group("weapon"),
+                    r.group("time"),
+                    get_ttt_player(
+                        players, r.group("attacker"), r.group("attacker_role")
+                    ),
+                    get_ttt_player(players, r.group("victim"), r.group("victim_role")),
+                    int(r.group("damage")),
+                    r.group("weapon"),
                 )
             )
             continue
 
-        rk = handle_named_regex(TTT_KILL_REGEX, line)
-        if rk is not None:
-            attacker = rk.group("attacker")
-            victim = rk.group("victim")
-            if attacker not in players:
-                players[attacker] = TTTPlayer(attacker, rk.group("attacker_role"))
-            if victim not in players:
-                players[victim] = TTTPlayer(victim, rk.group("victim_role"))
-            attacker = players[attacker]
-            victim = players[victim]
+        r = handle_named_regex(TTT_KILL_REGEX, line)
+        if r is not None:
             actions.append(
-                TTTDeath(line, rk.group("time"), attacker, victim, rk.group("weapon"))
+                TTTDeath(
+                    line,
+                    r.group("time"),
+                    get_ttt_player(
+                        players, r.group("attacker"), r.group("attacker_role")
+                    ),
+                    get_ttt_player(players, r.group("victim"), r.group("victim_role")),
+                    r.group("weapon"),
+                )
             )
+            continue
+
+        r = handle_named_regex(TTT_ID_REGEX, line)
+        if r is not None:
+            actions.append(
+                TTTID(
+                    line,
+                    r.group("time"),
+                    get_ttt_player(players, r.group("player"), r.group("player_role")),
+                    get_ttt_player(players, r.group("body"), r.group("body_role")),
+                )
+            )
+            continue
+
+        r = handle_named_regex(TTT_DNA_SCAN_REGEX, line)
+        if r is not None:
+            actions.append(
+                TTTDNAScan(
+                    line,
+                    r.group("time"),
+                    get_ttt_player(players, r.group("player"), "Detective"),
+                    get_ttt_player(players, r.group("killer"), r.group("killer_role")),
+                    r.group("weapon"),
+                )
+            )
+            continue
+
+        r = handle_named_regex(TTT_TASE_REGEX, line)
+        if r is not None:
+            attacker = r.group("attacker")
+            if attacker in players:
+                attacker = players[attacker]
+            actions.append(
+                TTTTase(
+                    line,
+                    r.group("time"),
+                    attacker,
+                    get_ttt_player(players, r.group("victim"), r.group("victim_role")),
+                )
+            )
+            continue
 
         r = TTT_TIME_REGEX.findall(line)
         if r is not None and len(r) > 0:

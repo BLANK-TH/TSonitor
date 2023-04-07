@@ -5,8 +5,9 @@
 # ------------------------------------------------------------------------------
 
 from datetime import timedelta
+from typing import Union
 
-from helpers.gvars import colourify
+from helpers.gvars import colourify, get_colour, RESET_COLOUR
 from .player import TTTPlayer, JBPlayer
 
 
@@ -34,8 +35,8 @@ class TTTAction(Action):
         self,
         raw_line: str,
         timestamp: str,
-        attacker: TTTPlayer = None,
-        victim: TTTPlayer = None,
+        attacker: Union[TTTPlayer, str, None] = None,
+        victim: Union[TTTPlayer, str, None] = None,
     ):
         super().__init__(raw_line, timestamp)
         self.attacker = attacker
@@ -44,25 +45,35 @@ class TTTAction(Action):
 
     def involves_player(self, player):
         if isinstance(player, str):
-            return self.attacker.name == player or self.victim.name == player
+            return (
+                getattr(self.attacker, "name", self.attacker) == player
+                or getattr(self.victim, "name", self.victim) == player
+            )
         elif isinstance(player, TTTPlayer):
-            return self.attacker == player or self.victim == player
-        else:
-            raise ValueError("Player needs to be either str or TTTPlayer")
+            return self.attacker == (
+                player if isinstance(self.attacker, TTTPlayer) else player.name
+            ) or self.victim == (
+                player if isinstance(self.victim, TTTPlayer) else player.name
+            )
+        raise ValueError("Unexpected type given for player")
 
     def is_victim(self, player):
         if isinstance(player, str):
-            return self.victim.name == player
+            return getattr(self.victim, "name", self.victim) == player
         elif isinstance(player, TTTPlayer):
-            return self.victim == player
+            return self.victim == (
+                player if isinstance(self.victim, TTTPlayer) else player.name
+            )
         else:
             raise ValueError("Player needs to be either str or TTTPlayer")
 
     def is_attacker(self, player):
         if isinstance(player, str):
-            return self.attacker.name == player
+            return getattr(self.attacker, "name", self.attacker) == player
         elif isinstance(player, TTTPlayer):
-            return self.attacker == player
+            return self.attacker == (
+                player if isinstance(self.attacker, TTTPlayer) else player.name
+            )
         else:
             raise ValueError("Player needs to be either str or TTTPlayer")
 
@@ -94,7 +105,7 @@ class TTTDamage(TTTAction):
         return self.weapon.casefold() == weapon.casefold()
 
     def __repr__(self):
-        return "[{}] {} damaged {} for {}\n".format(
+        return "[{}] {} damaged {} for {}".format(
             colourify("time", "{:02}:{:02}".format(*self.timestamp)),
             repr(self.attacker),
             repr(self.victim),
@@ -120,9 +131,73 @@ class TTTDeath(TTTAction):
         return self.weapon.casefold() == weapon.casefold()
 
     def __repr__(self):
-        return "[{}] {} killed {}\n".format(
+        return "[{}] {} killed {}".format(
             colourify("time", "{:02}:{:02}".format(*self.timestamp)),
             repr(self.attacker),
+            repr(self.victim),
+        )
+
+
+class TTTID(TTTAction):
+    """Class representing a body being IDed in TTT logs"""
+
+    def __init__(
+        self, raw_line: str, timestamp: str, player: TTTPlayer, body: TTTPlayer
+    ):
+        super().__init__(raw_line, timestamp, player, body)
+        self.player = self.attacker
+        self.body = self.victim
+
+    def __repr__(self):
+        return "[{}] {} IDed {}'s body".format(
+            colourify("time", "{:02}:{:02}".format(*self.timestamp)),
+            repr(self.player),
+            repr(self.body),
+        )
+
+
+class TTTDNAScan(TTTAction):
+    """Class representing a body being DNA scanned by the Detective in TTT logs"""
+
+    def __init__(
+        self,
+        raw_line: str,
+        timestamp: str,
+        player: TTTPlayer,
+        killer: TTTPlayer,
+        weapon: str,
+    ):
+        super().__init__(raw_line, timestamp, player, killer)
+        self.player = self.attacker
+        self.killer = self.victim
+        self.weapon = weapon
+
+    def __repr__(self):
+        return "[{}] {} DNA scanned {} as the killer".format(
+            colourify("time", "{:02}:{:02}".format(*self.timestamp)),
+            repr(self.player),
+            repr(self.killer),
+        )
+
+
+class TTTTase(TTTAction):
+    """Class representing a taser being used on someone"""
+
+    def __init__(
+        self,
+        raw_line: str,
+        timestamp: str,
+        attacker: Union[TTTPlayer, str],
+        victim: TTTPlayer,
+    ):
+        super().__init__(raw_line, timestamp, attacker, victim)
+
+    def __repr__(self):
+        return "[{}] {} tased {}".format(
+            colourify("time", "{:02}:{:02}".format(*self.timestamp)),
+            repr(self.attacker)
+            if isinstance(self.attacker, TTTPlayer)
+            else f"{get_colour('name')}{self.attacker}{RESET_COLOUR}",
             repr(self.victim),
         )
 

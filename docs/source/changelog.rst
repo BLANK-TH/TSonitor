@@ -7,6 +7,14 @@ and this project adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0
 
 [Unreleased]
 ------------
+Added
+^^^^^^^
+* New log types to TTT Summary Output
+
+    * Body IDing
+    * Detective DNA Scans
+    * Tasing
+
 Changed
 ^^^^^^^
 * Added option to clear output.log on program start
@@ -16,7 +24,7 @@ Fixed
 ^^^^^^^
 * Outdated default GameME link for eGO
 * Ensured that users can see the FileNotFound error when searching for output.log
-* Added missing settings value to documentation page
+* Various minor errors in the documentation (spelling, old information, etc)
 
 [2.2.0] - 2022-11-04
 ---------------------

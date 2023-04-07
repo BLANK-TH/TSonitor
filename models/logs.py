@@ -5,7 +5,7 @@
 # ------------------------------------------------------------------------------
 
 from collections import defaultdict
-from typing import Union, Tuple, List
+from typing import Tuple, List
 
 from .actions import *
 from .player import JBWorld
@@ -65,11 +65,17 @@ class TTTLog(Log):
     ):
         super().__init__(raw_log, actions, id_, "TTT", header, footer)
 
-    def summary_output(self, kills: bool, damage: bool):
+    def summary_output(
+        self, kills: bool, damage: bool, id: bool, dna_scan: bool, tase: bool
+    ):
         output = []
         for action in self.actions:
-            if (kills and isinstance(action, TTTDeath)) or (
-                damage and isinstance(action, TTTDamage)
+            if (
+                (kills and isinstance(action, TTTDeath))
+                or (damage and isinstance(action, TTTDamage))
+                or (id and isinstance(action, TTTID))
+                or (dna_scan and isinstance(action, TTTDNAScan))
+                or (tase and isinstance(action, TTTTase))
             ):
                 output.append(repr(action))
 
