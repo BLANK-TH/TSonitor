@@ -23,6 +23,7 @@ Changed
 ^^^^^^^
 * Added option to clear output.log on program start
 * Cleaned up TTT implementation
+* Ignore gunplant detection in LR/LG
 
 Fixed
 ^^^^^^^

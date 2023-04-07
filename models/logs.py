@@ -353,7 +353,7 @@ class JBLog(Log):
                 if (
                     action.dropper.death_delta is not None
                     and action.timestamp_delta >= action.dropper.death_delta
-                ):
+                ) or self.is_lg_lr(action.timestamp_delta):
                     continue
                 gunplants.append(
                     {"ct": action.dropper, "t": action.picker, "weapon": action.weapon}
