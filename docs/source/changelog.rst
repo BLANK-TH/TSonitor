@@ -7,6 +7,9 @@ and this project adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0
 
 [Unreleased]
 ------------
+
+[2.3.0] - 2023-04-07
+---------------------
 Added
 ^^^^^^^
 * New log types to TTT Summary Output
