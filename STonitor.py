@@ -208,7 +208,9 @@ def handle_jb_log(logs, round_number, buttons):
             for gunplant in gunplants:
                 print(
                     "{}{} picked up a(n) {} dropped by {}".format(
-                        f"[{gunplant['time']}] " if config["logs"]["jb"]["limits"]["gunplant_show_time"] else "",
+                        f"[{gunplant['time']}] "
+                        if config["logs"]["jb"]["limits"]["gunplant_show_time"]
+                        else "",
                         repr(gunplant["t"]),
                         colourify("weapon_name", gunplant["weapon"]),
                         repr(gunplant["ct"]),
