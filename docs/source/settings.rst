@@ -52,6 +52,7 @@ Here's a list of all of the currently available settings parameters, and what th
             - **rdm**: *Notifies when a player may have RDMed someone. By default, reason will be detected (configurable in limits)*. Default Value: ``true``
             - **mass_rdm**: *Notifies when a player may have mass RDMed. By default, reason will not be detected (configurable in limits)*. Default Value: ``true``
             - **inno_utility**: *Notifies when an innocent or detective throws utility and someone gets damaged by it*. Default Value: ``true``
+            - **wallhack_purchase**: *Notifices when a Traitor purchases wallhack*. Default Value: ``true``
         - *limits*: :sup:`Various configuration values for the sub-features above`\
             - **rdm_detect_reason**: *Boolean (true/false) of whether reason is detected for normal RDMs. All reason detection is is going back in logs to check if the victim of an RDM attacked/damaged the attacker/potential RDMer first. If they did, it's not considered RDM*. Default Value: ``true``
             - **mass_rdm**: *Number of RDMs for a player to be considered Mass RDMing*. Default Value: ``2``
@@ -63,6 +64,7 @@ Here's a list of all of the currently available settings parameters, and what th
             - **id**: *Whether body IDing is shown in the TTT summary output*. Default Value: ``false``
             - **dna_scan**: *Whether Detective DNA scans are shown in the TTT summary output*. Default Value: ``false``
             - **tase**: *Whether tasing is shown in the TTT summary output*. Default Value: ``true``
+            - **shop**: *Whether shop purchases are shown in the TTT summary output*. Default Value: ``false``
 - *age*: :sup:`Steam account age, CS:GO playtime, and server playtime`\
     - **enable**: *Boolean (true/false) of whether status/age detection should be enabled*. Default Value: ``true``
     - **cache**: *Boolean (true/false) of whether to cache account ages (this significantly minimizes the number of API calls, speeding the program up significantly)*. Default Value: ``true``

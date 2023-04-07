@@ -162,6 +162,18 @@ def parse_ttt_logs(lines: list, header: str = "", footer: str = "") -> TTTLog:
             )
             continue
 
+        r = handle_named_regex(TTT_SHOP_REGEX, line)
+        if r is not None:
+            actions.append(
+                TTTShop(
+                    line,
+                    r.group("time"),
+                    get_ttt_player(players, r.group("player"), r.group("player_role")),
+                    r.group("item"),
+                )
+            )
+            continue
+
         r = TTT_TIME_REGEX.findall(line)
         if r is not None and len(r) > 0:
             actions.append(TTTAction(line, r[0]))

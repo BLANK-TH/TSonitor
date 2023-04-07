@@ -66,7 +66,7 @@ class TTTLog(Log):
         super().__init__(raw_log, actions, id_, "TTT", header, footer)
 
     def summary_output(
-        self, kills: bool, damage: bool, id: bool, dna_scan: bool, tase: bool
+        self, kills: bool, damage: bool, id: bool, dna_scan: bool, tase: bool, shop: bool
     ):
         output = []
         for action in self.actions:
@@ -76,6 +76,7 @@ class TTTLog(Log):
                 or (id and isinstance(action, TTTID))
                 or (dna_scan and isinstance(action, TTTDNAScan))
                 or (tase and isinstance(action, TTTTase))
+                or (shop and isinstance(action, TTTShop))
             ):
                 output.append(repr(action))
 
@@ -164,6 +165,13 @@ class TTTLog(Log):
             ]
             for k, v in damage_count.items()
         }
+
+    def find_wallhack(self, name: str):
+        wallhacks = []
+        for action in self.actions:
+            if isinstance(action, TTTShop) and action.item == name:
+                wallhacks.append(action)
+        return wallhacks
 
 
 class JBLog(Log):

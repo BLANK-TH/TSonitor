@@ -21,6 +21,7 @@ TTT_KILL_REGEX = re.compile(constants["ttt"]["regex"]["kill"])
 TTT_ID_REGEX = re.compile(constants["ttt"]["regex"]["id"])
 TTT_DNA_SCAN_REGEX = re.compile(constants["ttt"]["regex"]["dnascan"])
 TTT_TASE_REGEX = re.compile(constants["ttt"]["regex"]["tase"])
+TTT_SHOP_REGEX = re.compile(constants["ttt"]["regex"]["shop"])
 
 STATUS_REGEX = re.compile(constants["age"]["regex"])
 CONNECTED_REGEX = re.compile(constants["connected_regex"])

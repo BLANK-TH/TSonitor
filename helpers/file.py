@@ -65,7 +65,7 @@ default_settings = {
         },
         "ttt": {
             "enable": True,
-            "subfeatures": {"rdm": True, "mass_rdm": True, "inno_utility": True},
+            "subfeatures": {"rdm": True, "mass_rdm": True, "inno_utility": True, "wallhack_purchase": True},
             "limits": {
                 "rdm_detect_reason": True,
                 "mass_rdm": 2,
@@ -78,6 +78,7 @@ default_settings = {
                 "id": False,
                 "dna_scan": False,
                 "tase": True,
+                "shop": False,
             },
         },
     },
@@ -110,12 +111,14 @@ constants = {
             "damage": r"^\[(?P<time>\d{1,2}:\d{1,2})] -> \[(?P<attacker>.*) \((?P<attacker_role>Traitor|Detective|Innocent)\) damaged (?P<victim>.*) \((?P<victim_role>Traitor|Detective|Innocent)\) for (?P<damage>\d*) damage(?: \(HEADSHOT\))? with (?P<weapon>.*)](?: - BAD ACTION)?$",
             "kill": r"^\[(?P<time>\d{1,2}:\d{1,2})] -> \[(?P<attacker>.*) \((?P<attacker_role>Traitor|Detective|Innocent)\) killed (?P<victim>.*) \((?P<victim_role>Traitor|Detective|Innocent)\) with (?P<weapon>.*)](?: - BAD ACTION)?$",
             "id": r"^\[(?P<time>\d{1,2}:\d{1,2})] -> (?P<player>.*) \((?P<player_role>Traitor|Detective|Innocent)\) identified body of (?P<body>.*) \((?P<body_role>Traitor|Detective|Innocent)\)$",
-            "dnascan": r"^\[(?P<time>\d{1,2}:\d{1,2})] -> \[(?P<player>.*) \(Detective\) scanned a body, Killer was (?P<killer>.*) \((?P<killer_role>Traitor|Detective|Innocent)\) with Weapon: (?P<weapon>.*)\]",
+            "dnascan": r"^\[(?P<time>\d{1,2}:\d{1,2})] -> \[(?P<player>.*) \(Detective\) scanned a body, Killer was (?P<killer>.*) \((?P<killer_role>Traitor|Detective|Innocent)\) with Weapon: (?P<weapon>.*)\]$",
             "tase": r"^\[(?P<time>\d{1,2}:\d{1,2})] -> \[(?P<victim>.*) \((?P<victim_role>Traitor|Detective|Innocent)\) was tased by (?P<attacker>.*)\](?: - TRAITOR DETECTED)?$",
+            "shop": r"^\[(?P<time>\d{1,2}:\d{1,2})] -> \[(?P<player>.*) \((?P<player_role>Traitor|Detective|Innocent)\) purchased an item from the shop: (?P<item>.*)\]$"
         },
         "log_header": "---------------TTT LOGS---------------",
         "log_separator": "--------------------------------------",
         "utility_weapon_names": ["inferno", "hegrenade_projectile"],
+        "wallhack_name": "Wallhack",
     },
     "jb": {
         "regex": {

@@ -201,6 +201,20 @@ class TTTTase(TTTAction):
             repr(self.victim),
         )
 
+class TTTShop(TTTAction):
+    """Class to represent purchasing an item from the shop"""
+
+    def __init__(self, raw_line: str, timestamp: str, player: TTTPlayer, item: str):
+        super().__init__(raw_line, timestamp, player)
+        self.player = self.attacker
+        self.item = item
+
+    def __repr__(self):
+        return "[{}] {} bought {}".format(
+            colourify("time", "{:02}:{:02}".format(*self.timestamp)),
+            repr(self.attacker),
+            colourify("weapon_name", self.item)
+        )
 
 class JBWarden(JBAction):
     """Class representing someone becoming warden in JB logs"""

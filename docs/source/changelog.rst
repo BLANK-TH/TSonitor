@@ -14,8 +14,10 @@ Added
     * Body IDing
     * Detective DNA Scans
     * Tasing
+    * Shop Purchases
 
 * Automatic checking for updated constants
+* Add detection for wallhack purchases
 
 Changed
 ^^^^^^^

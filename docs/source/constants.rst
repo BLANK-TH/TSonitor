@@ -8,11 +8,13 @@ here unless instructed to or you know exactly what you're doing.
     - **log_header**: *Full line of the header indicating the start of TTT logs*
     - **log_separator**: *Full line of the footer/separator indicating the end of TTT logs*
     - *utility_weapon_names*: :sup:`List of weapon names that count as utility`\
+    - **wallhack_name**: *Name of the wallhack item when purchased from the shop*
 - *jb*:
     - *regex*: :sup:`Named regex for each type of action listed`\
     - **log_header**: *List of all 3 lines that indicate the start of JB logs*
     - **log_separator**: *List of all 3 lines that indicate the end of JB logs*
     - *utility_weapon_names*: :sup:`Pairs of utility names and their corresponding weapon names`\
+    - *utility_names*: :sup:`Utility names to ignore for gunplant detection`\
 - *age*:
     - **regex**: *Named regex for each line in status*
     - **header**: *Full line of the header indicating the start of a status output*
