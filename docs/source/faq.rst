@@ -24,6 +24,7 @@ regenerated with the proper working default values.
 
 Can I add more GameME server IPs to playtime detection?
 --------------------------------------------------------
+
 Yes, provided that they're under the same GameME page as the existing entries, you can. To do so, go to
 ``constants.yaml`` (in `the data folder <faq.html#where-is-the-data-folder>`_), go to
 ``age`` -> ``gameme`` -> ``game_code``. You can then add the IP you want in the following format:
@@ -41,6 +42,16 @@ Early Vents keeps showing despite no CT breaking vents
 There is a bug that occurs on some JB maps in which when a CT opens cells, it gets counted as breaking a vent or wall.
 There is a feature that attempts to mitigate this by checking if the last action was the CT pressing a button, but this isn't foolproof.
 
+Account age output is really slow, what can I do about this?
+--------------------------------------------------------------
+
+Unfortunately, account age detection is really slow as it involves a large amount of web requests, and is poorly
+optimized at the moment. Enabling the cache if it isn't already is helps a fair bit. Disabling a couple features will
+be the most noticeable however. GameME (server playtime) takes the longest, as it requires scraping the GameME site,
+then parsing the HTML (TL;DR it takes a while). Disabling server playtime in the config
+(``age/subfeatures/server_playtime``) will speed it up a lot. If you want it slightly faster, you can also disable
+CS:GO playtime, as it requires an extra API call to Steam (``age/subfeatures/csgo_playtime``), although this isn't
+nearly as slow as GameME.
 
 Why shouldn't I double click to run STonitor?
 -------------------------------------------------
