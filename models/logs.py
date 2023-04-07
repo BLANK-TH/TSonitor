@@ -66,7 +66,13 @@ class TTTLog(Log):
         super().__init__(raw_log, actions, id_, "TTT", header, footer)
 
     def summary_output(
-        self, kills: bool, damage: bool, id: bool, dna_scan: bool, tase: bool, shop: bool
+        self,
+        kills: bool,
+        damage: bool,
+        id: bool,
+        dna_scan: bool,
+        tase: bool,
+        shop: bool,
     ):
         output = []
         for action in self.actions:

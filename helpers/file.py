@@ -65,7 +65,12 @@ default_settings = {
         },
         "ttt": {
             "enable": True,
-            "subfeatures": {"rdm": True, "mass_rdm": True, "inno_utility": True, "wallhack_purchase": True},
+            "subfeatures": {
+                "rdm": True,
+                "mass_rdm": True,
+                "inno_utility": True,
+                "wallhack_purchase": True,
+            },
             "limits": {
                 "rdm_detect_reason": True,
                 "mass_rdm": 2,
@@ -113,7 +118,7 @@ constants = {
             "id": r"^\[(?P<time>\d{1,2}:\d{1,2})] -> (?P<player>.*) \((?P<player_role>Traitor|Detective|Innocent)\) identified body of (?P<body>.*) \((?P<body_role>Traitor|Detective|Innocent)\)$",
             "dnascan": r"^\[(?P<time>\d{1,2}:\d{1,2})] -> \[(?P<player>.*) \(Detective\) scanned a body, Killer was (?P<killer>.*) \((?P<killer_role>Traitor|Detective|Innocent)\) with Weapon: (?P<weapon>.*)\]$",
             "tase": r"^\[(?P<time>\d{1,2}:\d{1,2})] -> \[(?P<victim>.*) \((?P<victim_role>Traitor|Detective|Innocent)\) was tased by (?P<attacker>.*)\](?: - TRAITOR DETECTED)?$",
-            "shop": r"^\[(?P<time>\d{1,2}:\d{1,2})] -> \[(?P<player>.*) \((?P<player_role>Traitor|Detective|Innocent)\) purchased an item from the shop: (?P<item>.*)\]$"
+            "shop": r"^\[(?P<time>\d{1,2}:\d{1,2})] -> \[(?P<player>.*) \((?P<player_role>Traitor|Detective|Innocent)\) purchased an item from the shop: (?P<item>.*)\]$",
         },
         "log_header": "---------------TTT LOGS---------------",
         "log_separator": "--------------------------------------",

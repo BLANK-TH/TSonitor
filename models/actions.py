@@ -201,6 +201,7 @@ class TTTTase(TTTAction):
             repr(self.victim),
         )
 
+
 class TTTShop(TTTAction):
     """Class to represent purchasing an item from the shop"""
 
@@ -213,8 +214,9 @@ class TTTShop(TTTAction):
         return "[{}] {} bought {}".format(
             colourify("time", "{:02}:{:02}".format(*self.timestamp)),
             repr(self.attacker),
-            colourify("weapon_name", self.item)
+            colourify("weapon_name", self.item),
         )
+
 
 class JBWarden(JBAction):
     """Class representing someone becoming warden in JB logs"""

@@ -132,9 +132,11 @@ def handle_ttt_log(logs):
         if len(wallhacks) > 0:
             print("Wallhack Purchases:")
             for purchase in wallhacks:
-                print("{} purchased {}".format(
-                    repr(purchase.player), colourify("weapon_name", purchase.item)
-                ))
+                print(
+                    "{} purchased {}".format(
+                        repr(purchase.player), colourify("weapon_name", purchase.item)
+                    )
+                )
             print("")
     if config["logs"]["save_logs"]:
         log.save_log(DATA_PATH)
