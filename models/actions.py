@@ -36,12 +36,10 @@ class TTTAction(Action):
         timestamp: str,
         attacker: TTTPlayer = None,
         victim: TTTPlayer = None,
-        weapon: str = None,
     ):
         super().__init__(raw_line, timestamp)
         self.attacker = attacker
         self.victim = victim
-        self.weapon = weapon
         self.bad = raw_line.endswith(" - BAD ACTION")
 
     def involves_player(self, player):
@@ -68,9 +66,6 @@ class TTTAction(Action):
         else:
             raise ValueError("Player needs to be either str or TTTPlayer")
 
-    def using_weapon(self, weapon):
-        return self.weapon.casefold() == weapon.casefold()
-
 
 class JBAction(Action):
     """Class representing actions in JB logs"""
@@ -91,8 +86,20 @@ class TTTDamage(TTTAction):
         dmg: int,
         weapon: str,
     ):
-        super().__init__(raw_line, timestamp, attacker, victim, weapon)
+        super().__init__(raw_line, timestamp, attacker, victim)
+        self.weapon = weapon
         self.damage = dmg
+
+    def using_weapon(self, weapon):
+        return self.weapon.casefold() == weapon.casefold()
+
+    def __repr__(self):
+        return "[{}] {} damaged {} for {}\n".format(
+            colourify("time", "{:02}:{:02}".format(*self.timestamp)),
+            repr(self.attacker),
+            repr(self.victim),
+            colourify("damage", "{:,}".format(self.damage)),
+        )
 
 
 class TTTDeath(TTTAction):
@@ -106,7 +113,18 @@ class TTTDeath(TTTAction):
         victim: TTTPlayer,
         weapon: str,
     ):
-        super().__init__(raw_line, timestamp, attacker, victim, weapon)
+        super().__init__(raw_line, timestamp, attacker, victim)
+        self.weapon = weapon
+
+    def using_weapon(self, weapon):
+        return self.weapon.casefold() == weapon.casefold()
+
+    def __repr__(self):
+        return "[{}] {} killed {}\n".format(
+            colourify("time", "{:02}:{:02}".format(*self.timestamp)),
+            repr(self.attacker),
+            repr(self.victim),
+        )
 
 
 class JBWarden(JBAction):

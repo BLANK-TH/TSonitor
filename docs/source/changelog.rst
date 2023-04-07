@@ -10,6 +10,7 @@ and this project adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0
 Changed
 ^^^^^^^
 * Added option to clear output.log on program start
+* Cleaned up TTT implementation
 
 Fixed
 ^^^^^^^

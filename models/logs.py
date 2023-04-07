@@ -66,23 +66,14 @@ class TTTLog(Log):
         super().__init__(raw_log, actions, id_, "TTT", header, footer)
 
     def summary_output(self, kills: bool, damage: bool):
-        output = ""
+        output = []
         for action in self.actions:
-            if kills and isinstance(action, TTTDeath):
-                output += "[{}] {} killed {}\n".format(
-                    colourify("time", "{:02}:{:02}".format(*action.timestamp)),
-                    repr(action.attacker),
-                    repr(action.victim),
-                )
-            elif damage and isinstance(action, TTTDamage):
-                output += "[{}] {} damaged {} for {}\n".format(
-                    colourify("time", "{:02}:{:02}".format(*action.timestamp)),
-                    repr(action.attacker),
-                    repr(action.victim),
-                    colourify("damage", "{:,}".format(action.damage)),
-                )
+            if (kills and isinstance(action, TTTDeath)) or (
+                damage and isinstance(action, TTTDamage)
+            ):
+                output.append(repr(action))
 
-        return output.rstrip()
+        return "\n".join(output)
 
     def find_rdm(self, detect_reason: bool):
         rdms = []
