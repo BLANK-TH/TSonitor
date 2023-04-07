@@ -15,3 +15,7 @@ Documentation on how to install, configure, and use STonitor is available on
 
 ## Features
 View the full feature list on the [documentation](https://stonitor.blankdvth.com/en/stable/#features).
+
+## Issues
+If you find any issues with STonitor, please report them via the Issues tab on GitHub. If you want to look at current
+progress on the project, you can view the project board [here](https://github.com/users/blankdvth/projects/2).
