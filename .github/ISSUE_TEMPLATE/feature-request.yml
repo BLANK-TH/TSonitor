@@ -1,0 +1,31 @@
+name: Feature Request
+description: Want a feature added? Let me know!
+labels: ["enhancement", "triage"]
+body:
+  - type: checkboxes
+    id: existing
+    attributes:
+      label: "Existing Feature/Issue"
+      options:
+        - label: "I have checked that this feature does not already exist in the script(s) [ensure you are on the latest version]."
+          required: true
+        - label: "I have checked that there is not already an open issue for this feature."
+          required: true
+  - type: dropdown
+    id: category
+    attributes:
+      label: "Category"
+      description: "If this feature request is for a specific category (of features), select which. Otherwise, leave this blank."
+      multiple: true
+      options:
+        - TTT
+        - Jailbreak
+        - Account Age (Status)
+  - type: textarea
+    id: description
+    attributes:
+      label: "Description"
+      description: "Describe what you would like to see added to the script(s)."
+      placeholder: "Enter your description here"
+    validations:
+      required: true
