@@ -438,6 +438,7 @@ if __name__ == "__main__":
         ):
             overwrite_constants()
             constants = load_constants()
+            sys.exit()
 
     if config["update_check"]:
         # Check GitHub API endpoint
