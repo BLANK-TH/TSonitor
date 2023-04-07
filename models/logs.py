@@ -356,7 +356,7 @@ class JBLog(Log):
                 ) or self.is_lg_lr(action.timestamp_delta):
                     continue
                 gunplants.append(
-                    {"ct": action.dropper, "t": action.picker, "weapon": action.weapon}
+                    {"ct": action.dropper, "t": action.picker, "weapon": action.weapon, "time": colourify("time", "{:02}:{:02}".format(*action.timestamp))}
                 )
 
         return gunplants

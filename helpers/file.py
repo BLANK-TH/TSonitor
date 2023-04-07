@@ -49,6 +49,7 @@ default_settings = {
                 "mass_freedamage_threshold": 4,
                 "world_damage_threshold": 15,
                 "ignore_warden_button": True,
+                "gunplant_show_time": True,
             },
             "summary_output": {
                 "kills": True,

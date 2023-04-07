@@ -18,6 +18,7 @@ Added
 
 * Automatic checking for updated constants
 * Add detection for wallhack purchases
+* Option to show time for gunplant detection
 
 Changed
 ^^^^^^^

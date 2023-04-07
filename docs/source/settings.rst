@@ -35,6 +35,7 @@ Here's a list of all of the currently available settings parameters, and what th
             - **mass_freedamage_threshold**: *Number of unique players that take damage from a CT's nade before it's considered potential mass freedamage*. Default Value: ``4``
             - **world_damage_threshold**: *Minimum amount of damage for someone to take from the world for it to be considered in button grief detection and nade disruption detection*. Default Value: ``15``
             - **ignore_warden_button**: *Boolean (true/false) of whether warden is counted in button grief detection*. Default Value: ``true``
+            - **gunplant_show_time**: *Boolean (true/false) of whether to show the timestamp when outputting gunplant detection*. Default Vaue: ``true``
         - *summary_output*: :sup:`Boolean (true/false) to enable various types of actions to be shown in the JB summary output`\
             - **kills**: *Whether kills are shown in the JB summary output*. Default Value: ``true``
             - **warden**: *Whether someone becoming warden is shown in the JB summary output*. Default Value: ``true``
