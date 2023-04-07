@@ -14,6 +14,9 @@ Luckily it's pretty simple!
 4. Save the file
 5. Run CS:GO once so that the file gets generated (STonitor checks if it exists before running)
 
+.. hint:: Make sure you have "Show File Extensions" enabled in Windows Explorer, otherwise you'll end up with a file
+    named ``autoexec.cfg.txt`` which won't work. This can be enabled in the ``View`` tab of Windows Explorer.
+
 Run STonitor
 ---------------
 Run STonitor, how this is done depends on how you installed it. If you installed STonitor via the Installer, simply
