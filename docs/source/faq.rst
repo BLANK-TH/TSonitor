@@ -129,6 +129,13 @@ Suggest a feature on GitHub using the Feature Request issue template, here's
 `a link to make things easier <https://github.com/blankdvth/STonitor/issues/new?assignees=blankdvth&labels=enhancement&template=feature-request.md&title=>`_.
 You'll need to have a GitHub account in order to do this.
 
+What's being worked on right now?
+------------------------------------
+
+STonitor feature requests, bugs, and other issues are tracked on GitHub, organized into a
+`GitHub Project <https://github.com/users/blankdvth/projects/2>`_, you can view current issues
+categorized into priority there. This is a side project, so progress may be slow.
+
 Where can I contact the developer?
 ------------------------------------
 
